@@ -10,6 +10,7 @@ import com.singlelab.gpf.R
 import com.singlelab.gpf.base.BaseFragment
 import com.singlelab.gpf.model.profile.Profile
 import com.singlelab.gpf.model.view.ToastType
+import com.singlelab.gpf.ui.chat.ChatPresenter
 import com.singlelab.gpf.ui.chat.common.ChatOpeningInvocationType
 import com.singlelab.gpf.util.PluralsUtil
 import dagger.hilt.android.AndroidEntryPoint
@@ -78,6 +79,7 @@ class PersonFragment : BaseFragment(), PersonView {
             }
         }
         button_chat.setOnClickListener {
+            ChatPresenter.chatUid = profile.personUid
             toChat(profile.name, profile.personUid)
         }
         button_back.setOnClickListener {
