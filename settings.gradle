@@ -1,0 +1,4 @@
+include ':gpf-net'
+include ':app'
+include ':gpf-database'
+rootProject.name = "GPF"

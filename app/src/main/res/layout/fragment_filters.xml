@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground"
+    android:paddingHorizontal="@dimen/margin_small"
+    android:paddingBottom="25dp">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginHorizontal="@dimen/margin_large"
+        android:layout_marginTop="@dimen/margin_large"
+        android:layout_marginBottom="@dimen/margin_bottom_card_filter"
+        app:cardBackgroundColor="@android:color/white"
+        app:cardCornerRadius="@dimen/radius_large"
+        app:cardElevation="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:overScrollMode="never"
+            android:scrollY="2dp"
+            android:scrollbarAlwaysDrawVerticalTrack="true"
+            android:scrollbarSize="2dp"
+            android:scrollbars="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/margin_big"
+                android:layout_marginBottom="@dimen/margin_bottom_filter"
+                android:orientation="vertical"
+                android:paddingVertical="@dimen/margin_small">
+
+                <TextView
+                    android:id="@+id/choose_types"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/margin_medium"
+                    android:text="@string/choose_types"
+                    android:textColor="@color/colorGrayMedium"
+                    android:textSize="@dimen/text_size_standart" />
+
+                <include layout="@layout/view_grid_emoji" />
+
+                <TextView
+                    android:id="@+id/title_types"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/margin_medium"
+                    android:textColor="@color/colorGray"
+                    android:textSize="@dimen/text_size_small"
+                    tools:text="@string/selected_all" />
+
+                <View
+                    android:id="@+id/divider_two"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/colorGrayVeryLight" />
+
+                <com.singlelab.gpf.ui.view.checkbox.CheckBoxView
+                    android:id="@+id/checkbox_online"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/margin_medium" />
+
+                <com.singlelab.gpf.ui.view.checkbox.CheckBoxView
+                    android:id="@+id/checkbox_not_online"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/margin_medium" />
+
+                <View
+                    android:id="@+id/divider_one"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/colorGrayVeryLight" />
+
+                <LinearLayout
+                    android:id="@+id/button_choose_date"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="@dimen/margin_medium"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:id="@+id/text_choose_date"
+                        android:layout_width="0dp"
+                        android:visibility="gone"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:paddingTop="@dimen/margin_medium"
+                        android:paddingEnd="0dp"
+                        android:paddingBottom="@dimen/margin_medium"
+                        android:text="@string/choose_date"
+                        android:textSize="@dimen/text_size_standart"
+                        app:layout_goneMarginTop="@dimen/margin_medium"
+                        tools:text="25.10 - 28.10" />
+
+                    <ImageView
+                        android:id="@+id/button_clear_date"
+                        android:layout_width="20dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:src="@drawable/ic_reject"
+                        android:tint="?attr/colorControlNormal"
+                        android:visibility="gone"
+                        tools:visibility="visible" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:visibility="gone"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:src="@drawable/ic_arrow" />
+                </LinearLayout>
+
+                <View
+                    android:id="@+id/divider_three"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/colorGrayVeryLight" />
+
+                <TextView
+                    android:id="@+id/text_city"
+                    android:layout_width="match_parent"
+                    android:visibility="gone"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/margin_medium"
+                    android:drawableEnd="@drawable/ic_arrow"
+                    android:paddingHorizontal="@dimen/margin_medium"
+                    android:paddingTop="@dimen/margin_medium"
+                    android:paddingEnd="0dp"
+                    android:paddingBottom="@dimen/margin_medium"
+                    android:text="@string/city"
+                    android:textSize="@dimen/text_size_standart"
+                    app:layout_goneMarginTop="@dimen/margin_medium" />
+
+                <TextView
+                    android:id="@+id/text_distance"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:textSize="@dimen/text_size_standart"
+                    tools:text="На расстоянии от меня в 10 км" />
+
+                <SeekBar
+                    android:id="@+id/seek_bar_distance"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:visibility="gone"
+                    android:max="2"
+                    android:theme="@style/Widget.AppCompat.SeekBar.Discrete"
+                    android:thumbTint="@color/colorPrimaryAccent" />
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/button_apply"
+        android:layout_width="@dimen/size_filter_button"
+        android:layout_height="@dimen/size_filter_button"
+        android:layout_marginEnd="@dimen/margin_end_filter_in_filter"
+        android:layout_marginBottom="@dimen/margin_bottom_filter"
+        app:cardBackgroundColor="@color/colorPrimaryAccent"
+        app:cardCornerRadius="25dp"
+        app:cardElevation="12dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <ImageView
+            android:layout_width="@dimen/size_filter_icon"
+            android:layout_height="@dimen/size_filter_icon"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_accept"
+            android:tint="@color/white" />
+    </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

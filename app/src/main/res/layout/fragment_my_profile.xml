@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground"
+    android:fillViewport="true"
+    android:overScrollMode="never"
+    android:paddingBottom="56dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <View
+            android:id="@+id/view_shape"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="@drawable/shape_profile"
+            app:layout_constraintDimensionRatio="9:3"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_top_title"
+            android:fontFamily="@font/noto_sans_bold"
+            android:text="@string/title_my_profile"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/button_edit_profile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/margin_medium"
+            android:layout_marginBottom="8dp"
+            android:padding="24dp"
+            android:src="@drawable/ic_edit"
+            android:tint="@color/selector_white_icon"
+            app:layout_constraintBottom_toBottomOf="@id/title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/title" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/card_image"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginHorizontal="@dimen/margin_medium"
+            android:layout_marginTop="16dp"
+            app:cardBackgroundColor="@color/colorWhite"
+            app:cardCornerRadius="28dp"
+            app:cardElevation="0dp"
+            app:layout_constraintBottom_toBottomOf="@id/view_shape"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/title"
+            app:layout_constraintVertical_bias="0.0">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_image_inside"
+                android:layout_width="92dp"
+                android:layout_height="92dp"
+                android:layout_margin="4dp"
+                app:cardCornerRadius="24dp"
+                app:cardElevation="0dp"
+                tools:cardBackgroundColor="@color/colorGray">
+
+                <ImageView
+                    android:id="@+id/image"
+                    android:layout_width="92dp"
+                    android:layout_height="92dp" />
+            </androidx.cardview.widget.CardView>
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_small"
+            android:fontFamily="@font/noto_sans_bold"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/text_size_medium"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/card_image"
+            tools:text="\@login" />
+
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/margin_medium"
+            android:layout_marginTop="@dimen/margin_very_small"
+
+            android:gravity="center_horizontal"
+            android:textColor="@color/colorGrayMedium"
+            android:textSize="@dimen/text_size_standart"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/login"
+            tools:text="Иван Иванович Иванов, 25 лет" />
+
+
+        <TextView
+            android:id="@+id/city"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_very_small"
+            android:layout_marginTop="@dimen/margin_very_small"
+            android:layout_marginEnd="@dimen/margin_medium"
+            android:drawableStart="@drawable/ic_location"
+            android:drawablePadding="@dimen/margin_small"
+
+            android:textColor="@color/colorGrayMedium"
+            android:textSize="@dimen/text_size_standart"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/name"
+            tools:text="Москва" />
+
+        <!--        <View-->
+        <!--            android:id="@+id/divider_two"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="0dp"-->
+        <!--            android:minHeight="@dimen/margin_very_small"-->
+        <!--            app:layout_constraintBottom_toTopOf="@id/description"-->
+        <!--            app:layout_constraintStart_toStartOf="parent"-->
+        <!--            app:layout_constraintTop_toBottomOf="@id/city" />-->
+        <!--            app:layout_constraintVertical_weight="0.5" />-->
+
+        <TextView
+            android:id="@+id/description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/margin_medium"
+            android:layout_marginTop="@dimen/margin_small"
+
+            android:gravity="center"
+            android:textColor="@color/colorText"
+            android:textSize="@dimen/text_size_standart"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/city"
+            tools:text="Программист, никогда не против выпить пару кружек пива в баре" />
+
+        <!--        <View-->
+        <!--            android:id="@+id/divider_three"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="0dp"-->
+        <!--            android:minHeight="@dimen/margin_very_small"-->
+        <!--            app:layout_constraintBottom_toTopOf="@id/tab_layout"-->
+        <!--            app:layout_constraintStart_toStartOf="parent"-->
+        <!--            app:layout_constraintTop_toBottomOf="@id/description" />-->
+        <!--            app:layout_constraintVertical_weight="0.5" />-->
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tab_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_very_small"
+            android:background="@color/transparent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/description"
+            app:layout_constraintVertical_bias="1.0"
+            app:tabContentStart="56dp"
+            app:tabGravity="center"
+            app:tabIndicatorColor="@color/colorPrimaryAccent"
+            app:tabMinWidth="90dp"
+            app:tabPaddingBottom="0dp"
+            app:tabPaddingEnd="@dimen/margin_big"
+            app:tabPaddingStart="@dimen/margin_big"
+            app:tabPaddingTop="0dp"
+            app:tabRippleColor="@color/transparent"
+            app:tabSelectedTextColor="@color/colorPrimaryAccent"
+            app:tabTextAppearance="@style/TabTextStyle"
+            app:tabTextColor="@color/colorGrayMedium">
+
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tab_friends" />
+
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tab_settings" />
+
+        </com.google.android.material.tabs.TabLayout>
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/view_pager"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:overScrollMode="never"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tab_layout"
+            app:layout_constraintVertical_weight="20" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>

@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground">
+
+    <TextView
+        android:id="@+id/day_of_week"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/margin_big"
+        android:layout_marginTop="@dimen/margin_large"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="@dimen/text_size_medium"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Среда" />
+
+    <TextView
+        android:id="@+id/date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/margin_medium"
+        android:textColor="@color/colorTextGray"
+        android:textSize="@dimen/text_size_standart"
+        app:layout_constraintStart_toStartOf="@id/day_of_week"
+        app:layout_constraintTop_toBottomOf="@id/day_of_week"
+        tools:text="19 августа 2020" />
+
+    <com.prolificinteractive.materialcalendarview.MaterialCalendarView
+        android:id="@+id/calendar_week_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/margin_small"
+        android:layout_marginTop="@dimen/margin_big"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/button_create_event"
+        app:mcv_dateTextAppearance="@style/CalendarTextStyle"
+        app:mcv_weekDayLabels="@array/custom_weekdays"
+        app:mcv_weekDayTextAppearance="@style/CalendarHeaderTextStyle" />
+
+    <ImageView
+        android:id="@+id/button_calendar"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginEnd="@dimen/margin_medium"
+        android:src="@drawable/ic_calendar"
+        app:layout_constraintBottom_toBottomOf="@id/button_create_event"
+        app:layout_constraintEnd_toStartOf="@id/button_create_event"
+        app:layout_constraintTop_toTopOf="@id/button_create_event" />
+
+    <TextView
+        android:id="@+id/notification"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:layout_marginEnd="@dimen/margin_small"
+        android:background="@drawable/shape_circle"
+        android:gravity="center"
+        android:paddingTop="2dp"
+        android:textColor="@color/colorWhite"
+        android:textSize="@dimen/text_size_very_small"
+        android:textStyle="bold"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/button_create_event"
+        app:layout_constraintEnd_toStartOf="@id/button_create_event"
+        app:layout_constraintTop_toTopOf="@id/button_create_event"
+        app:layout_constraintVertical_bias="0.25"
+        tools:text="10"
+        tools:visibility="visible" />
+
+    <ImageView
+        android:id="@+id/button_reward"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:layout_marginEnd="@dimen/margin_small"
+        android:src="@drawable/ic_emoji_money"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/button_create_event"
+        app:layout_constraintEnd_toStartOf="@id/button_calendar"
+        app:layout_constraintTop_toTopOf="@id/button_create_event"
+        tools:visibility="visible" />
+
+    <Button
+        android:id="@+id/button_create_event"
+        style="@style/ButtonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="@dimen/margin_big"
+        android:clickable="true"
+        android:focusable="true"
+        android:text="@string/create_event"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/view_pager_events"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginBottom="@dimen/margin_small"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/calendar_week_view"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_empty_events"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/padding_bottom_nav"
+        android:visibility="gone"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="8dp"
+        app:cardUseCompatPadding="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/calendar_week_view"
+        tools:visibility="visible">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:padding="@dimen/margin_large"
+            android:text="@string/empty_events"
+            android:textColor="@color/colorText"
+            android:textSize="@dimen/text_size_standart" />
+    </androidx.cardview.widget.CardView>
+
+    <com.singlelab.gpf.ui.view.calendar.FullCalendarView
+        android:id="@+id/calendar_full_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/margin_small"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/button_create_event" />
+
+    <com.singlelab.gpf.ui.view.dialog.DialogView
+        android:id="@+id/dialog_view"
+        android:elevation="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clickable="true"
+        android:focusable="true"
+        android:visibility="gone" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

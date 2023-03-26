@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/card_image"
+    android:layout_width="@dimen/size_image_person_short"
+    android:layout_height="@dimen/size_image_person_short"
+    android:layout_marginVertical="@dimen/margin_small"
+    android:layout_marginEnd="@dimen/margin_small"
+    app:cardCornerRadius="10dp"
+    app:cardElevation="0dp"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    tools:cardBackgroundColor="@color/colorGrayVeryLight">
+
+    <ImageView
+        android:id="@+id/image_person"
+        android:layout_width="@dimen/size_image_person_short"
+        android:layout_height="@dimen/size_image_person_short" />
+</androidx.cardview.widget.CardView>

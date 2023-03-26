@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?selectableItemBackground"
+    tools:parentTag="android.widget.FrameLayout">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/chatsContentContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/margin_medium"
+        android:layout_marginVertical="@dimen/margin_small">
+
+        <ImageView
+            android:id="@+id/chatsImageView"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_margin="@dimen/margin_small"
+            android:layout_marginStart="@dimen/margin_medium"
+            android:layout_marginEnd="@dimen/margin_small"
+            android:src="@drawable/ic_image"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/chatsTitleView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:ellipsize="end"
+            android:fontFamily="@font/noto_sans_bold"
+            android:maxLines="1"
+            android:textColor="#2C2C2C"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toTopOf="@id/chatsLastMessageView"
+            app:layout_constraintEnd_toStartOf="@id/chatsUnreadCountMessagesView"
+            app:layout_constraintStart_toEndOf="@id/chatsImageView"
+            app:layout_constraintTop_toTopOf="@id/chatsImageView"
+            tools:text="Medium-Long Chat title" />
+
+        <TextView
+            android:id="@+id/chatsLastMessageView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="#A1A1A1"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@id/chatsImageView"
+            app:layout_constraintEnd_toStartOf="@id/chatsUnreadCountMessagesView"
+            app:layout_constraintStart_toEndOf="@id/chatsImageView"
+            app:layout_constraintTop_toBottomOf="@id/chatsTitleView"
+            tools:text="Medium-Long Last Message" />
+
+        <TextView
+            android:id="@+id/chatsUnreadCountMessagesView"
+            android:layout_width="@dimen/size_notification"
+            android:layout_height="@dimen/size_notification"
+            android:layout_margin="@dimen/margin_medium"
+            android:background="@drawable/shape_circle"
+            android:gravity="center"
+            android:paddingTop="3dp"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/text_size_small"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="1"
+            tools:visibility="visible" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</merge>

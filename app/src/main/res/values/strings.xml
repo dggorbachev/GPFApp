@@ -1,0 +1,306 @@
+<resources>
+    <string name="app_name">GPF App</string>
+    <string name="title_home">Главная</string>
+    <string name="title_events">Мои события</string>
+    <string name="title_event">Событие</string>
+    <string name="title_my_profile">Мой профиль</string>
+    <string name="title_auth">Авторизация</string>
+    <string name="title_my_friends">Друзья</string>
+    <string name="title_registration">Регистрация</string>
+    <string name="title_creating_event">Новое событие</string>
+    <string name="title_participants">Участники</string>
+    <string name="meizu_model">MEIZU</string>
+    <string name="choose">Выбрать</string>
+    <string name="start_downloading">Файл сохранен в папку %1$s</string>
+
+    <!-- Auth -->
+    <string name="tutorial_text_1">GPF - находи знакомства во всех играх внутри!</string>
+    <string name="tutorial_text_2">Заводи новых друзей!</string>
+    <string name="tutorial_text_3">Свайпай кандидатов!</string>
+    <string name="tutorial_text_4">...или создай свою!</string>
+    <string name="tutorial_text_5">Собирай вещички и отправляйся к новым приключениям!</string>
+    <string name="continue_text">Продолжить</string>
+    <string name="enter_code">Введите код</string>
+    <string name="auth">Авторизоваться</string>
+    <string name="welcome">Добро пожаловать в GPF!</string>
+    <string name="fill_form">Пожалуйста, заполните небольшую анкету:</string>
+    <string name="login">Логин</string>
+    <string name="name">Имя</string>
+    <string name="age">Возраст</string>
+    <string name="login_digits">abcdefghijklmnopqrstuvwxyz0123456789_</string>
+    <string name="max_length">Максимум %1$d символов</string>
+    <string name="add_photo">Будет замечательно, если фото будем настоящим. Все мы любим милых котиков, но не каждый захочет идти куда-то только в их компании</string>
+    <string name="empty_photo">Добавь фото</string>
+    <string name="about_yourself">Пару слов о себе</string>
+    <string name="to_registration">Зарегистрироваться</string>
+    <string name="error_pick_image">Не удалось выбрать изображение</string>
+    <string name="sms_code_send">СМС-код отправлен на номер %1$s</string>
+    <string name="push_code_send">На устройство отправлено Push-уведомление с кодом</string>
+    <string name="login_hint">Логин может содержать только строчные латинские буквы, цифры, символы подчеркивания и точки. Максимум 25 символов</string>
+    <string name="back">Вернуться</string>
+
+    <!-- My Profile -->
+    <string name="tab_friends">Друзья</string>
+    <string name="tab_badges">Бейджи</string>
+    <string name="tab_settings">Настройки</string>
+    <string name="title_agreement">Пользовательское соглашение</string>
+    <string name="title_developer">О разработчике</string>
+    <string name="exit">Выход</string>
+    <string name="title_edit_me_profile">Редактирование профиля</string>
+    <string name="apply_edit">Подтвердить</string>
+    <string name="show_image">Открыть изображение</string>
+    <string name="change_image">Выбрать изображение</string>
+    <string name="show_all">Показать всех (%1$d)</string>
+    <string name="new_friends">Заявки в друзья (%1$d)</string>
+    <string name="import_contacts">Импорт контактов</string>
+    <string name="empty_persons_from_contacts">Пользователей из контактов не найдено</string>
+    <string name="not_permission_contacts">Доступ к контактам запрещен</string>
+
+    <!-- Url -->
+    <string name="url_about_developer">http://single-lab.tilda.ws</string>
+    <string name="url_agreement">http://gpfprod.azurewebsites.net/license</string>
+    <string name="url_instagram">https://www.instagram.com/gpf_app</string>
+
+    <!-- Profile -->
+    <string name="go_to_chat">Перейти в чат</string>
+    <string name="add_to_friends">Добавить в друзья</string>
+    <string name="remove_from_friends">Удалить из друзей</string>
+
+    <!-- Feedback -->
+    <string name="title_feedback">Обратная связь</string>
+    <string name="text_feedback">Если ты обнаружил(а) проблему или просто хочешь оставить отзыв - напиши нам и мы постараемся быстро всё поправить!</string>
+    <string name="hint_images_feedback">Добавь скриншоты, чтобы нам было проще понять и исправить проблему</string>
+    <string name="hint_feedback">Проблема/отзыв</string>
+    <string name="button_give_feedback">Отправить</string>
+    <string name="feedback_send">Отзыв отправлен!</string>
+    <string name="too_many_images">Количество картинок должно быть не более 5</string>
+    <string name="empty_feedback">Отзыв не заполнен</string>
+
+    <!-- Event -->
+    <string name="create_event">Создать</string>
+    <string name="title">Название *</string>
+    <string name="description">Расскажи подробнее о событии *</string>
+    <string name="enable_age">Включить ограничения?</string>
+    <string name="min_age">Мин. возраст</string>
+    <string name="max_age">Макс. возраст</string>
+    <string name="publish_event">Опубликовать</string>
+    <string name="event_is_closed">Требуется подтверждение участия от организатора</string>
+    <string name="date_start">Выбери время начала *</string>
+    <string name="date_end">Выбери время окончания *</string>
+    <string name="enter_fields">Упс! Заполнены не все поля</string>
+    <string name="administrator">Организатор</string>
+    <string name="age_from_to">Возраст: %1$d-%2$d</string>
+    <string name="age_from">Возраст: %1$d+</string>
+    <string name="age_to">Возраст: до %1$d</string>
+    <string name="count_participants">Идёт %1$d человек</string>
+    <string name="waiting_for_approve_event">Заявка подана</string>
+    <string name="waiting_for_approve_users">Новые заявки (%1$d)</string>
+    <string name="count_invited">Приглашения (%1$d)</string>
+    <string name="invite_friends">Пригласить друзей</string>
+    <string name="invite_friends_link"><u>Пригласить друзей</u></string>
+    <string name="search_participants">Найти участников</string>
+    <string name="waiting_for_approve_user">Новое приглашение</string>
+    <string name="search_event">Найти событие</string>
+    <string name="person_invited">Пользователь %1$s приглашен</string>
+    <string name="empty_swipes">В данный момент для тебя нет новых событий, можешь создать своё событие или отдохнуть</string>
+    <string name="empty_swipes_expand_filters">По выбранны фильтрам событий нет. Попробуй расширить фильтры или создай своё событие!</string>
+    <string name="online">Онлайн</string>
+    <string name="event_is_online">Онлайн-событие</string>
+    <string name="warning_other_city">Город отличается от основного. Событие доступно только для города %1$s</string>
+    <string name="choose_action">Выбери действие</string>
+    <string name="set_main">Сделать основной</string>
+    <string name="remove_image">Удалить изображение</string>
+    <string name="choose_emoji">Выбери до 3-х иконок, которыми можно кратко описать событие:</string>
+    <string name="join">Присоединиться</string>
+    <string name="add_request">Оставить заявку</string>
+    <string name="date_start_title">Начало: %1$s</string>
+    <string name="date_end_title">Окончание: %1$s</string>
+    <string name="share">Поделиться</string>
+    <string name="attention_age">Можно указать ограничения по возрасту. Событие будет доступно только тем, кто подходит по возрасту</string>
+    <string name="you_create_event">Ура! Событие успешно создано!</string>
+    <string name="cancel_event">Отменить событие</string>
+    <string name="title_cancel">Событие отменено</string>
+    <string name="title_ended">Событие завершено</string>
+    <string name="new_event">Новое</string>
+    <string name="open_chat">Открыть чат</string>
+    <string name="new_participants">Новые заявки</string>
+    <string name="empty_events">У тебя пока нет событий.\nНайди новые события в свайпах\nили создай своё!</string>
+    <string name="range">%1$s - %2$s</string>
+    <string name="accept_cancel">Отменить событие?</string>
+    <string name="yes">Подтвердить</string>
+    <string name="no">Отмена</string>
+    <string name="info_about_cancel">Открыть его заново будет невозможно. Информация о событии и чат останутся</string>
+    <string name="loading_images">Загрузка изображений (%1$d/%2$d)...</string>
+    <string name="add_photo_event">Добавь изображения для события (до 5 шт):</string>
+    <string name="edit_description">Изменить описание</string>
+    <string name="cancel_action">Отменить</string>
+    <string name="show_images">Открыть изображения</string>
+    <string name="add_images">Добавить изображения</string>
+    <string name="open_map">Открыть карту</string>
+    <string name="change_location">Изменить местоположение</string>
+    <string name="change_date">Изменить дату</string>
+    <string name="choose_start_date">Дата начала</string>
+    <string name="choose_end_date">Дата окончания</string>
+    <string name="set_location">Выбрать местоположение</string>
+    <string name="success_delete">Изображение успешно удалено</string>
+    <string name="title_swipes">Выбор событий становится удобным и простым!</string>
+    <string name="description_swipes">Если событие тебе по душе, и ты хочешь на него пойти - свайпай вправо!
+        \n\nИгнорируй мероприятие при помощи свайпа влево.
+        \n\nПерсонализируй подборку событий с помощью фильтров!
+        \n\nВсё просто! </string>
+    <string name="access_denied">Доступ запрещен</string>
+
+    <!-- Types of events -->
+    <string name="party">Вечеринка</string>
+    <string name="culture">Искусство</string>
+    <string name="sport">Спорт</string>
+    <string name="nature">Природа</string>
+    <string name="talk">Общение</string>
+    <string name="game">Игры</string>
+    <string name="study">Обучение</string>
+    <string name="food">Еда</string>
+    <string name="concert">Выступление</string>
+    <string name="travel">Путешествие</string>
+
+    <string name="dota_2">Dota 2</string>
+    <string name="CSGO">CS:GO</string>
+    <string name="Overwatch">Overwatch</string>
+    <string name="Valorant">Valorant</string>
+    <string name="PUBG">PUBG</string>
+    <string name="Diablo_4">Diablo 4</string>
+
+    <!-- Map -->
+    <string name="error_address">Не удалось найти местоположению</string>
+    <string name="choose_location">Укажи на карте место проведения</string>
+    <string name="search_location">Введите название или адрес</string>
+    <string name="accept_location">Подтвердить</string>
+    <string name="empty_location">Укажите место проведения кликом на карте или с помощью поиска</string>
+
+    <!-- Friends -->
+    <string name="search_friends">Найти друзей</string>
+    <string name="empty_friends">У тебя пока нет друзей\nНайдите их!</string>
+    <string name="empty_friends_short">У тебя пока нет друзей</string>
+    <string name="empty_search">Ничего не найдено\nПопробуйте изменить запрос</string>
+    <string name="invite">Пригласить</string>
+
+    <!-- Chats -->
+    <string name="chats_title">Чаты</string>
+    <string name="chats_last_message_author">Вы: %1$s</string>
+    <string name="chats_empty_rooms">У тебя пока нет активных чатов</string>
+    <string name="chats_last_message_image">Изображение</string>
+
+    <!-- Chat -->
+    <string name="chat_title">Чат</string>
+    <string name="chat_message_hint">Сообщение</string>
+    <string name="chat_select_images_limit">Выбери не больше %1$d фотографий</string>
+    <string name="chat_empty_messages">Чат пока пуст. Напиши первое собщение!</string>
+    <string name="chat_message_images_count">+ %1$d</string>
+    <string name="text_copied">Текст скопирован в буфер обмена</string>
+    <string name="copy_message">Скопировать</string>
+    <string name="mute_push">Выключить уведомления?</string>
+    <string name="on_push">Включить уведомления?</string>
+    <string name="yesterday">вчера</string>
+
+    <!-- City -->
+    <string name="city">Город</string>
+    <string name="search_city">Найти город</string>
+
+    <!-- Filters -->
+    <string name="choose_types">Выбери интересующие тебя типы событий:</string>
+    <string name="apply">Применить</string>
+    <string name="permission_location_denied">Доступ к местоположению запрещен</string>
+    <string name="on_geolocation">Не удалось получить геопозицию</string>
+    <string name="events_is_online">Только онлайн-события</string>
+    <string name="events_not_online">Исключить онлайн-события</string>
+    <string name="any_city">Любой город</string>
+    <string name="any_age">Любой возраст</string>
+    <string name="age_exact">Возраст: %1$d</string>
+    <string name="empty_persons">Возможные новые участники не найдены. Попробуй изменить фильтры</string>
+    <string name="selected_types">Выбрано:</string>
+    <string name="selected_all">Любое событие</string>
+    <string name="selected_nothing">Ничего не выбрано</string>
+    <string name="choose_date">В любой день</string>
+    <string name="mtrl_picker_range_header_only_start_selected">%1$s - Выберите конечную дату</string>
+    <string name="choose_city">Укажи город</string>
+    <string name="invalid_login">Некорректный логин</string>
+    <string name="invalid_age">Некорректный возраст</string>
+    <string name="empty_login">Не заполнен логин</string>
+    <string name="empty_name">Не заполнено имя</string>
+    <string name="empty_description">Не заполнено описание профиля</string>
+    <string name="empty_age">Не заполнен возраст</string>
+    <string name="leave_event">Выйти из события</string>
+    <string name="accept_leave">Выйти из события?</string>
+    <string name="info_about_leave">Событие и его чат будут недоступны. Вернуться в событие можно будет только по приглашению</string>
+    <string name="empty_title">Не заполнено название</string>
+    <string name="empty_description_event">Не заполнено описание события</string>
+    <string name="empty_start_time">Не выбрано время начала</string>
+    <string name="empty_end_time">Не выбрано время окончания</string>
+
+    <!--Promo-->
+    <string name="title_promo_reward">Будь первым и получи 200 рублей за проведенное событие!</string>
+    <string name="description_promo_reward">Первые 500 организаторов получат вознаграждение за организацию события.</string>
+    <string name="title_rules_promo_reward">Правила акции:</string>
+    <string name="rules_promo_reward">
+        1. Создай открытое событие (не нужно ставить галочку "Требуется подтверждене участия от организатора" при создании).
+        \n2. В событии должны участвовать более 3-х человек.
+        \n3. После завершения события нажми на кнопку \"Получить вознаграждение\" в деталях события,
+        предоставь фото, показывающие, что событие действительно состоялось, и мы отправим тебе вознаграждение! </string>
+    <string name="cities_promo_reward">Акция действует в городах: Москва, Санкт-Петербург, Саратов.</string>
+    <string name="counter_reward">Вознаграждение уже получили %1$d из 500 организаторов!</string>
+    <string name="counter_reward_many">Поторопись! Вознаграждение уже получили %1$d из 500 организаторов!</string>
+    <string name="title_receive_reward">Получить вознаграждение</string>
+    <string name="text_reward">Введи номер карты, на которую будет отправлено вознагрждение после проверки достоверности события (проверка занимает до 2-х дней).</string>
+    <string name="hint_images_reward">Добавь одно или два фото с мероприятия. На фото должно быть видно всех участников, или большинство, если всех сфотографировать нет возможности.</string>
+    <string name="apply_reward">Отправить заявку</string>
+    <string name="hint_card_number">Номер карты</string>
+    <string name="empty_card_num">Не заполнен номер карты</string>
+    <string name="promo_request_send">Заявка отправлена, ожидайте вознаграждения!</string>
+    <string name="not_valid_card_num">Некорректный номер карты</string>
+
+    <!-- Promo New Year -->
+    <string name="title_promo_new_year">Выиграй 10.000₽ за организацию события!</string>
+    <string name="description_promo_new_year">Два организатора получат денежный приз в размере 10.000₽ - первый победитель будет награжден за самое интересное мероприятие, а
+        второй победитель будет выбран случайным образом!</string>
+    <string name="title_rules_promo_new_year">Правила конкурса:</string>
+    <string name="rules_promo_new_year">1. Организуй и проведи событие, добавь в него немного творчества и необычных идей.
+        \n2. После завершения, сделай скриншот события.
+        \n3. Отправь нам в Директ в Instagram сделанный скриншот и пару фото с события.
+        \n4. 11 января в прямом эфире в Instagram будут подведены итоги конкурса.
+    </string>
+    <string name="details_promo_new_year">Конкурс проводится с 10 декабря по 10 января включительно.</string>
+    <string name="instagram">Instagram</string>
+
+    <!-- Report -->
+    <string name="report">Пожаловаться</string>
+    <string name="enter_reason_report">Причина жалобы</string>
+    <string name="empty_reason">Не указана причина</string>
+    <string name="report_send">Жалоба отправлена, спасибо за помощь!</string>
+    <string name="tutorial_text_new_year">У каждого есть шанс выиграть 10.000₽ в честь Нового года! Присоединяйся, чтобы узнать подробнее!</string>
+    <string name="title_instagram">Мы в Instagram</string>
+
+    <!-- Arrays -->
+    <string-array name="custom_weekdays">
+        <item>Пн</item>
+        <item>Вт</item>
+        <item>Ср</item>
+        <item>Чт</item>
+        <item>Пт</item>
+        <item>Сб</item>
+        <item>Вс</item>
+    </string-array>
+
+    <string-array name="months">
+        <item>Январь</item>
+        <item>Февраль</item>
+        <item>Март</item>
+        <item>Апрель</item>
+        <item>Май</item>
+        <item>Июнь</item>
+        <item>Июль</item>
+        <item>Август</item>
+        <item>Сентябрь</item>
+        <item>Октябрь</item>
+        <item>Ноябрь</item>
+        <item>Декабрь</item>
+    </string-array>
+</resources>

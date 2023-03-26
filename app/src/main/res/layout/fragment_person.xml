@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground"
+    android:fillViewport="true"
+    android:overScrollMode="never"
+    android:paddingBottom="@dimen/padding_bottom_nav">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <View
+            android:id="@+id/view_shape"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="@drawable/shape_profile"
+            app:layout_constraintDimensionRatio="9:3"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/button_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="24dp"
+            android:src="@drawable/ic_back"
+            android:tint="@color/selector_white_icon"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/card_image"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginHorizontal="@dimen/margin_medium"
+            android:layout_marginTop="@dimen/margin_large"
+            app:cardBackgroundColor="@color/colorWhite"
+            app:cardCornerRadius="28dp"
+            app:cardElevation="0dp"
+            app:layout_constraintBottom_toBottomOf="@id/view_shape"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/button_back"
+            app:layout_constraintVertical_bias="0.0">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_image_inside"
+                android:layout_width="92dp"
+                android:layout_height="92dp"
+                android:layout_margin="4dp"
+                app:cardCornerRadius="24dp"
+                app:cardElevation="0dp"
+                tools:cardBackgroundColor="@color/colorGray">
+
+                <ImageView
+                    android:id="@+id/image"
+                    android:layout_width="92dp"
+                    android:layout_height="92dp" />
+            </androidx.cardview.widget.CardView>
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_big"
+            android:fontFamily="@font/noto_sans_bold"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/text_size_medium"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/card_image"
+            tools:text="\@login" />
+
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/margin_medium"
+            android:layout_marginTop="@dimen/margin_very_small"
+
+            android:gravity="center_horizontal"
+            android:textColor="@color/colorGrayMedium"
+            android:textSize="@dimen/text_size_standart"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/login"
+            tools:text="Иван Иванович Иванов, 25 лет" />
+
+
+        <TextView
+            android:id="@+id/city"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_very_small"
+            android:layout_marginTop="@dimen/margin_very_small"
+            android:layout_marginEnd="@dimen/margin_medium"
+            android:drawableStart="@drawable/ic_location"
+            android:drawablePadding="@dimen/margin_small"
+
+            android:textColor="@color/colorGrayMedium"
+            android:textSize="@dimen/text_size_standart"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/name"
+            tools:text="Москва" />
+
+        <TextView
+            android:id="@+id/description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/margin_medium"
+            android:layout_marginTop="@dimen/margin_big"
+
+            android:gravity="center"
+            android:textColor="@color/colorText"
+            android:textSize="@dimen/text_size_standart"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/city"
+            tools:text="Программист, никогда не против выпить пару кружек пива в баре" />
+
+        <Button
+            android:id="@+id/button_action_friend"
+            style="@style/ButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/margin_medium"
+            android:layout_marginTop="@dimen/margin_big"
+            android:clickable="true"
+            android:focusable="true"
+            android:text="@string/add_to_friends"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/description" />
+
+        <Button
+            android:id="@+id/button_chat"
+            style="@style/ButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/margin_medium"
+            android:layout_marginTop="@dimen/margin_small"
+            android:clickable="true"
+            android:focusable="true"
+            android:text="@string/go_to_chat"
+            app:layout_constraintTop_toBottomOf="@id/button_action_friend" />
+
+        <TextView
+            android:id="@+id/button_report_person"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_medium"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:drawablePadding="@dimen/margin_small"
+            android:focusable="true"
+            android:gravity="center"
+            android:text=""
+            android:textColor="@color/colorGrayMedium"
+            android:textSize="@dimen/text_size_small"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/button_chat"
+            tools:visibility="visible" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>

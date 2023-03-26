@@ -1,0 +1,375 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:background="@color/colorBackground">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginHorizontal="@dimen/margin_large"
+        android:layout_marginTop="@dimen/margin_large"
+        android:layout_marginBottom="@dimen/margin_very_large"
+        app:cardCornerRadius="@dimen/radius_large"
+        app:cardElevation="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/imageNew"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:background="@drawable/shape_top_card"
+                app:layout_constraintBottom_toBottomOf="@id/descMan"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:gravity="center_vertical"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_large"
+                android:textStyle="bold"
+                android:layout_marginTop="16dp"
+                app:layout_constraintStart_toEndOf="@id/card_image_administrator1"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_weight="1"
+                tools:text="Название" />
+
+            <TextView
+                android:id="@+id/descMan"
+                android:layout_width="0dp"
+                android:paddingEnd="8dp"
+                android:paddingBottom="8dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:minLines="2"
+                android:textColor="@color/white"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="@id/imageNew"
+                app:layout_constraintStart_toEndOf="@id/card_image_administrator1"
+                app:layout_constraintTop_toBottomOf="@id/title"
+                tools:text="Описание" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_image_administrator1"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="0dp"
+                app:layout_constraintStart_toStartOf="@id/imageNew"
+                app:layout_constraintTop_toTopOf="@id/imageNew"
+                tools:cardBackgroundColor="@color/colorGray">
+
+                <ImageView
+                    android:id="@+id/image_administrator1"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp" />
+            </androidx.cardview.widget.CardView>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layout"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/imageNew"
+                app:layout_constraintVertical_weight="5">
+
+                <ImageView
+                    android:id="@+id/button_report_event"
+                    android:layout_width="55dp"
+                    android:layout_height="55dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:padding="15dp"
+                    android:src="@drawable/ic_report"
+                    android:tint="@color/selector_gray_icon"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/emoji_card_one"
+                    android:layout_width="@dimen/size_card_emoji"
+                    android:layout_height="@dimen/size_card_emoji"
+                    android:layout_margin="@dimen/margin_card"
+                    app:cardBackgroundColor="@color/colorAccent"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="0dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <ImageView
+                        android:id="@+id/emoji_one"
+                        android:layout_width="@dimen/size_emoji_event"
+                        android:layout_height="@dimen/size_emoji_event"
+                        android:layout_gravity="center"
+                        android:layout_margin="@dimen/margin_small"
+                        tools:src="@drawable/ic_emoji_talk" />
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/emoji_card_two"
+                    android:layout_width="@dimen/size_card_emoji"
+                    android:layout_height="@dimen/size_card_emoji"
+                    android:layout_marginStart="@dimen/margin_small"
+                    app:cardBackgroundColor="@color/colorAccent"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="0dp"
+                    app:layout_constraintStart_toEndOf="@id/emoji_card_one"
+                    app:layout_constraintTop_toTopOf="@id/emoji_card_one"
+                    tools:visibility="visible">
+
+                    <ImageView
+                        android:id="@+id/emoji_two"
+                        android:layout_width="@dimen/size_emoji_event"
+                        android:layout_height="@dimen/size_emoji_event"
+                        android:layout_gravity="center"
+                        android:layout_margin="@dimen/margin_small"
+                        tools:src="@drawable/ic_emoji_nature" />
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/emoji_card_three"
+                    android:layout_width="@dimen/size_card_emoji"
+                    android:layout_height="@dimen/size_card_emoji"
+                    android:layout_marginStart="@dimen/margin_small"
+                    app:cardBackgroundColor="@color/colorAccent"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="0dp"
+                    app:layout_constraintStart_toEndOf="@id/emoji_card_two"
+                    app:layout_constraintTop_toTopOf="@id/emoji_card_one"
+                    tools:visibility="visible">
+
+                    <ImageView
+                        android:id="@+id/emoji_three"
+                        android:layout_width="@dimen/size_emoji_event"
+                        android:layout_height="@dimen/size_emoji_event"
+                        android:layout_gravity="center"
+                        android:layout_margin="@dimen/margin_small"
+                        tools:src="@drawable/ic_emoji_travel" />
+                </androidx.cardview.widget.CardView>
+
+                <ImageView
+                    android:id="@+id/icon_location"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_margin="@dimen/margin_card"
+                    android:src="@drawable/ic_location"
+                    android:tint="@color/colorGrayMedium"
+                    app:layout_constraintBottom_toTopOf="@id/divider_one"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/emoji_card_one" />
+
+                <TextView
+                    android:id="@+id/text_location"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/margin_card"
+                    android:layout_marginStart="16dp"
+                    android:ellipsize="end"
+                    android:maxLines="2"
+                    android:textColor="@color/colorGrayMedium"
+                    android:textSize="@dimen/text_size_small"
+                    android:visibility="visible"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/icon_location"
+                    app:layout_constraintTop_toBottomOf="@id/emoji_card_one"
+                    tools:text="Москва" />
+
+                <TextView
+                    android:id="@+id/start_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_card"
+                    android:textColor="@color/colorGrayMedium"
+                    android:textSize="@dimen/text_size_small"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="@id/icon_location"
+                    app:layout_constraintStart_toEndOf="@id/icon_location"
+                    app:layout_constraintTop_toBottomOf="@id/text_location"
+                    app:layout_constraintVertical_bias="0.0"
+                    tools:text="10 августа, 15:00" />
+
+                <View
+                    android:id="@+id/divider_one"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="@dimen/margin_card"
+                    android:background="@color/colorGrayVeryLight"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/start_date" />
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/card_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_margin="@dimen/margin_card"
+                    android:layout_marginStart="212dp"
+                    android:backgroundTint="@color/colorBackground"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="0dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/divider_one"
+                    app:layout_constraintVertical_bias="0.0">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <com.google.android.material.card.MaterialCardView
+                            android:id="@+id/game"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:backgroundTint="@color/white"
+                            app:cardCornerRadius="10dp"
+                            app:cardUseCompatPadding="true"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <FrameLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal"
+                                    android:padding="10dp">
+
+                                    <ImageView
+                                        android:layout_width="50dp"
+                                        android:layout_height="50dp"
+                                        android:layout_gravity="start"
+                                        android:src="@drawable/_048_logo" />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center_vertical"
+                                        android:layout_marginStart="10dp"
+                                        android:fontFamily="@font/noto_sans_bold"
+                                        android:includeFontPadding="false"
+                                        android:text="2048 Игра"
+                                        android:textColor="@color/colorText"
+                                        android:textSize="20sp" />
+
+
+                                </LinearLayout>
+
+                                <FrameLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:layout_gravity="end"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="10dp"
+                                        android:layout_marginEnd="22dp"
+                                        android:fontFamily="@font/noto_sans_bold"
+                                        android:includeFontPadding="false"
+                                        android:text="Рекорд"
+                                        android:textColor="@color/colorGrayMedium"
+                                        android:textSize="11sp" />
+
+                                    <TextView
+                                        android:id="@+id/record"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="bottom"
+                                        android:layout_marginEnd="20dp"
+                                        android:layout_marginBottom="13dp"
+                                        android:fontFamily="@font/noto_sans_bold"
+                                        android:includeFontPadding="false"
+                                        android:textColor="@color/colorText"
+                                        android:textSize="20sp"
+                                        tools:text="2047" />
+                                </FrameLayout>
+
+                            </FrameLayout>
+
+                        </com.google.android.material.card.MaterialCardView>
+
+                        <com.google.android.material.card.MaterialCardView
+                            android:id="@+id/game1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="0dp"
+                            android:backgroundTint="@color/white"
+                            app:cardCornerRadius="10dp"
+                            app:cardUseCompatPadding="true"
+                            app:layout_constraintTop_toBottomOf="@id/game">
+
+                            <FrameLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:padding="20dp">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    android:layout_marginStart="10dp"
+                                    android:fontFamily="@font/noto_sans_bold"
+                                    android:includeFontPadding="false"
+                                    android:text="Скоро..."
+                                    android:textColor="@color/colorText"
+                                    android:textSize="20sp" />
+
+                            </FrameLayout>
+                        </com.google.android.material.card.MaterialCardView>
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </androidx.cardview.widget.CardView>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <FrameLayout
+            android:id="@+id/left_overlay"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/shape_overlay"
+            tools:visibility="gone">
+
+            <ImageView
+                android:layout_width="@dimen/action_swipe_size"
+                android:layout_height="@dimen/action_swipe_size"
+                android:layout_gravity="center"
+                android:alpha="0.5"
+                android:src="@drawable/ic_reject_card"
+                tools:ignore="ContentDescription" />
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/right_overlay"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/shape_overlay"
+            tools:visibility="gone">
+
+            <ImageView
+                android:layout_width="@dimen/action_swipe_size"
+                android:layout_height="@dimen/action_swipe_size"
+                android:layout_gravity="center"
+                android:alpha="0.5"
+                android:src="@drawable/ic_accept_card"
+                tools:ignore="ContentDescription" />
+        </FrameLayout>
+
+    </androidx.cardview.widget.CardView>
+</androidx.constraintlayout.widget.ConstraintLayout>

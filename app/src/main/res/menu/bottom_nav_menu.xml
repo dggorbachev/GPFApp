@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/swiper_event"
+        android:icon="@drawable/ic_nav_swipe"
+        android:title="" />
+
+    <item
+        android:id="@+id/chats"
+        android:icon="@drawable/ic_nav_chat"
+        android:title="" />
+
+    <item
+        android:id="@+id/games"
+        android:icon="@drawable/baseline_videogame_asset_24"
+        android:title="" />
+
+    <item
+        android:id="@+id/my_profile"
+        android:icon="@drawable/ic_nav_profile"
+        android:title="" />
+
+</menu>

@@ -1,0 +1,450 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/swiper_event">
+
+    <fragment
+        android:id="@+id/swiper_event"
+        android:name="com.singlelab.gpf.ui.swiper_event.SwiperEventFragment"
+        android:label="@string/title_home"
+        tools:layout="@layout/fragment_swiper_person">
+        <action
+            android:id="@+id/action_swiper_event_to_event"
+            app:destination="@id/event" />
+        <action
+            android:id="@+id/action_swiper_event_to_search_event"
+            app:destination="@id/search_event" />
+        <action
+            android:id="@+id/action_swiper_event_to_filterFragment"
+            app:destination="@id/filters" />
+        <action
+            android:id="@+id/action_swiper_event_to_person"
+            app:destination="@id/person" />
+        <action
+            android:id="@+id/action_swiper_event_to_image_slider"
+            app:destination="@id/image_slider" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/events"
+        android:name="com.singlelab.gpf.ui.events.EventsFragment"
+        android:label="@string/title_events"
+        tools:layout="@layout/fragment_events">
+
+        <action
+            android:id="@+id/action_events_to_creating_event"
+            app:destination="@id/creating_event" />
+
+        <action
+            android:id="@+id/action_events_to_event"
+            app:destination="@id/event" />
+        <action
+            android:id="@+id/action_events_to_chat"
+            app:destination="@id/chat" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/creating_event"
+        android:name="com.singlelab.gpf.ui.creating_event.CreatingEventFragment"
+        android:label="@string/title_creating_event"
+        tools:layout="@layout/fragment_creating_event">
+
+        <action
+            android:id="@+id/action_creating_event_to_events"
+            app:destination="@id/events" />
+
+        <action
+            android:id="@+id/action_creating_event_to_event"
+            app:destination="@id/event" />
+        <action
+            android:id="@+id/action_creating_event_to_cities"
+            app:destination="@id/cities" />
+        <action
+            android:id="@+id/action_creating_event_to_map"
+            app:destination="@id/map" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/chats"
+        android:name="com.singlelab.gpf.ui.chats.ChatsFragment"
+        android:label="@string/chats_title"
+        tools:layout="@layout/fragment_chats">
+
+        <action
+            android:id="@+id/action_from_chats_to_chat"
+            app:destination="@id/chat" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/games"
+        android:name="com.singlelab.gpf.ui.games.GamesFragment"
+        android:label="Игры"
+        tools:layout="@layout/fragment_games">
+        <action
+            android:id="@+id/action_games_to_dva48"
+            app:destination="@id/dva48" />
+    </fragment>
+
+    <activity
+        android:id="@+id/dva48"
+        android:name="com.singlelab.gpf.ui.games.ActivityPuzzle"
+        android:label="Игры"
+        tools:layout="@layout/activity_2048">
+    </activity>
+
+    <fragment
+        android:id="@+id/chat"
+        android:name="com.singlelab.gpf.ui.chat.ChatFragment"
+        android:label="@string/chat_title"
+        tools:layout="@layout/fragment_chat">
+
+        <argument
+            android:name="chatUid"
+            app:argType="string"
+            app:nullable="true" />
+
+        <argument
+            android:name="chatType"
+            app:argType="com.singlelab.gpf.ui.chat.common.ChatOpeningInvocationType"
+            app:nullable="true" />
+
+        <action
+            android:id="@+id/action_chat_to_person"
+            app:destination="@id/person" />
+
+        <action
+            android:id="@+id/action_chat_to_event"
+            app:destination="@id/event" />
+
+        <action
+            android:id="@+id/action_chat_to_image_slider"
+            app:destination="@id/image_slider" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/my_profile"
+        android:name="com.singlelab.gpf.ui.my_profile.MyProfileFragment"
+        android:label="@string/title_my_profile"
+        tools:layout="@layout/fragment_my_profile">
+
+        <action
+            android:id="@+id/action_my_profile_to_auth"
+            app:destination="@id/auth" />
+
+        <action
+            android:id="@+id/action_my_profile_to_event"
+            app:destination="@id/event" />
+
+        <action
+            android:id="@+id/action_my_profile_to_friends"
+            app:destination="@id/friends" />
+
+        <action
+            android:id="@+id/action_my_profile_to_person"
+            app:destination="@id/person" />
+        <action
+            android:id="@+id/action_my_profile_to_edit_profile"
+            app:destination="@id/edit_profile" />
+        <action
+            android:id="@+id/action_my_profile_to_feedback"
+            app:destination="@id/feedback" />
+        <action
+            android:id="@+id/action_my_profile_to_image_slider"
+            app:destination="@id/image_slider" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/auth"
+        android:name="com.singlelab.gpf.ui.auth.AuthFragment"
+        android:label="@string/title_auth"
+        tools:layout="@layout/fragment_auth">
+
+        <action
+            android:id="@+id/action_auth_to_registration"
+            app:destination="@id/registration" />
+
+        <action
+            android:id="@+id/action_auth_to_my_profile"
+            app:destination="@id/my_profile" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/registration"
+        android:name="com.singlelab.gpf.ui.reg.RegistrationFragment"
+        android:label="@string/title_registration"
+        tools:layout="@layout/fragment_registration">
+
+        <action
+            android:id="@+id/action_registration_to_my_profile"
+            app:destination="@id/my_profile" />
+        <action
+            android:id="@+id/action_registration_to_cities"
+            app:destination="@id/cities" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/event"
+        android:name="com.singlelab.gpf.ui.event.EventFragment"
+        android:label="EventFragment"
+        tools:layout="@layout/fragment_event">
+
+        <argument
+            android:name="eventUid"
+            app:argType="string" />
+
+        <action
+            android:id="@+id/action_event_to_my_profile"
+            app:destination="@id/my_profile" />
+
+        <action
+            android:id="@+id/action_event_to_person"
+            app:destination="@id/person" />
+
+        <action
+            android:id="@+id/action_event_to_friends"
+            app:destination="@id/friends" />
+
+        <action
+            android:id="@+id/action_from_event_to_chat"
+            app:destination="@id/chat" />
+
+        <action
+            android:id="@+id/action_event_to_participants"
+            app:destination="@id/participants" />
+        <action
+            android:id="@+id/action_event_to_swiper_person"
+            app:destination="@id/swiper_person" />
+        <action
+            android:id="@+id/action_event_to_events"
+            app:destination="@id/events" />
+        <action
+            android:id="@+id/action_event_to_map"
+            app:destination="@id/map" />
+
+        <action
+            android:id="@+id/action_from_event_to_receive_reward"
+            app:destination="@id/receive_reward" />
+
+        <action
+            android:id="@+id/action_from_event_to_image_slider"
+            app:destination="@id/image_slider" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/friends"
+        android:name="com.singlelab.gpf.ui.friends.FriendsFragment"
+        android:label="FriendsFragment"
+        tools:layout="@layout/fragment_friends">
+
+        <argument
+            android:name="isSearch"
+            android:defaultValue="false"
+            app:argType="boolean" />
+
+        <action
+            android:id="@+id/action_friends_to_person"
+            app:destination="@id/person" />
+
+        <argument
+            android:name="eventUid"
+            android:defaultValue="@null"
+            app:argType="string"
+            app:nullable="true" />
+
+        <action
+            android:id="@+id/action_from_friends_to_chat"
+            app:destination="@id/chat" />
+
+        <argument
+            android:name="hasFriends"
+            android:defaultValue="false"
+            app:argType="boolean" />
+
+        <argument
+            android:name="participant_ids"
+            android:defaultValue="@null"
+            app:argType="string[]"
+            app:nullable="true" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/person"
+        android:name="com.singlelab.gpf.ui.person.PersonFragment"
+        android:label="PersonFragment"
+        tools:layout="@layout/fragment_person">
+
+        <argument
+            android:name="personUid"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_person_to_chat"
+            app:destination="@id/chat" />
+        <action
+            android:id="@+id/action_person_to_image_slider"
+            app:destination="@id/image_slider" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/search_event"
+        android:name="com.singlelab.gpf.ui.search_event.SearchEventFragment"
+        android:label="SearchEventFragment"
+        tools:layout="@layout/fragment_search_event" />
+
+    <fragment
+        android:id="@+id/participants"
+        android:name="com.singlelab.gpf.ui.participants.ParticipantsFragment"
+        android:label="ParticipantsFragment"
+        tools:layout="@layout/fragment_participants">
+
+        <argument
+            android:name="withNotApproved"
+            android:defaultValue="false"
+            app:argType="boolean" />
+
+        <argument
+            android:name="eventUid"
+            app:argType="string" />
+
+        <argument
+            android:name="participants"
+            app:argType="com.singlelab.gpf.model.profile.Person[]" />
+
+        <action
+            android:id="@+id/action_participants_to_person"
+            app:destination="@id/person" />
+
+        <action
+            android:id="@+id/action_participants_to_my_profile"
+            app:destination="@id/my_profile" />
+
+        <argument
+            android:name="isAdministrator"
+            android:defaultValue="false"
+            app:argType="boolean" />
+    </fragment>
+    <fragment
+        android:id="@+id/swiper_person"
+        android:name="com.singlelab.gpf.ui.swiper_person.SwiperPersonFragment"
+        android:label="SwiperPersonFragment"
+        tools:layout="@layout/fragment_swiper_person">
+        <argument
+            android:name="eventUid"
+            app:argType="string" />
+        <argument
+            android:name="city"
+            android:defaultValue="@null"
+            app:argType="com.singlelab.gpf.model.city.City"
+            app:nullable="true" />
+        <action
+            android:id="@+id/action_swiper_person_to_filters_person"
+            app:destination="@id/filters_person" />
+        <action
+            android:id="@+id/action_swiper_person_to_image_slider"
+            app:destination="@id/image_slider" />
+    </fragment>
+    <fragment
+        android:id="@+id/cities"
+        android:name="com.singlelab.gpf.ui.cities.CitiesFragment"
+        android:label="CitiesFragment"
+        tools:layout="@layout/fragment_cities">
+        <argument
+            android:name="containAnyCity"
+            android:defaultValue="false"
+            app:argType="boolean" />
+    </fragment>
+    <fragment
+        android:id="@+id/filters"
+        android:name="com.singlelab.gpf.ui.filters.event.FilterFragment"
+        android:label="FilterFragment"
+        tools:layout="@layout/fragment_filters">
+        <argument
+            android:name="isEvent"
+            android:defaultValue="true"
+            app:argType="boolean" />
+        <action
+            android:id="@+id/action_filters_to_cities"
+            app:destination="@id/cities" />
+        <argument
+            android:name="filterEvent"
+            android:defaultValue="@null"
+            app:argType="com.singlelab.gpf.model.event.FilterEvent"
+            app:nullable="true" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/filters_person"
+        android:name="com.singlelab.gpf.ui.filters.person.FilterPersonFragment"
+        android:label="FilterPersonFragment">
+        <action
+            android:id="@+id/action_filters_to_cities"
+            app:destination="@id/cities" />
+        <argument
+            android:name="filterPerson"
+            android:defaultValue="@null"
+            app:argType="com.singlelab.gpf.model.profile.FilterPerson"
+            app:nullable="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/map"
+        android:name="com.singlelab.gpf.ui.map.MapFragment"
+        android:label="MapFragment"
+        tools:layout="@layout/fragment_map">
+        <argument
+            android:name="locationName"
+            app:argType="string" />
+        <argument
+            android:name="xCoordinate"
+            android:defaultValue="0f"
+            app:argType="float" />
+        <argument
+            android:name="yCoordinate"
+            android:defaultValue="0f"
+            app:argType="float" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/edit_profile"
+        android:name="com.singlelab.gpf.ui.edit_profile.EditProfileFragment"
+        android:label="EditProfileFragment"
+        tools:layout="@layout/fragment_edit_profile">
+        <argument
+            android:name="profile"
+            app:argType="com.singlelab.gpf.model.profile.Profile" />
+        <action
+            android:id="@+id/action_edit_profile_to_cities"
+            app:destination="@id/cities" />
+    </fragment>
+    <fragment
+        android:id="@+id/feedback"
+        android:name="com.singlelab.gpf.ui.feedback.FeedbackFragment"
+        android:label="FeedbackFragment" />
+
+    <fragment
+        android:id="@+id/receive_reward"
+        android:name="com.singlelab.gpf.ui.receive_reward.ReceiveRewardFragment"
+        android:label="ReceiveRewardFragment">
+        <argument
+            android:name="eventUid"
+            app:argType="string" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/image_slider"
+        android:name="com.singlelab.gpf.ui.image_slider.SliderFragment"
+        android:label="SliderFragment">
+
+        <argument
+            android:name="imageUids"
+            app:argType="string[]" />
+
+        <argument
+            android:name="eventUid"
+            android:defaultValue="@null"
+            app:argType="string"
+            app:nullable="true" />
+    </fragment>
+</navigation>

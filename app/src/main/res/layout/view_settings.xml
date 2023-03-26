@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/feedback"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawableStart="@drawable/ic_feedback"
+        android:drawablePadding="@dimen/margin_medium"
+        android:visibility="gone"
+        android:gravity="center_vertical"
+        android:paddingHorizontal="@dimen/margin_large"
+        android:paddingVertical="@dimen/margin_medium"
+        android:text="@string/title_feedback"
+        android:textColor="@color/colorText"
+        android:textSize="@dimen/text_size_standart" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorGrayVeryLight" />
+
+    <TextView
+        android:id="@+id/instagram"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:layout_marginStart="@dimen/margin_small"
+        android:drawableStart="@drawable/ic_instagram"
+        android:drawablePadding="@dimen/margin_medium"
+        android:gravity="center_vertical"
+        android:paddingHorizontal="@dimen/margin_big"
+        android:paddingVertical="@dimen/margin_medium"
+        android:text="@string/title_instagram"
+        android:textColor="@color/colorText"
+        android:textSize="@dimen/text_size_standart" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorGrayVeryLight" />
+
+    <TextView
+        android:id="@+id/agreement"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_very_small"
+        android:drawableStart="@drawable/ic_agreement"
+        android:drawablePadding="@dimen/margin_medium"
+        android:gravity="center_vertical"
+        android:paddingHorizontal="@dimen/margin_big"
+        android:paddingVertical="@dimen/margin_medium"
+        android:visibility="gone"
+        android:text="@string/title_agreement"
+        android:textColor="@color/colorText"
+        android:textSize="@dimen/text_size_standart" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorGrayVeryLight" />
+
+    <TextView
+        android:id="@+id/about_developer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_very_small"
+        android:drawableStart="@drawable/ic_info"
+        android:drawablePadding="@dimen/margin_medium"
+        android:gravity="center_vertical"
+        android:paddingHorizontal="@dimen/margin_big"
+        android:paddingVertical="@dimen/margin_medium"
+        android:visibility="gone"
+        android:text="@string/title_developer"
+        android:textColor="@color/colorText"
+        android:textSize="@dimen/text_size_standart" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorGrayVeryLight" />
+
+    <TextView
+        android:id="@+id/exit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawableStart="@drawable/ic_logout"
+        android:drawablePadding="@dimen/margin_medium"
+        android:gravity="center_vertical"
+        android:paddingHorizontal="@dimen/margin_large"
+        android:paddingVertical="@dimen/margin_medium"
+        android:text="@string/exit"
+        android:textColor="@color/colorError"
+        android:textSize="@dimen/text_size_standart" />
+</LinearLayout>

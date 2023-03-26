@@ -1,0 +1,110 @@
+package com.singlelab.gpf.ui.auth
+
+import com.singlelab.gpf.base.BaseInteractor
+import com.singlelab.gpf.base.BasePresenter
+import com.singlelab.gpf.model.Const
+import com.singlelab.gpf.model.tutorial.TutorialPage
+import com.singlelab.gpf.pref.Preferences
+import com.singlelab.gpf.ui.auth.interactor.AuthInteractor
+import com.singlelab.net.exceptions.ApiException
+import com.singlelab.net.model.auth.AuthData
+import moxy.InjectViewState
+import javax.inject.Inject
+
+@InjectViewState
+class AuthPresenter @Inject constructor(
+    private var interactor: AuthInteractor,
+    preferences: Preferences?
+) : BasePresenter<AuthView>(preferences, interactor as BaseInteractor) {
+
+    private var phone: String? = null
+
+    override fun onFirstViewAttach() {
+        super.onFirstViewAttach()
+        if (!AuthData.isAnon) {
+            runOnMainThread {
+                viewState.showLoading(isShow = true, withoutBackground = true)
+            }
+            invokeSuspend {
+                try {
+                    runOnMainThread {
+                        viewState.showLoading(isShow = false, withoutBackground = true)
+                        viewState.toProfile()
+                    }
+                } catch (e: ApiException) {
+                    runOnMainThread {
+                        viewState.showLoading(isShow = false, withoutBackground = true)
+                        viewState.showError(e.message)
+                    }
+                }
+            }
+        }
+    }
+
+    fun onClickSendCode(phone: String, isPushSend: Boolean) {
+        runOnMainThread {
+            viewState.showLoading(isShow = true, withoutBackground = true)
+        }
+        invokeSuspend {
+            try {
+                val personUid = interactor.sendCode(phone)
+                preferences?.setUid(personUid)
+                this.phone = phone
+                runOnMainThread {
+                    viewState.showLoading(isShow = false, withoutBackground = true)
+                    viewState.toProfile()
+//                    viewState.onCodeSend(phone)
+                }
+            } catch (e: ApiException) {
+                if (e.errorCode == Const.ERROR_CODE_NEW_PUSH_TOKEN) {
+                    onClickSendCode(phone, false)
+                } else {
+                    runOnMainThread {
+                        viewState.showLoading(isShow = false, withoutBackground = true)
+                        viewState.showError(e.message)
+                    }
+                }
+            }
+        }
+    }
+
+    fun onClickAuth(code: String) {
+        phone?.let {
+            runOnMainThread {
+                viewState.showLoading(isShow = true, withoutBackground = true)
+            }
+            invokeSuspend {
+                try {
+                    interactor.auth(it, code)?.let {
+                        preferences?.setAuth(it)
+                    }
+                    val isPersonFilled = interactor.isPersonFilled()
+                    runOnMainThread {
+                        viewState.showLoading(isShow = false, withoutBackground = true)
+                        if (!isPersonFilled) {
+                            viewState.toRegistration()
+                        } else {
+                            preferences?.setAnon(false)
+                            viewState.toProfile()
+                        }
+                    }
+                } catch (e: ApiException) {
+                    runOnMainThread {
+                        viewState.showLoading(isShow = false, withoutBackground = true)
+                        viewState.showError(e.message)
+                    }
+                }
+            }
+        }
+    }
+
+    fun getTutorialList() = if (preferences != null && preferences.getNewYearPromoRewardEnabled()) {
+        TutorialPage.values().toList()
+    } else {
+        TutorialPage.values().toMutableList().apply {
+            remove(TutorialPage.TUTORIAL_NEW_YEAR)
+            remove(TutorialPage.TUTORIAL_4)
+            remove(TutorialPage.TUTORIAL_5)
+        }
+    }
+}

@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    tools:parentTag="android.widget.LinearLayout">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/incomingMessageContainerView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/incomingMessageAuthorPhotoView"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/ic_image" />
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_very_small"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/incomingMessageAuthorPhotoView">
+
+            <ImageView
+                android:id="@+id/incomingMessageCloudView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start|bottom"
+                android:layout_marginStart="4dp"
+                android:background="@drawable/chat_incoming_message_triangle"
+                app:backgroundTint="@color/colorChatIncomingMessageBackground" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/incomingMessageBackgroundView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginEnd="70dp"
+                android:layout_marginBottom="9dp"
+                android:background="@drawable/message_rounded_background"
+                android:backgroundTint="@color/colorChatIncomingMessageBackground"
+                android:padding="1dp"
+                app:layout_constraintStart_toEndOf="@id/incomingMessageAuthorPhotoView"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:id="@+id/incomingMessageAuthorView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:includeFontPadding="false"
+                    android:paddingStart="@dimen/margin_small"
+                    android:paddingTop="6dp"
+                    android:paddingEnd="@dimen/margin_medium"
+                    android:textSize="@dimen/text_size_standart"
+                    app:layout_constraintBottom_toTopOf="@id/incomingMessageImageView"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="Author" />
+
+                <com.singlelab.gpf.ui.chat.common.view.ChatMessageImageView
+                    android:id="@+id/incomingMessageImageView"
+                    android:layout_width="200dp"
+                    android:layout_height="200dp"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toTopOf="@id/incomingMessageView"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/incomingMessageAuthorView"
+                    app:layout_goneMarginBottom="10dp"
+                    tools:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/incomingMessageView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_small"
+                    android:autoLink="all"
+                    android:includeFontPadding="false"
+                    android:paddingHorizontal="@dimen/margin_small"
+                    android:textColor="@color/colorText"
+                    android:textColorLink="@color/colorPrimaryAccent"
+                    android:textSize="@dimen/text_size_standart"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/incomingMessageImageView"
+                    tools:text="Очень очень очень очень очень очень очень длинное сообщение в чате" />
+
+                <TextView
+                    android:id="@+id/incomingMessageDateView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_small"
+                    android:layout_marginTop="@dimen/margin_very_small"
+                    android:layout_marginEnd="@dimen/margin_small"
+                    android:layout_marginBottom="4dp"
+                    android:includeFontPadding="false"
+                    android:textSize="@dimen/text_size_small"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/incomingMessageView"
+                    tools:text="13:48"
+                    tools:visibility="visible" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </FrameLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</merge>
