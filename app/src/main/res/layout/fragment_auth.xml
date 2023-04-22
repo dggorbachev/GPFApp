@@ -55,15 +55,7 @@
             app:layout_constraintVertical_bias="1.0">
 
             <com.singlelab.gpf.ui.view.input.InputView
-                android:id="@+id/layout_login"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/margin_medium"
-                android:visibility="visible" />
-
-            <com.singlelab.gpf.ui.view.input.InputView
-                android:id="@+id/layout_name"
-                android:layout_marginTop="20dp"
+                android:id="@+id/layout_mail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/margin_medium"
@@ -86,7 +78,7 @@
                 android:layout_marginTop="@dimen/margin_medium"
                 android:clickable="true"
                 android:focusable="true"
-                android:text="@string/continue_text" />
+                android:text="@string/auth" />
 
             <Button
                 android:id="@+id/button_auth"

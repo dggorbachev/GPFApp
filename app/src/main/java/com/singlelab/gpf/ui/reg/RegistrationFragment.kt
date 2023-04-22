@@ -13,16 +13,32 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import androidx.fragment.app.FragmentResultListener
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.textfield.TextInputLayout.END_ICON_PASSWORD_TOGGLE
+import com.google.firebase.auth.FirebaseAuth
 import com.singlelab.gpf.R
 import com.singlelab.gpf.base.BaseFragment
 import com.singlelab.gpf.base.listeners.OnActivityResultListener
 import com.singlelab.gpf.model.city.City
+import com.singlelab.gpf.model.view.ToastType
 import com.singlelab.gpf.model.view.ValidationError
 import com.singlelab.gpf.ui.cities.CitiesFragment
 import com.singlelab.gpf.util.getBitmap
 import com.theartofdev.edmodo.cropper.CropImage
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.fragment_registration.*
+import kotlinx.android.synthetic.main.fragment_registration.button_registration
+import kotlinx.android.synthetic.main.fragment_registration.button_upload_image
+import kotlinx.android.synthetic.main.fragment_registration.card_image
+import kotlinx.android.synthetic.main.fragment_registration.image
+import kotlinx.android.synthetic.main.fragment_registration.layout_age
+import kotlinx.android.synthetic.main.fragment_registration.layout_description
+import kotlinx.android.synthetic.main.fragment_registration.layout_login1
+import kotlinx.android.synthetic.main.fragment_registration.layout_mail
+import kotlinx.android.synthetic.main.fragment_registration.layout_name
+import kotlinx.android.synthetic.main.fragment_registration.layout_password
+import kotlinx.android.synthetic.main.fragment_registration.layout_password_box
+import kotlinx.android.synthetic.main.fragment_registration.text_city
+import kotlinx.android.synthetic.main.fragment_registration.text_login
+import kotlinx.android.synthetic.main.view_input.view.text_input_edit_text
 import moxy.presenter.InjectPresenter
 import moxy.presenter.ProvidePresenter
 import javax.inject.Inject
@@ -47,10 +63,19 @@ class RegistrationFragment : BaseFragment(), RegistrationView, OnActivityResultL
         return inflater.inflate(R.layout.fragment_registration, container, false)
     }
 
+    private lateinit var auth: FirebaseAuth
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initInputViews()
-        setListeners()
+        auth = FirebaseAuth.getInstance()
+
+        if (auth.currentUser == null) {
+            initInputViews()
+            setListeners()
+        } else {
+            findNavController().popBackStack()
+            findNavController().popBackStack()
+            findNavController().navigate(R.id.my_profile)
+        }
     }
 
     override fun onRegistration() {
@@ -72,7 +97,6 @@ class RegistrationFragment : BaseFragment(), RegistrationView, OnActivityResultL
     }
 
     override fun showCity(cityName: String) {
-        text_city.text = cityName
     }
 
     override fun showImage(bitmap: Bitmap?) {
@@ -92,8 +116,73 @@ class RegistrationFragment : BaseFragment(), RegistrationView, OnActivityResultL
     }
 
     private fun initInputViews() {
+        layout_mail.apply {
+            setHint("Почта")
+            setImeAction(EditorInfo.IME_ACTION_NEXT)
+            setOnEditorListener {
+                if (it == EditorInfo.IME_ACTION_NEXT) {
+                    runOnMainThread {
+                        this@RegistrationFragment.view?.clearFocus()
+                        layout_login1.requestEditTextFocus()
+                    }
+                }
+                return@setOnEditorListener false
+            }
+            setSingleLine()
+            setMaxLength(64)
+            setWarning(getString(R.string.max_length, 64))
+            addTextChangedListener(object : TextWatcher {
+                override fun afterTextChanged(s: Editable?) {
+                }
+
+                override fun beforeTextChanged(
+                    s: CharSequence?,
+                    start: Int,
+                    count: Int,
+                    after: Int
+                ) {
+                }
+
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                    presenter.setMail(s.toString())
+                }
+            })
+        }
+        layout_login1.apply {
+            setHint("Логин")
+            setImeAction(EditorInfo.IME_ACTION_NEXT)
+            setOnEditorListener {
+                if (it == EditorInfo.IME_ACTION_NEXT) {
+                    runOnMainThread {
+                        this@RegistrationFragment.view?.clearFocus()
+                        layout_password.isFocusableInTouchMode = true
+                        layout_password.requestFocus()
+                    }
+                }
+                return@setOnEditorListener false
+            }
+            setSingleLine()
+            setMaxLength(25)
+            setWarning(getString(R.string.max_length, 25))
+            addTextChangedListener(object : TextWatcher {
+                override fun afterTextChanged(s: Editable?) {
+                }
+
+                override fun beforeTextChanged(
+                    s: CharSequence?,
+                    start: Int,
+                    count: Int,
+                    after: Int
+                ) {
+                }
+
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                    presenter.setLogin(s.toString())
+                }
+            })
+        }
         layout_name.apply {
-            setHint(getString(R.string.name))
+            setHint("Имя")
             setImeAction(EditorInfo.IME_ACTION_NEXT)
             setOnEditorListener {
                 if (it == EditorInfo.IME_ACTION_NEXT) {
@@ -128,7 +217,16 @@ class RegistrationFragment : BaseFragment(), RegistrationView, OnActivityResultL
             setHint(getString(R.string.age))
             setMaxLength(2)
             setInputType(InputType.TYPE_CLASS_NUMBER)
-            setImeAction(EditorInfo.IME_ACTION_DONE)
+            setImeAction(EditorInfo.IME_ACTION_NEXT)
+            setOnEditorListener {
+                if (it == EditorInfo.IME_ACTION_NEXT) {
+                    runOnMainThread {
+                        this@RegistrationFragment.view?.clearFocus()
+                        text_city.requestEditTextFocus()
+                    }
+                }
+                return@setOnEditorListener false
+            }
             addTextChangedListener(object : TextWatcher {
                 override fun afterTextChanged(s: Editable?) {
                 }
@@ -150,12 +248,46 @@ class RegistrationFragment : BaseFragment(), RegistrationView, OnActivityResultL
                 }
             })
         }
+        text_city.apply {
+            setHint("Город")
+            disableLineBreaks()
+            setMaxLines(5)
+            setMaxLength(128)
+            setWarning(getString(R.string.max_length, 128))
+            setImeAction(EditorInfo.IME_ACTION_NEXT)
+            setOnEditorListener {
+                if (it == EditorInfo.IME_ACTION_NEXT) {
+                    runOnMainThread {
+                        this@RegistrationFragment.view?.clearFocus()
+                        layout_description.requestEditTextFocus()
+                    }
+                }
+                return@setOnEditorListener false
+            }
+            addTextChangedListener(object : TextWatcher {
+                override fun afterTextChanged(s: Editable?) {
+                }
+
+                override fun beforeTextChanged(
+                    s: CharSequence?,
+                    start: Int,
+                    count: Int,
+                    after: Int
+                ) {
+                }
+
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                    presenter.setCity(s.toString())
+                }
+            })
+        }
         layout_description.apply {
             setHint(getString(R.string.about_yourself))
             setLines(5)
             disableLineBreaks()
             setMaxLines(5)
             setMaxLength(128)
+            setImeAction(EditorInfo.IME_ACTION_DONE)
             setWarning(getString(R.string.max_length, 128))
             addTextChangedListener(object : TextWatcher {
                 override fun afterTextChanged(s: Editable?) {
@@ -177,6 +309,28 @@ class RegistrationFragment : BaseFragment(), RegistrationView, OnActivityResultL
     }
 
     private fun setListeners() {
+        layout_password_box.clearOnEndIconChangedListeners()
+        layout_password_box.endIconMode = END_ICON_PASSWORD_TOGGLE
+        fun setOnEditorListenerPass(function: (Int) -> Boolean) {
+            layout_password.setOnEditorActionListener { _, actionId, _ ->
+                function.invoke(actionId)
+            }
+        }
+        layout_password.apply {
+            imeOptions = EditorInfo.IME_ACTION_NEXT
+            setOnEditorListenerPass {
+                if (it == EditorInfo.IME_ACTION_NEXT) {
+                    runOnMainThread {
+                        this@RegistrationFragment.view?.clearFocus()
+                        layout_name.requestEditTextFocus()
+                    }
+                }
+                return@setOnEditorListenerPass false
+            }
+        }
+        text_login.setOnClickListener {
+            findNavController().navigate(R.id.auth)
+        }
         card_image.setOnClickListener {
             presenter.saveInputs()
             onClickChangeImage()
@@ -185,13 +339,16 @@ class RegistrationFragment : BaseFragment(), RegistrationView, OnActivityResultL
             presenter.saveInputs()
             onClickChangeImage()
         }
-        text_city.setOnClickListener {
-            toCityChoose()
-        }
         button_registration.setOnClickListener {
             val validationError = validation()
             if (validationError == null) {
                 presenter.registration(
+                    requireContext(),
+                    requireActivity(),
+                    layout_mail.getText(),
+                    layout_password.text.toString(),
+                    layout_login1.getText(),
+                    text_city.getText(),
                     layout_name.getText(),
                     layout_age.getText().toInt(),
                     layout_description.getText()
@@ -208,13 +365,18 @@ class RegistrationFragment : BaseFragment(), RegistrationView, OnActivityResultL
             })
     }
 
-    private fun toCityChoose() {
-        presenter.saveInputs()
-        findNavController().navigate(RegistrationFragmentDirections.actionRegistrationToCities())
+    private fun showError(str: String) {
+        showSnackbar(
+            str,
+            ToastType.ERROR
+        ) { }
     }
 
     private fun validation(): ValidationError? {
         return presenter.validation(
+            layout_mail.getText(),
+            layout_login1.getText(),
+            text_city.getText(),
             layout_name.getText(),
             layout_age.getText(),
             layout_description.getText()

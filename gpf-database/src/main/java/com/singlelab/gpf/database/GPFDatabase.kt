@@ -4,6 +4,9 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
+import com.singlelab.gpf.database.converter.ChatMessageImageConverter
+import com.singlelab.gpf.database.converter.EventTypesConverter
 import com.singlelab.gpf.database.dao.*
 import com.singlelab.gpf.database.entity.*
 
@@ -18,6 +21,7 @@ import com.singlelab.gpf.database.entity.*
     ],
     exportSchema = false
 )
+@TypeConverters(ChatMessageImageConverter::class, EventTypesConverter::class)
 abstract class GPFDatabase : RoomDatabase() {
     internal abstract fun chatsDao(): ChatsDao
     internal abstract fun chatMessagesDao(): ChatMessagesDao

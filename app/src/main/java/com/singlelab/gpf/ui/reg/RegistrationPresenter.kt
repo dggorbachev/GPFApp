@@ -1,19 +1,29 @@
 package com.singlelab.gpf.ui.reg
 
+import android.content.Context
 import android.graphics.Bitmap
+import android.util.Log
+import android.util.Patterns
 import androidx.core.text.isDigitsOnly
+import androidx.fragment.app.FragmentActivity
+import com.android.volley.Request
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.firestore.FirebaseFirestore
 import com.singlelab.gpf.base.BaseInteractor
 import com.singlelab.gpf.base.BasePresenter
 import com.singlelab.gpf.model.city.City
 import com.singlelab.gpf.model.view.ValidationError
+import com.singlelab.gpf.new_features.imgur.Upload
 import com.singlelab.gpf.pref.Preferences
+import com.singlelab.gpf.ui.my_profile.MyProfilePresenter
 import com.singlelab.gpf.ui.reg.interactor.RegistrationInteractor
 import com.singlelab.gpf.util.resize
 import com.singlelab.gpf.util.toBase64
 import com.singlelab.net.exceptions.ApiException
-import com.singlelab.net.model.auth.AuthData
 import com.singlelab.net.model.person.ProfileRequest
 import moxy.InjectViewState
+import org.json.JSONObject
 import javax.inject.Inject
 
 
@@ -29,35 +39,177 @@ class RegistrationPresenter @Inject constructor(
 
     private var image: Bitmap? = null
 
-    fun registration(name: String, age: Int, description: String) {
-        val uid = AuthData.uid
-        if (!uid.isNullOrEmpty() && city?.cityId != null && image != null) {
-            viewState.showLoading(true)
-            invokeSuspend {
-                val imageStr = image!!.resize().toBase64()
-                val miniImageStr = image!!.resize(200).toBase64()
-                val profile = ProfileRequest(
-                    name = name,
-                    age = age,
-                    description = description,
-                    cityId = city!!.cityId,
-                    image = imageStr,
-                    miniImage = miniImageStr
-                )
-                try {
-                    interactor.registration(profile)
-                    preferences?.setAnon(false)
-                    runOnMainThread {
-                        viewState.onRegistration()
+    fun registration(
+        context: Context,
+        activity: FragmentActivity,
+        mail: String,
+        password: String,
+        login: String,
+        city: String,
+        name: String,
+        age: Int,
+        description: String
+    ) {
+        viewState.showLoading(true)
+        invokeSuspend {
+            val imageStr = image!!.resize().toBase64()
+            val miniImageStr = image!!.resize(200).toBase64()
+
+            try {
+
+
+                loadImageToImgur(context, imageStr, login) { link ->
+                    Log.d("linkasd", link)
+                    if (link == null) throw ApiException("Image not Uploaded. Check Internet Connection or try again later") else {
+                        register(
+                            activity,
+                            mail,
+                            password,
+                            login,
+                            city,
+                            name,
+                            age,
+                            description,
+                            link
+                        )
+
                     }
-                } catch (e: ApiException) {
-                    runOnMainThread {
-                        viewState.showLoading(false)
-                        viewState.showError(e.message)
-                    }
+                }
+
+
+            } catch (e: ApiException) {
+                runOnMainThread {
+                    viewState.showLoading(false)
+                    viewState.showError(e.message)
                 }
             }
         }
+    }
+
+    fun register(
+        activity: FragmentActivity,
+        mail: String,
+        password: String,
+        login: String,
+        city: String,
+        name: String,
+        age: Int,
+        description: String,
+        link: String
+    ) {
+        val profile = ProfileRequest(
+            mail = mail,
+            login = login,
+            name = name,
+            age = age,
+            description = description,
+            city = city,
+            image = "imageStr",
+            miniImage = "miniImageStr"
+        )
+        profile.image = link
+        try {
+            invokeSuspend {
+                val auth = FirebaseAuth.getInstance()
+                auth.createUserWithEmailAndPassword(mail, password)
+                    .addOnCompleteListener(activity) { task ->
+                        if (task.isSuccessful) {
+                            // Sign in success, update UI with the signed-in user's information
+                            Log.d("MyAPPLog", "createUserWithEmail:success")
+                            val user = auth.currentUser
+                            saveUser(user, profile)
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            Log.d("MyAPPLog", "createUserWithEmail:failure", task.exception)
+                            throw ApiException("Failed to create account. Try again later!")
+                        }
+                    }
+
+
+            }
+        } catch (e: ApiException) {
+            runOnMainThread {
+                viewState.showLoading(false)
+                viewState.showError(e.message)
+            }
+        }
+    }
+
+    fun saveUser(user: FirebaseUser?, profile: ProfileRequest) {
+        if (user == null)
+            throw ApiException("Image not Uploaded. Check Internet Connection or try again later")
+
+        val docData = hashMapOf(
+            "id" to user.uid,
+            "login" to profile.login!!,
+            "name" to profile.name!!,
+            "description" to profile.description!!,
+            "icon" to profile.image!!,
+            "city" to profile.city!!,
+            "age" to profile.age!!,
+            "friends" to arrayListOf<String>()
+        )
+
+        val db = FirebaseFirestore.getInstance()
+
+        try {
+            db.collection("users").document(user.uid)
+                .set(docData)
+                .addOnSuccessListener {
+                    // interactor.registration(profile)
+                    preferences?.setAnon(false)
+                    runOnMainThread {
+                        MyProfilePresenter.profile!!.apply {
+                            login = profile.login
+                            name = profile.name!!
+                            description = profile.description
+                            cityName = profile.city!!
+                            personUid = user.uid
+                            age = profile.age!!
+                            imageContentUid = profile.image!!
+                            personRecord2048 = 0
+                            personRecordCats = 0
+                            personRecordPiano = 0
+                        }
+                        viewState.onRegistration()
+                    }
+                    Log.d("MyAPPLog", "DocumentSnapshot successfully written!")
+                }
+                .addOnFailureListener {
+                    throw ApiException("Failed to create account. Try again later!")
+                }
+        } catch (e: ApiException) {
+            runOnMainThread {
+                viewState.showLoading(false)
+                viewState.showError(e.message)
+            }
+        }
+    }
+
+    fun loadImageToImgur(
+        context: Context,
+        imageData: String,
+        login: String,
+        callback: (link: String?) -> Unit
+    ) {
+        val body = JSONObject()
+        body.put("image", imageData)
+        body.put("title", login + "_title")
+        body.put("description", login + "_description")
+        body.put("type", "base64")
+        val paramsPictures = HashMap<String, String>()
+        paramsPictures["Authorization"] = "Client-ID e10417823faf68d"
+        paramsPictures["content-type"] = "application/json"
+        Upload.getRequest(
+            context,
+            paramsPictures,
+            "https://api.imgur.com/3/upload",
+            { callback(it) },
+            Request.Method.POST,
+            body.toString(),
+            "Image Uploaded!",
+            "Image not Uploaded. Check Internet Connection or try again later!"
+        )
     }
 
     fun setCity(city: City) {
@@ -71,23 +223,40 @@ class RegistrationPresenter @Inject constructor(
     }
 
     fun validation(
+        mail: String?,
+        login: String?,
+        city: String?,
         name: String?,
         age: String?,
         description: String?
     ): ValidationError? {
         return when {
+
+            !mail.isValidEmail() -> ValidationError.EMPTY_MAIL
+            login.isNullOrEmpty() -> ValidationError.EMPTY_LOGIN
+            city.isNullOrEmpty() -> ValidationError.EMPTY_CITY
             name.isNullOrEmpty() -> ValidationError.EMPTY_NAME
             description.isNullOrEmpty() -> ValidationError.EMPTY_DESCRIPTION
             age.isNullOrEmpty() -> ValidationError.EMPTY_AGE
             !age.isDigitsOnly() -> ValidationError.INVALID_AGE
             image == null -> ValidationError.EMPTY_PHOTO
-            city == null -> ValidationError.EMPTY_CITY
             else -> null
         }
     }
 
+    fun CharSequence?.isValidEmail() =
+        !isNullOrEmpty() && Patterns.EMAIL_ADDRESS.matcher(this).matches()
+
     fun setName(name: String) {
         profileRequest.name = name
+    }
+
+    fun setLogin(login: String) {
+        profileRequest.login = login
+    }
+
+    fun setMail(mail: String) {
+        profileRequest.mail = mail
     }
 
     fun setAge(age: Int) {
@@ -96,6 +265,10 @@ class RegistrationPresenter @Inject constructor(
 
     fun setDescription(description: String) {
         profileRequest.description = description
+    }
+
+    fun setCity(city: String) {
+        profileRequest.city = city
     }
 
     fun saveInputs() {

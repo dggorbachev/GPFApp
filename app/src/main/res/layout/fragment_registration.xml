@@ -49,12 +49,84 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/text_welcome" />
 
+        <TextView
+            android:id="@+id/text_login_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/noto_sans"
+            android:paddingHorizontal="@dimen/margin_very_small"
+            android:text="Уже есть аккаунт?"
+            android:textColor="@color/colorText"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/text_fill_form" />
+
+        <TextView
+            android:id="@+id/text_login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/noto_sans"
+            android:paddingHorizontal="@dimen/margin_very_small"
+            android:text="Войти"
+            android:textColor="#e00233"
+            android:textSize="16sp"
+            app:layout_constraintStart_toEndOf="@id/text_login_text"
+            app:layout_constraintTop_toBottomOf="@id/text_fill_form" />
+
+        <com.singlelab.gpf.ui.view.input.InputView
+            android:id="@+id/layout_mail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_big"
+            app:layout_constraintTop_toBottomOf="@id/text_login_text" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/layout_password_box"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:hint="Пароль"
+            app:endIconMode="password_toggle"
+            android:paddingHorizontal="10dp"
+            app:boxBackgroundColor="@color/colorTransparent"
+            app:boxBackgroundMode="outline"
+            android:inputType="text"
+            app:boxStrokeColor="@color/colorTransparent"
+            app:boxStrokeErrorColor="@color/colorTransparent"
+            app:boxStrokeWidth="0dp"
+            app:hintAnimationEnabled="false"
+            app:hintEnabled="true"
+            android:layout_marginTop="24dp"
+            app:hintTextColor="@color/colorPrimaryAccent"
+            app:layout_constraintTop_toBottomOf="@id/layout_login1"
+            android:background="@drawable/shape_input"
+            app:startIconTint="@color/colorGray">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/layout_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:gravity="center_vertical" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.singlelab.gpf.ui.view.input.InputView
+            android:id="@+id/layout_login1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_big"
+            app:layout_constraintTop_toBottomOf="@id/layout_mail" />
+
         <com.singlelab.gpf.ui.view.input.InputView
             android:id="@+id/layout_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_big"
-            app:layout_constraintTop_toBottomOf="@id/text_fill_form" />
+            app:layout_constraintTop_toBottomOf="@id/layout_password_box" />
 
         <com.singlelab.gpf.ui.view.input.InputView
             android:id="@+id/layout_age"
@@ -63,19 +135,11 @@
             android:layout_marginTop="@dimen/margin_big"
             app:layout_constraintTop_toBottomOf="@id/layout_name" />
 
-        <TextView
+        <com.singlelab.gpf.ui.view.input.InputView
             android:id="@+id/text_city"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_big"
-            android:background="@drawable/shape_input"
-            android:drawableEnd="@drawable/ic_arrow"
-            android:paddingVertical="@dimen/margin_big"
-            android:paddingStart="@dimen/margin_big"
-            android:paddingEnd="16dp"
-            android:text="@string/city"
-            android:textColor="@color/colorTextGray"
-            android:textSize="16sp"
             app:layout_constraintTop_toBottomOf="@id/layout_age" />
 
         <TextView
@@ -84,7 +148,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_big"
             android:paddingHorizontal="@dimen/margin_very_small"
-            android:text="@string/add_photo"
+            android:text="Прикрепите вашу аватарку"
             android:textColor="@color/colorTextGray"
             android:textSize="@dimen/text_size_standart"
             app:layout_constraintStart_toStartOf="parent"

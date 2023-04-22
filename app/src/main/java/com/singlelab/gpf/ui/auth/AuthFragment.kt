@@ -1,6 +1,7 @@
 package com.singlelab.gpf.ui.auth
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,15 +9,28 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayoutMediator
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.singlelab.gpf.MainActivity
 import com.singlelab.gpf.R
 import com.singlelab.gpf.base.BaseFragment
 import com.singlelab.gpf.base.listeners.OnBackPressListener
+import com.singlelab.gpf.model.view.ToastType
+import com.singlelab.gpf.new_features.firebase.UserFirebase
+import com.singlelab.gpf.new_features.firebase.mapToObject
 import com.singlelab.gpf.ui.my_profile.MyProfilePresenter
 import com.singlelab.gpf.ui.view.tutorial.TutorialAdapter
 import com.singlelab.gpf.util.maskPhone
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.fragment_auth.*
+import kotlinx.android.synthetic.main.fragment_auth.button_auth
+import kotlinx.android.synthetic.main.fragment_auth.button_back
+import kotlinx.android.synthetic.main.fragment_auth.button_send_code
+import kotlinx.android.synthetic.main.fragment_auth.layout_mail
+import kotlinx.android.synthetic.main.fragment_auth.layout_password
+import kotlinx.android.synthetic.main.fragment_auth.tab_layout
+import kotlinx.android.synthetic.main.fragment_auth.text_agreement
+import kotlinx.android.synthetic.main.fragment_auth.text_info
+import kotlinx.android.synthetic.main.fragment_auth.view_pager_tutorial
 import moxy.presenter.InjectPresenter
 import moxy.presenter.ProvidePresenter
 import javax.inject.Inject
@@ -43,12 +57,13 @@ class AuthFragment : BaseFragment(), AuthView, OnBackPressListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        auth = FirebaseAuth.getInstance()
         setListeners()
         initViewCode()
         initViewPhone()
         initTutorial()
 
-        layout_name.setHint("Имя")
+        layout_mail.setHint("Почта")
     }
 
     override fun updateNewYearPromo(newYearPromoRewardEnabled: Boolean) {
@@ -66,6 +81,12 @@ class AuthFragment : BaseFragment(), AuthView, OnBackPressListener {
 //        layout_code.setMaxLines(1)
 //        layout_code.setMaxLength(6)
 //        layout_code.setInputType(InputType.TYPE_CLASS_NUMBER)
+    }
+    private fun showError(str: String) {
+        showSnackbar(
+            str,
+            ToastType.ERROR
+        ) { }
     }
 
     private fun initTutorial() {
@@ -116,6 +137,8 @@ class AuthFragment : BaseFragment(), AuthView, OnBackPressListener {
         (activity as MainActivity).setBackPressListener(null)
     }
 
+    private lateinit var auth: FirebaseAuth
+
     private fun setListeners() {
 
         button_back.setOnClickListener {
@@ -124,22 +147,66 @@ class AuthFragment : BaseFragment(), AuthView, OnBackPressListener {
         }
 
         button_send_code.setOnClickListener {
-            MyProfilePresenter.profile!!.login = layout_login.getText()
-            MyProfilePresenter.profile!!.name = layout_name.getText()
-            MyProfilePresenter.profile!!.password = layout_password.getText()
+            auth.signInWithEmailAndPassword(layout_mail.getText(), layout_password.getText())
+                .addOnCompleteListener(requireActivity()) { task ->
+                    if (task.isSuccessful) {
+                        // Sign in success, update UI with the signed-in user's information
+                        Log.d("MyAPPLog", "signInWithEmail:success")
+                        val user = auth.currentUser
+                        val db = FirebaseFirestore.getInstance()
 
-            findNavController().navigate(R.id.action_auth_to_my_profile)
+                        // get user from cloudstore
+                        db.collection("users")
+                            .get()
+                            .addOnSuccessListener { result ->
+                                var found = false
+                                for (document in result) {
+                                    if (document.id == user!!.uid) {
+                                        showLoading(false, true)
+                                        launchProfile(
+                                            mapToObject(
+                                                document.data,
+                                                UserFirebase::class
+                                            )
+                                        )
+                                        found = true
+                                    }
+                                }
+                                // if no id on cloudstore -> error
+                                if (!found) {
+                                    showError("Authentication failed. Check fields!")
+                                }
+                            }
+                            .addOnFailureListener { exception ->
+                                showError("Authentication failed. Check fields!")
+                            }
+                    } else {
+                        // If sign in fails, display a message to the user.
+                        Log.d("MyAPPLog", "signInWithEmail:failure", task.exception)
+                        showError("Authentication failed. Check fields!")
+                    }
+                }
+            MyProfilePresenter.profile!!.password = layout_password.getText()
         }
-//        button_auth.setOnClickListener {
-//            Log.d("button_auth", "in pr")
-//            MyProfilePresenter.profile!!.login="asd"
-//            MyProfilePresenter.profile!!.name="New2"
-//            findNavController().navigate(R.id.action_auth_to_my_profile)
-////            onClickAuth()
-//        }
         text_agreement.setOnClickListener {
             openBrowser(getString(R.string.url_agreement))
         }
+    }
+
+    private fun launchProfile(user: UserFirebase) {
+        MyProfilePresenter.profile!!.apply {
+            login = user.login
+            name = user.name
+            description = user.description
+            cityName = user.city
+            personUid = user.id
+            age = user.age.toInt()
+            imageContentUid = user.icon
+            personRecord2048 = 0
+            personRecordCats = 0
+            personRecordPiano = 0
+        }
+        findNavController().navigate(R.id.action_auth_to_my_profile)
     }
 
     private fun onClickAuth() {

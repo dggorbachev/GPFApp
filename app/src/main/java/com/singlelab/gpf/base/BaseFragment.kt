@@ -13,6 +13,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.auth.FirebaseAuth
 import com.nguyenhoanglam.imagepicker.model.Config
 import com.nguyenhoanglam.imagepicker.ui.imagepicker.ImagePicker
 import com.singlelab.gpf.MainActivity
@@ -45,12 +46,14 @@ open class BaseFragment : MvpAppCompatFragment(), ErrorView, LoadingView {
     private val scope = CoroutineScope(coroutineContext)
 
     private var snackbar: Snackbar? = null
+    private lateinit var auth: FirebaseAuth
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         showLoading(false)
-        showBottomNavigation(isShow = MyProfilePresenter.profile?.login != null)
-        if (MyProfilePresenter.profile?.login == null && this is OnlyForAuthFragments) {
+        auth = FirebaseAuth.getInstance()
+        showBottomNavigation(isShow = auth.currentUser != null)
+        if (auth.currentUser == null && this is OnlyForAuthFragments) {
             //todo подумать, как можно получше сделать общий обработчик того, что если
             // пользователь не залогинен, то с некоторых экранов должен осуществляться переход на авторизацию
             toAuth()
@@ -98,7 +101,7 @@ open class BaseFragment : MvpAppCompatFragment(), ErrorView, LoadingView {
     override fun toAuth() {
         showLoading(false)
         findNavController().popBackStack()
-        findNavController().navigate(R.id.auth)
+        findNavController().navigate(R.id.registration)
     }
 
     override fun showNotifications(notifications: PersonNotifications) {

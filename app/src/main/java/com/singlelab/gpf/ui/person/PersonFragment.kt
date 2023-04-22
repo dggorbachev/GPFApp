@@ -1,9 +1,11 @@
 package com.singlelab.gpf.ui.person
 
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.singlelab.gpf.R
@@ -46,6 +48,7 @@ class PersonFragment : BaseFragment(), PersonView {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.N)
     override fun showProfile(profile: Profile) {
         val age = PluralsUtil.getString(
             profile.age,
@@ -62,7 +65,7 @@ class PersonFragment : BaseFragment(), PersonView {
         if (!profile.imageContentUid.isNullOrEmpty()) {
             showImage(profile.imageContentUid)
             image.setOnClickListener {
-                showFullScreenImage(profile.imageContentUid)
+                showFullScreenImage(profile.imageContentUid!!)
             }
         }
         if (profile.isFriend) {

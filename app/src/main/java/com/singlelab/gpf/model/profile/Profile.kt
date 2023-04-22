@@ -6,14 +6,14 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 class Profile(
-    val personUid: String,
+    var personUid: String,
     var login: String? = null,
     var name: String,
     var description: String? = null,
     val cityId: Int,
     var cityName: String,
     var age: Int,
-    val imageContentUid: String? = null,
+    var imageContentUid: String? = null,
     var isFriend: Boolean = false,
     val friends: List<Person> = arrayListOf(),
     var personRecord2048: Int = 0,

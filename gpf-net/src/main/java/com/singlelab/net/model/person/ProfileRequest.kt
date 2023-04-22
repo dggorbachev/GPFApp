@@ -8,5 +8,7 @@ class ProfileRequest(
     var cityId: Int? = null,
     var image: String? = null,
     var miniImage: String? = null,
-    var token: String? = null
+    var token: String? = null,
+    var city: String? = null,
+    var mail: String? = null
 )

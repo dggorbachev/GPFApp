@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
@@ -14,6 +15,8 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.google.android.material.tabs.TabLayoutMediator
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.singlelab.gpf.R
 import com.singlelab.gpf.base.BaseFragment
 import com.singlelab.gpf.base.listeners.OnActivityResultListener
@@ -22,6 +25,8 @@ import com.singlelab.gpf.model.profile.Badge
 import com.singlelab.gpf.model.profile.Person
 import com.singlelab.gpf.model.profile.Profile
 import com.singlelab.gpf.model.view.PagerTab
+import com.singlelab.gpf.new_features.firebase.UserFirebase
+import com.singlelab.gpf.new_features.firebase.mapToObject
 import com.singlelab.gpf.ui.view.pager.FriendsView
 import com.singlelab.gpf.ui.view.pager.PagerAdapter
 import com.singlelab.gpf.ui.view.pager.PagerTabView
@@ -33,7 +38,15 @@ import com.singlelab.gpf.util.PluralsUtil
 import com.singlelab.gpf.util.getBitmap
 import com.theartofdev.edmodo.cropper.CropImage
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.fragment_my_profile.*
+import kotlinx.android.synthetic.main.fragment_my_profile.button_edit_profile
+import kotlinx.android.synthetic.main.fragment_my_profile.city
+import kotlinx.android.synthetic.main.fragment_my_profile.description
+import kotlinx.android.synthetic.main.fragment_my_profile.image
+import kotlinx.android.synthetic.main.fragment_my_profile.login
+import kotlinx.android.synthetic.main.fragment_my_profile.name
+import kotlinx.android.synthetic.main.fragment_my_profile.tab_layout
+import kotlinx.android.synthetic.main.fragment_my_profile.view_pager
+import kotlinx.android.synthetic.main.fragment_my_profile.view_shape
 import moxy.presenter.InjectPresenter
 import moxy.presenter.ProvidePresenter
 import javax.inject.Inject
@@ -71,21 +84,88 @@ class MyProfileFragment : BaseFragment(), MyProfileView, OnActivityResultListene
         return inflater.inflate(R.layout.fragment_my_profile, container, false)
     }
 
+    private lateinit var auth: FirebaseAuth
+
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         Log.d("in profile", "in pr")
+        auth = FirebaseAuth.getInstance()
 
-        if (MyProfilePresenter.profile!!.login == null) {
+        if (auth.currentUser == null) {
+
             findNavController().popBackStack()
-            findNavController().navigate(R.id.auth)
+            findNavController().navigate(R.id.registration)
+        } else {
+            if (MyProfilePresenter.profile == null || MyProfilePresenter.profile!!.login == null) {
+                showLoading(true, true)
+
+                reload()
+            }else{
+                presenter.loadProfile(MyProfilePresenter.profile == null)
+            }
         }
 //        view.findViewById<ImageView>(R.id.image)
 //            .setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_my_profile_to_auth))
 //        if (AuthData.isAnon) {
 //            navigateToAuth()
 //        } else {
-        presenter.loadProfile(MyProfilePresenter.profile == null)
 //        }
+    }
+
+    private fun reload() {
+        //reload currentUser
+        auth.currentUser!!.reload().addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                val db = FirebaseFirestore.getInstance()
+
+                // get user from cloudstore
+                db.collection("users")
+                    .get()
+                    .addOnSuccessListener { result ->
+                        var found = false
+                        for (document in result) {
+                            if (document.id == auth.currentUser!!.uid) {
+                                showLoading(false, true)
+                                launchProfile(mapToObject(document.data, UserFirebase::class))
+                                found = true
+                            }
+                        }
+                        // if no id on cloudstore -> error
+                        if (!found) {
+                            fail()
+                        }
+                    }
+                    .addOnFailureListener { exception ->
+                        fail()
+                    }
+            } else {
+                fail()
+            }
+        }
+    }
+
+    private fun fail(){
+        Toast.makeText(
+            context,
+            "Failed to load data. Try again later!.",
+            Toast.LENGTH_SHORT
+        ).show()
+    }
+    private fun launchProfile(user: UserFirebase) {
+        MyProfilePresenter.profile!!.apply {
+            login = user.login
+            name = user.name
+            description = user.description
+            cityName = user.city
+            personUid = user.id
+            age = user.age.toInt()
+            imageContentUid = user.icon
+            personRecord2048 = 0
+            personRecordCats = 0
+            personRecordPiano = 0
+        }
+        presenter.loadProfile(MyProfilePresenter.profile == null)
     }
 
     override fun showProfile(profile: Profile) {
@@ -108,7 +188,7 @@ class MyProfileFragment : BaseFragment(), MyProfileView, OnActivityResultListene
             if (profile.imageContentUid == null) {
                 onClickChangeImage()
             } else {
-                onClickImage(profile.imageContentUid)
+                onClickImage(profile.imageContentUid!!)
             }
         }
         button_edit_profile.setOnClickListener {
@@ -151,7 +231,8 @@ class MyProfileFragment : BaseFragment(), MyProfileView, OnActivityResultListene
 
     override fun showNewYearView() {
         context?.let {
-            view_shape.background = ContextCompat.getDrawable(it, R.drawable.shape_profile_new_year)
+            view_shape.background =
+                ContextCompat.getDrawable(it, R.drawable.shape_profile_new_year)
         }
     }
 
@@ -162,7 +243,7 @@ class MyProfileFragment : BaseFragment(), MyProfileView, OnActivityResultListene
 
     override fun navigateToAuth2() {
         findNavController().popBackStack()
-        findNavController().navigate(R.id.auth)
+        findNavController().navigate(R.id.registration)
     }
 
     override fun loadImage(imageUid: String?) {
@@ -187,7 +268,11 @@ class MyProfileFragment : BaseFragment(), MyProfileView, OnActivityResultListene
     }
 
     override fun onPersonClick(personUid: String) {
-        findNavController().navigate(MyProfileFragmentDirections.actionMyProfileToPerson(personUid))
+        findNavController().navigate(
+            MyProfileFragmentDirections.actionMyProfileToPerson(
+                personUid
+            )
+        )
     }
 
     override fun onInstagramClick() {

@@ -225,6 +225,7 @@
     <string name="invalid_login">Некорректный логин</string>
     <string name="invalid_age">Некорректный возраст</string>
     <string name="empty_login">Не заполнен логин</string>
+    <string name="empty_mail">Почта указана неверно</string>
     <string name="empty_name">Не заполнено имя</string>
     <string name="empty_description">Не заполнено описание профиля</string>
     <string name="empty_age">Не заполнен возраст</string>

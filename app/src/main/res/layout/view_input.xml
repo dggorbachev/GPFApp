@@ -44,8 +44,7 @@
                 android:id="@+id/text_input_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:inputType="textCapSentences"/>
+                android:gravity="center_vertical"/>
         </com.google.android.material.textfield.TextInputLayout>
     </LinearLayout>
 
