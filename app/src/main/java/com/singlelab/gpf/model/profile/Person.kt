@@ -18,6 +18,7 @@ class Person(
     var isInvited: Boolean = false,
     var friendshipApprovalRequired: Boolean = false,
     var participantStatus: ParticipantStatus? = null
+
 ) : Parcelable {
     companion object {
         fun fromResponse(personResponse: PersonResponse?): Person? {

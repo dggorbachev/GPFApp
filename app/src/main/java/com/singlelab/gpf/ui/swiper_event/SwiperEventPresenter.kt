@@ -1,6 +1,5 @@
 package com.singlelab.gpf.ui.swiper_event
 
-import android.util.Log
 import com.singlelab.gpf.base.BaseInteractor
 import com.singlelab.gpf.base.BasePresenter
 import com.singlelab.gpf.model.event.Event
@@ -67,12 +66,51 @@ class SwiperEventPresenter @Inject constructor(
         invokeSuspend {
             if (iterEvent == events.size)
                 iterEvent = 0
-            this.event = events[iterEvent++]
 
-            runOnMainThread {
-                Log.d("events.size", events.size.toString())
-                viewState.showEvent(this.event!!)
+            when (isCompetitive) {
+                -1 -> {
+                    runOnMainThread {
+
+                        while (events[iterEvent].tempGames.first() == "Diablo 4") {
+                            iterEvent++
+                            if (iterEvent == events.size)
+                                iterEvent = 0
+                        }
+                        this.event = events[iterEvent]
+
+                        runOnMainThread {
+                            viewState.showEvent(this.event!!)
+                        }
+                    }
+                }
+                0 -> {
+                    runOnMainThread {
+
+                        this.event = events[iterEvent]
+
+                        runOnMainThread {
+                            iterEvent++
+                            viewState.showEvent(this.event!!)
+                        }
+                    }
+                }
+                1 -> {
+                    runOnMainThread {
+
+                        while (events[iterEvent].tempGames.first() != "Diablo 4") {
+                            iterEvent++
+                            if (iterEvent == events.size)
+                                iterEvent = 0
+                        }
+                        this.event = events[iterEvent]
+
+                        runOnMainThread {
+                            viewState.showEvent(this.event!!)
+                        }
+                    }
+                }
             }
+
         }
     }
 
@@ -160,6 +198,7 @@ class SwiperEventPresenter @Inject constructor(
 
     companion object {
 
+        var isCompetitive: Int = 0
         var iterEvent = 0
         var events = listOf(
             Event(
@@ -231,7 +270,10 @@ class SwiperEventPresenter @Inject constructor(
                 tempGames = listOf("Overwatch"),
                 tempCity = "Самара",
                 tempDescription = "Игрок Overwatch. Рейтинг Золото 1, 200 часов в игре. Ищу группу для игры в Quick Play и Competitive!",
-                tempAge = "24"
+                tempAge = "24",
+                record2048 = 9900,
+                recordFlappyCat = 1095,
+                recordPiano = 123
             ),
             Event(
                 "0",
@@ -329,7 +371,10 @@ class SwiperEventPresenter @Inject constructor(
                 tempGames = listOf("Dota 2"),
                 tempCity = "Санкт-Петербург",
                 tempDescription = "Игрок Dota 2. Рейтинг Легионер 5, 800 часов в игре, ищу напарника для игры в Duo Ranked!",
-                tempAge = "26"
+                tempAge = "26",
+                record2048 = 3900,
+                recordFlappyCat = 1489,
+                recordPiano = 101
             ),
             Event(
                 "0",
@@ -427,7 +472,10 @@ class SwiperEventPresenter @Inject constructor(
                 tempGames = listOf("Valorant"),
                 tempCity = "Москва",
                 tempDescription = "Играю в Valorant. Ранг Золото 2, 300 часов в игре. Ищу команду для игры в Unrated и Competitive!",
-                tempAge = "23"
+                tempAge = "23",
+                record2048 = 3700,
+                recordFlappyCat = 1589,
+                recordPiano = 60
             ),
             Event(
                 "0",
@@ -525,7 +573,10 @@ class SwiperEventPresenter @Inject constructor(
                 tempGames = listOf("CS:GO"),
                 tempCity = "Екатеринбург",
                 tempDescription = "Играю в CS:GO. Ранг Золото 3, 500 часов в игре. Ищу напарника для игры в Duo Ranked!",
-                tempAge = "27"
+                tempAge = "27",
+                record2048 = 3500,
+                recordFlappyCat = 2344,
+                recordPiano = 80
             ),
             Event(
                 "0",
@@ -623,7 +674,10 @@ class SwiperEventPresenter @Inject constructor(
                 tempGames = listOf("CS:GO"),
                 tempCity = "Киев",
                 tempDescription = "Игрок CS:GO. Ранг Мастер Сержант 1, 1500 часов в игре. Ищу группу для игры в режиме Wingman!",
-                tempAge = "28"
+                tempAge = "28",
+                record2048 = 4000,
+                recordFlappyCat = 1234,
+                recordPiano = 10
             ),
             Event(
                 "0",
@@ -721,7 +775,10 @@ class SwiperEventPresenter @Inject constructor(
                 tempGames = listOf("Dota 2"),
                 tempCity = "Москва",
                 tempDescription = "Игрок Dota 2. Ранг Архонт, 500 часов в игре. Ищу команду для участия в турнирах!",
-                tempAge = "23"
+                tempAge = "23",
+                record2048 = 1400,
+                recordFlappyCat = 125,
+                recordPiano = 12
             ),
             Event(
                 "0",
@@ -819,7 +876,10 @@ class SwiperEventPresenter @Inject constructor(
                 tempGames = listOf("Valorant"),
                 tempCity = "Нижний Новгород",
                 tempDescription = "Игрок Valorant. Ранг Радиант, 800 часов в игре. Ищу друзей для игры вместе!",
-                tempAge = "25"
+                tempAge = "25",
+                record2048 = 120,
+                recordFlappyCat = 23,
+                recordPiano = 20
             ),
             Event(
                 "0",
@@ -917,7 +977,10 @@ class SwiperEventPresenter @Inject constructor(
                 tempGames = listOf("PUBG"),
                 tempCity = "Екатеринбург",
                 tempDescription = "Игрок PUBG. Ранг Платина, 300 часов в игре. Ищу тиммейтов для игры в Squads!",
-                tempAge = "19"
+                tempAge = "19",
+                record2048 = 2340,
+                recordFlappyCat = 992,
+                recordPiano = 30
             ),
             Event(
                 "0",
@@ -1015,7 +1078,10 @@ class SwiperEventPresenter @Inject constructor(
                 tempGames = listOf("Overwatch"),
                 tempCity = "Сочи",
                 tempDescription = "Игрок Overwatch. Ранг Грандмастер, 1500 часов в игре. Ищу игроков для создания команды!",
-                tempAge = "30"
+                tempAge = "30",
+                record2048 = 2440,
+                recordFlappyCat = 834,
+                recordPiano = 32
             ),
             Event(
                 "0",
@@ -1113,7 +1179,10 @@ class SwiperEventPresenter @Inject constructor(
                 tempGames = listOf("Diablo 4"),
                 tempCity = "Красноярск",
                 tempDescription = "Игрок Diablo 4. Играю в жанре ARPG уже несколько лет. Ищу единомышленников для создания клана!",
-                tempAge = "26"
+                tempAge = "26",
+                record2048 = 160,
+                recordFlappyCat = 345,
+                recordPiano = 42
             ),
             Event(
                 "0",
@@ -1210,7 +1279,10 @@ class SwiperEventPresenter @Inject constructor(
                 tempGames = listOf("CS:GO"),
                 tempCity = "Владивосток",
                 tempDescription = "Игрок CS:GO. Ранг Легенда, 1000 часов в игре. Ищу тиммейтов для игры в режиме Competitive!",
-                tempAge = "27"
+                tempAge = "27",
+                record2048 = 1200,
+                recordFlappyCat = 235,
+                recordPiano = 78
 
             ),
             Event(
@@ -1309,7 +1381,10 @@ class SwiperEventPresenter @Inject constructor(
                 tempGames = listOf("Dota 2"),
                 tempCity = "Саратов",
                 tempDescription = "Игрок Dota 2. Ранг Легенда 3, 600 часов в игре. Ищу группу для игры в режиме Captain's Mode!",
-                tempAge = "21"
+                tempAge = "21",
+                record2048 = 1440,
+                recordFlappyCat = 124,
+                recordPiano = 65
             )
         )
     }

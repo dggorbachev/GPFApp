@@ -40,7 +40,7 @@ class MyProfilePresenter @Inject constructor(
                 18,
                 "https://gflusercontent.gflclan.com/file/forums-prod/monthly_2018_11/0f837319a39026212f4597d6a57948ce2541dff2_full.jpg.3abe6b209c42299263c337a24d456310.jpg",
                 false,
-                arrayListOf()
+                arrayListOf(), 0, 0, 0
             )
 
         var myFriends = mutableListOf(

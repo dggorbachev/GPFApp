@@ -85,14 +85,16 @@
         <action
             android:id="@+id/action_games_to_dva48"
             app:destination="@id/dva48" />
+        <action
+            android:id="@+id/action_games_to_records"
+            app:destination="@id/recordsFragment" />
     </fragment>
 
     <activity
         android:id="@+id/dva48"
         android:name="com.singlelab.gpf.ui.games.ActivityPuzzle"
         android:label="Игры"
-        tools:layout="@layout/activity_2048">
-    </activity>
+        tools:layout="@layout/activity_2048" />
 
     <fragment
         android:id="@+id/chat"
@@ -447,4 +449,8 @@
             app:argType="string"
             app:nullable="true" />
     </fragment>
+    <fragment
+        android:id="@+id/recordsFragment"
+        android:name="com.singlelab.gpf.ui.records.RecordsFragment"
+        android:label="RecordsFragment" />
 </navigation>

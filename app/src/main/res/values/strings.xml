@@ -303,4 +303,38 @@
         <item>Ноябрь</item>
         <item>Декабрь</item>
     </string-array>
+
+    <string name="fragment_home">Piano Tiles</string>
+    <string name="btn_home">ИГРАТЬ</string>
+    <string name="pause">ПАУЗА</string>
+    <string name="default_score">Результат: </string>
+    <string name="gameover">ИГРА ОКОНЧЕНА</string>
+    <string name="pianoGameScore">Ваш результат: </string>
+    <string name="playagain">Играть снова</string>
+    <string name="backmenu">Вернуться в меню</string>
+    <string name="start">СТАРТ</string>
+    <string name="settings">Настройки</string>
+    <string name="settings_title">Настройки</string>
+    <string name="one">1</string>
+    <string name="three">3</string>
+    <string name="five">5</string>
+    <string name="health_count">Количество сердец</string>
+
+
+    <!-- Confirmation dialog-->
+    <string name="reset">Сбросить</string>
+    <string name="continue_game">Отменить</string>
+    <string name="reset_dialog_title">Сбросить</string>
+    <string name="reset_dialog_message">Вы уверены, что хотите сбросить прогресс?</string>
+    <string name="score">СЧЕТ</string>
+    <string name="header">Math Cubes</string>
+    <string name="endless">"Endless" Mode</string>
+    <string name="you_win">Вы победили!</string>
+    <string name="game_over">Игра окончена!</string>
+    <string name="go_on">Нажмите, чтобы продолжить</string>
+    <string name="for_now">Подождите…</string>
+    <!-- Sizes -->
+    <string name="size_4x4" translatable="false">Play</string>
+    <string name="size_5x5" translatable="false">5x5</string>
+    <string name="size_6x6" translatable="false">6x6</string>
 </resources>

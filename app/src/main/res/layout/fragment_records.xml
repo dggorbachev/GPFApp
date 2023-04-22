@@ -1,0 +1,957 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground">
+
+    <TextView
+        android:id="@+id/chatsTitleView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="34dp"
+        android:fontFamily="@font/noto_sans_bold"
+        android:includeFontPadding="false"
+        android:text="Рекорды"
+        android:textColor="@color/colorText"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        app:layout_constraintTop_toBottomOf="@id/chatsTitleView1">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:paddingBottom="150dp"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/game2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/colorBack2"
+                app:cardCornerRadius="10dp"
+                app:cardUseCompatPadding="true"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <LinearLayout
+                        android:id="@+id/llGame1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/white"
+                        android:orientation="horizontal"
+                        android:padding="10dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <ImageView
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:layout_gravity="start"
+                            android:src="@drawable/_048_logo" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginStart="10dp"
+                            android:fontFamily="@font/noto_sans_bold"
+                            android:includeFontPadding="false"
+                            android:text="Math Cubes"
+                            android:textColor="@color/colorText"
+                            android:textSize="20sp" />
+
+
+                    </LinearLayout>
+
+                    <FrameLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_gravity="end"
+                        android:layout_marginEnd="20dp"
+                        android:orientation="vertical"
+                        app:layout_constraintBottom_toBottomOf="@id/llGame1"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center|top"
+                            android:layout_marginTop="10dp"
+                            android:fontFamily="@font/noto_sans_bold"
+                            android:includeFontPadding="false"
+                            android:text="Мой рекорд"
+                            android:textColor="@color/colorGrayMedium"
+                            android:textSize="11sp" />
+
+                        <TextView
+                            android:id="@+id/record2048"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="bottom|center"
+                            android:layout_marginBottom="13dp"
+                            android:fontFamily="@font/noto_sans_bold"
+                            android:includeFontPadding="false"
+                            android:textColor="@color/colorText"
+                            android:textSize="20sp"
+                            tools:text="123" />
+                    </FrameLayout>
+
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/cl1game"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toBottomOf="@id/llGame1">
+
+                        <LinearLayout
+                            android:id="@+id/ll2Game"
+                            android:layout_width="match_parent"
+                            android:layout_height="70dp"
+                            android:orientation="horizontal"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginStart="30dp"
+                                android:fontFamily="@font/noto_sans_bold"
+                                android:includeFontPadding="false"
+                                android:text="1"
+                                android:textColor="@color/colorText"
+                                android:textSize="20sp" />
+
+                            <TextView
+                                android:id="@+id/name20481"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginStart="30dp"
+                                android:fontFamily="@font/noto_sans_bold"
+                                android:includeFontPadding="false"
+                                android:text="Name"
+                                android:textColor="@color/colorText"
+                                android:textSize="20sp" />
+
+                        </LinearLayout>
+
+                        <FrameLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dp"
+                            android:layout_gravity="end"
+                            android:layout_marginEnd="35dp"
+                            android:orientation="vertical"
+                            app:layout_constraintBottom_toBottomOf="@id/ll2Game"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center|top"
+                                android:layout_marginTop="10dp"
+                                android:fontFamily="@font/noto_sans_bold"
+                                android:includeFontPadding="false"
+                                android:text="Рекорд"
+                                android:textColor="@color/colorGrayMedium"
+                                android:textSize="11sp" />
+
+                            <TextView
+                                android:id="@+id/record20481"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="bottom|center"
+                                android:layout_marginBottom="13dp"
+                                android:fontFamily="@font/noto_sans_bold"
+                                android:includeFontPadding="false"
+                                android:textColor="@color/colorText"
+                                android:textSize="20sp"
+                                tools:text="123" />
+                        </FrameLayout>
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/cl2Game"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toBottomOf="@id/cl1game">
+
+                        <LinearLayout
+                            android:id="@+id/ll3game"
+                            android:layout_width="match_parent"
+                            android:layout_height="70dp"
+                            android:orientation="horizontal"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginStart="30dp"
+                                android:fontFamily="@font/noto_sans_bold"
+                                android:includeFontPadding="false"
+                                android:text="2"
+                                android:textColor="@color/colorText"
+                                android:textSize="20sp" />
+
+                            <TextView
+                                android:id="@+id/name20482"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginStart="30dp"
+                                android:fontFamily="@font/noto_sans_bold"
+                                android:includeFontPadding="false"
+                                android:text="Name"
+                                android:textColor="@color/colorText"
+                                android:textSize="20sp" />
+
+                        </LinearLayout>
+
+                        <FrameLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dp"
+                            android:layout_gravity="end"
+                            android:layout_marginEnd="35dp"
+                            android:orientation="vertical"
+                            app:layout_constraintBottom_toBottomOf="@id/ll3game"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center|top"
+                                android:layout_marginTop="10dp"
+                                android:fontFamily="@font/noto_sans_bold"
+                                android:includeFontPadding="false"
+                                android:text="Рекорд"
+                                android:textColor="@color/colorGrayMedium"
+                                android:textSize="11sp" />
+
+                            <TextView
+                                android:id="@+id/record20482"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="bottom|center"
+                                android:layout_marginBottom="13dp"
+                                android:fontFamily="@font/noto_sans_bold"
+                                android:includeFontPadding="false"
+                                android:textColor="@color/colorText"
+                                android:textSize="20sp"
+                                tools:text="123" />
+                        </FrameLayout>
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/cl3game"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toBottomOf="@id/cl2Game">
+
+                        <LinearLayout
+                            android:id="@+id/ll4Game"
+                            android:layout_width="match_parent"
+                            android:layout_height="70dp"
+                            android:orientation="horizontal"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginStart="30dp"
+                                android:fontFamily="@font/noto_sans_bold"
+                                android:includeFontPadding="false"
+                                android:text="3"
+                                android:textColor="@color/colorText"
+                                android:textSize="20sp" />
+
+                            <TextView
+                                android:id="@+id/name20483"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginStart="30dp"
+                                android:fontFamily="@font/noto_sans_bold"
+                                android:includeFontPadding="false"
+                                android:text="Name"
+                                android:textColor="@color/colorText"
+                                android:textSize="20sp" />
+
+                        </LinearLayout>
+
+                        <FrameLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dp"
+                            android:layout_gravity="end"
+                            android:layout_marginEnd="35dp"
+                            android:orientation="vertical"
+                            app:layout_constraintBottom_toBottomOf="@id/ll4Game"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center|top"
+                                android:layout_marginTop="10dp"
+                                android:fontFamily="@font/noto_sans_bold"
+                                android:includeFontPadding="false"
+                                android:text="Рекорд"
+                                android:textColor="@color/colorGrayMedium"
+                                android:textSize="11sp" />
+
+                            <TextView
+                                android:id="@+id/record20483"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="bottom|center"
+                                android:layout_marginBottom="13dp"
+                                android:fontFamily="@font/noto_sans_bold"
+                                android:includeFontPadding="false"
+                                android:textColor="@color/colorText"
+                                android:textSize="20sp"
+                                tools:text="123" />
+                        </FrameLayout>
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/game4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:backgroundTint="@color/colorBack2"
+                app:cardCornerRadius="10dp"
+                app:cardUseCompatPadding="true"
+                app:layout_constraintTop_toBottomOf="@id/game3">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <LinearLayout
+                        android:id="@+id/ll1Tiles"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/white"
+                        android:orientation="horizontal"
+                        android:padding="10dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:layout_gravity="start"
+                            android:layout_marginEnd="20dp"
+                            android:elevation="10dp"
+                            app:cardCornerRadius="8dp">
+
+                            <ImageView
+                                android:layout_width="50dp"
+                                android:layout_height="50dp"
+                                android:src="@drawable/piano_icon" />
+                        </androidx.cardview.widget.CardView>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginStart="10dp"
+                            android:fontFamily="@font/noto_sans_bold"
+                            android:includeFontPadding="false"
+                            android:text="Piano Tiles"
+                            android:textColor="@color/colorText"
+                            android:textSize="20sp" />
+
+
+                    </LinearLayout>
+
+                    <FrameLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_gravity="end"
+                        android:layout_marginEnd="20dp"
+                        android:orientation="vertical"
+                        app:layout_constraintBottom_toBottomOf="@id/ll1Tiles"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center|top"
+                            android:layout_marginTop="10dp"
+                            android:fontFamily="@font/noto_sans_bold"
+                            android:includeFontPadding="false"
+                            android:text="Мой рекорд"
+                            android:textColor="@color/colorGrayMedium"
+                            android:textSize="11sp" />
+
+                        <TextView
+                            android:id="@+id/recordTiles"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="bottom|center"
+                            android:layout_marginBottom="13dp"
+                            android:fontFamily="@font/noto_sans_bold"
+                            android:includeFontPadding="false"
+                            android:textColor="@color/colorText"
+                            android:textSize="20sp"
+                            tools:text="123" />
+                    </FrameLayout>
+
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/cl1Tiles"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toBottomOf="@id/ll1Tiles">
+
+                        <LinearLayout
+                            android:id="@+id/ll2Tiles"
+                            android:layout_width="match_parent"
+                            android:layout_height="70dp"
+                            android:orientation="horizontal"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginStart="30dp"
+                                android:fontFamily="@font/noto_sans_bold"
+                                android:includeFontPadding="false"
+                                android:text="1"
+                                android:textColor="@color/colorText"
+                                android:textSize="20sp" />
+
+                            <TextView
+                                android:id="@+id/nameTiles1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginStart="30dp"
+                                android:fontFamily="@font/noto_sans_bold"
+                                android:includeFontPadding="false"
+                                android:text="Name"
+                                android:textColor="@color/colorText"
+                                android:textSize="20sp" />
+
+                        </LinearLayout>
+
+                        <FrameLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dp"
+                            android:layout_gravity="end"
+                            android:layout_marginEnd="35dp"
+                            android:orientation="vertical"
+                            app:layout_constraintBottom_toBottomOf="@id/ll2Tiles"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center|top"
+                                android:layout_marginTop="10dp"
+                                android:fontFamily="@font/noto_sans_bold"
+                                android:includeFontPadding="false"
+                                android:text="Рекорд"
+                                android:textColor="@color/colorGrayMedium"
+                                android:textSize="11sp" />
+
+                            <TextView
+                                android:id="@+id/recordTiles1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="bottom|center"
+                                android:layout_marginBottom="13dp"
+                                android:fontFamily="@font/noto_sans_bold"
+                                android:includeFontPadding="false"
+                                android:textColor="@color/colorText"
+                                android:textSize="20sp"
+                                tools:text="123" />
+                        </FrameLayout>
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/cl2Tiles"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toBottomOf="@id/cl1Tiles">
+
+                        <LinearLayout
+                            android:id="@+id/ll3Tiles"
+                            android:layout_width="match_parent"
+                            android:layout_height="70dp"
+                            android:orientation="horizontal"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginStart="30dp"
+                                android:fontFamily="@font/noto_sans_bold"
+                                android:includeFontPadding="false"
+                                android:text="2"
+                                android:textColor="@color/colorText"
+                                android:textSize="20sp" />
+
+                            <TextView
+                                android:id="@+id/nameTiles2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginStart="30dp"
+                                android:fontFamily="@font/noto_sans_bold"
+                                android:includeFontPadding="false"
+                                android:text="Name"
+                                android:textColor="@color/colorText"
+                                android:textSize="20sp" />
+
+                        </LinearLayout>
+
+                        <FrameLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dp"
+                            android:layout_gravity="end"
+                            android:layout_marginEnd="35dp"
+                            android:orientation="vertical"
+                            app:layout_constraintBottom_toBottomOf="@id/ll3Tiles"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center|top"
+                                android:layout_marginTop="10dp"
+                                android:fontFamily="@font/noto_sans_bold"
+                                android:includeFontPadding="false"
+                                android:text="Рекорд"
+                                android:textColor="@color/colorGrayMedium"
+                                android:textSize="11sp" />
+
+                            <TextView
+                                android:id="@+id/recordTiles2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="bottom|center"
+                                android:layout_marginBottom="13dp"
+                                android:fontFamily="@font/noto_sans_bold"
+                                android:includeFontPadding="false"
+                                android:textColor="@color/colorText"
+                                android:textSize="20sp"
+                                tools:text="123" />
+                        </FrameLayout>
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/cl3Tiles"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toBottomOf="@id/cl2Tiles">
+
+                        <LinearLayout
+                            android:id="@+id/ll4Tiles"
+                            android:layout_width="match_parent"
+                            android:layout_height="70dp"
+                            android:orientation="horizontal"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginStart="30dp"
+                                android:fontFamily="@font/noto_sans_bold"
+                                android:includeFontPadding="false"
+                                android:text="3"
+                                android:textColor="@color/colorText"
+                                android:textSize="20sp" />
+
+                            <TextView
+                                android:id="@+id/nameTiles3"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginStart="30dp"
+                                android:fontFamily="@font/noto_sans_bold"
+                                android:includeFontPadding="false"
+                                android:text="Name"
+                                android:textColor="@color/colorText"
+                                android:textSize="20sp" />
+
+                        </LinearLayout>
+
+                        <FrameLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dp"
+                            android:layout_gravity="end"
+                            android:layout_marginEnd="35dp"
+                            android:orientation="vertical"
+                            app:layout_constraintBottom_toBottomOf="@id/ll4Tiles"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center|top"
+                                android:layout_marginTop="10dp"
+                                android:fontFamily="@font/noto_sans_bold"
+                                android:includeFontPadding="false"
+                                android:text="Рекорд"
+                                android:textColor="@color/colorGrayMedium"
+                                android:textSize="11sp" />
+
+                            <TextView
+                                android:id="@+id/recordTiles3"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="bottom|center"
+                                android:layout_marginBottom="13dp"
+                                android:fontFamily="@font/noto_sans_bold"
+                                android:includeFontPadding="false"
+                                android:textColor="@color/colorText"
+                                android:textSize="20sp"
+                                tools:text="123" />
+                        </FrameLayout>
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/game3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:backgroundTint="@color/colorBack2"
+                app:cardCornerRadius="10dp"
+                app:cardUseCompatPadding="true"
+                app:layout_constraintTop_toBottomOf="@id/game2">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <LinearLayout
+                        android:id="@+id/ll1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/white"
+                        android:orientation="horizontal"
+                        android:padding="10dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <ImageView
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:layout_gravity="start"
+                            android:src="@drawable/cat_icon" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginStart="10dp"
+                            android:fontFamily="@font/noto_sans_bold"
+                            android:includeFontPadding="false"
+                            android:text="Flappy Cats"
+                            android:textColor="@color/colorText"
+                            android:textSize="20sp" />
+
+
+                    </LinearLayout>
+
+                    <FrameLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_gravity="end"
+                        android:layout_marginEnd="20dp"
+                        android:orientation="vertical"
+                        app:layout_constraintBottom_toBottomOf="@id/ll1"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center|top"
+                            android:layout_marginTop="10dp"
+                            android:fontFamily="@font/noto_sans_bold"
+                            android:includeFontPadding="false"
+                            android:text="Мой рекорд"
+                            android:textColor="@color/colorGrayMedium"
+                            android:textSize="11sp" />
+
+                        <TextView
+                            android:id="@+id/recordFlappyCats"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="bottom|center"
+                            android:layout_marginBottom="13dp"
+                            android:fontFamily="@font/noto_sans_bold"
+                            android:includeFontPadding="false"
+                            android:textColor="@color/colorText"
+                            android:textSize="20sp"
+                            tools:text="123" />
+                    </FrameLayout>
+
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/cl1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toBottomOf="@id/ll1">
+
+                        <LinearLayout
+                            android:id="@+id/ll2"
+                            android:layout_width="match_parent"
+                            android:layout_height="70dp"
+                            android:orientation="horizontal"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginStart="30dp"
+                                android:fontFamily="@font/noto_sans_bold"
+                                android:includeFontPadding="false"
+                                android:text="1"
+                                android:textColor="@color/colorText"
+                                android:textSize="20sp" />
+
+                            <TextView
+                                android:id="@+id/nameCats1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginStart="30dp"
+                                android:fontFamily="@font/noto_sans_bold"
+                                android:includeFontPadding="false"
+                                android:text="Name"
+                                android:textColor="@color/colorText"
+                                android:textSize="20sp" />
+
+                        </LinearLayout>
+
+                        <FrameLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dp"
+                            android:layout_gravity="end"
+                            android:layout_marginEnd="35dp"
+                            android:orientation="vertical"
+                            app:layout_constraintBottom_toBottomOf="@id/ll2"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center|top"
+                                android:layout_marginTop="10dp"
+                                android:fontFamily="@font/noto_sans_bold"
+                                android:includeFontPadding="false"
+                                android:text="Рекорд"
+                                android:textColor="@color/colorGrayMedium"
+                                android:textSize="11sp" />
+
+                            <TextView
+                                android:id="@+id/recordFlappyCats1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="bottom|center"
+                                android:layout_marginBottom="13dp"
+                                android:fontFamily="@font/noto_sans_bold"
+                                android:includeFontPadding="false"
+                                android:textColor="@color/colorText"
+                                android:textSize="20sp"
+                                tools:text="123" />
+                        </FrameLayout>
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/cl2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toBottomOf="@id/cl1">
+
+                        <LinearLayout
+                            android:id="@+id/ll3"
+                            android:layout_width="match_parent"
+                            android:layout_height="70dp"
+                            android:orientation="horizontal"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginStart="30dp"
+                                android:fontFamily="@font/noto_sans_bold"
+                                android:includeFontPadding="false"
+                                android:text="2"
+                                android:textColor="@color/colorText"
+                                android:textSize="20sp" />
+
+                            <TextView
+                                android:id="@+id/nameCats2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginStart="30dp"
+                                android:fontFamily="@font/noto_sans_bold"
+                                android:includeFontPadding="false"
+                                android:text="Name"
+                                android:textColor="@color/colorText"
+                                android:textSize="20sp" />
+
+                        </LinearLayout>
+
+                        <FrameLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dp"
+                            android:layout_gravity="end"
+                            android:layout_marginEnd="35dp"
+                            android:orientation="vertical"
+                            app:layout_constraintBottom_toBottomOf="@id/ll3"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center|top"
+                                android:layout_marginTop="10dp"
+                                android:fontFamily="@font/noto_sans_bold"
+                                android:includeFontPadding="false"
+                                android:text="Рекорд"
+                                android:textColor="@color/colorGrayMedium"
+                                android:textSize="11sp" />
+
+                            <TextView
+                                android:id="@+id/recordFlappyCats2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="bottom|center"
+                                android:layout_marginBottom="13dp"
+                                android:fontFamily="@font/noto_sans_bold"
+                                android:includeFontPadding="false"
+                                android:textColor="@color/colorText"
+                                android:textSize="20sp"
+                                tools:text="123" />
+                        </FrameLayout>
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/cl3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toBottomOf="@id/cl2">
+
+                        <LinearLayout
+                            android:id="@+id/ll4"
+                            android:layout_width="match_parent"
+                            android:layout_height="70dp"
+                            android:orientation="horizontal"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginStart="30dp"
+                                android:fontFamily="@font/noto_sans_bold"
+                                android:includeFontPadding="false"
+                                android:text="3"
+                                android:textColor="@color/colorText"
+                                android:textSize="20sp" />
+
+                            <TextView
+                                android:id="@+id/nameCats3"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginStart="30dp"
+                                android:fontFamily="@font/noto_sans_bold"
+                                android:includeFontPadding="false"
+                                android:text="Name"
+                                android:textColor="@color/colorText"
+                                android:textSize="20sp" />
+
+                        </LinearLayout>
+
+                        <FrameLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dp"
+                            android:layout_gravity="end"
+                            android:layout_marginEnd="35dp"
+                            android:orientation="vertical"
+                            app:layout_constraintBottom_toBottomOf="@id/ll4"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center|top"
+                                android:layout_marginTop="10dp"
+                                android:fontFamily="@font/noto_sans_bold"
+                                android:includeFontPadding="false"
+                                android:text="Рекорд"
+                                android:textColor="@color/colorGrayMedium"
+                                android:textSize="11sp" />
+
+                            <TextView
+                                android:id="@+id/recordFlappyCats3"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="bottom|center"
+                                android:layout_marginBottom="13dp"
+                                android:fontFamily="@font/noto_sans_bold"
+                                android:includeFontPadding="false"
+                                android:textColor="@color/colorText"
+                                android:textSize="20sp"
+                                tools:text="123" />
+                        </FrameLayout>
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -10,13 +10,13 @@
         android:layout_height="wrap_content"
         android:drawableStart="@drawable/ic_feedback"
         android:drawablePadding="@dimen/margin_medium"
-        android:visibility="gone"
         android:gravity="center_vertical"
         android:paddingHorizontal="@dimen/margin_large"
         android:paddingVertical="@dimen/margin_medium"
         android:text="@string/title_feedback"
         android:textColor="@color/colorText"
-        android:textSize="@dimen/text_size_standart" />
+        android:textSize="@dimen/text_size_standart"
+        android:visibility="gone" />
 
     <View
         android:layout_width="match_parent"
@@ -27,7 +27,6 @@
         android:id="@+id/instagram"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone"
         android:layout_marginStart="@dimen/margin_small"
         android:drawableStart="@drawable/ic_instagram"
         android:drawablePadding="@dimen/margin_medium"
@@ -36,7 +35,8 @@
         android:paddingVertical="@dimen/margin_medium"
         android:text="@string/title_instagram"
         android:textColor="@color/colorText"
-        android:textSize="@dimen/text_size_standart" />
+        android:textSize="@dimen/text_size_standart"
+        android:visibility="gone" />
 
     <View
         android:layout_width="match_parent"
@@ -53,10 +53,10 @@
         android:gravity="center_vertical"
         android:paddingHorizontal="@dimen/margin_big"
         android:paddingVertical="@dimen/margin_medium"
-        android:visibility="gone"
         android:text="@string/title_agreement"
         android:textColor="@color/colorText"
-        android:textSize="@dimen/text_size_standart" />
+        android:textSize="@dimen/text_size_standart"
+        android:visibility="gone" />
 
     <View
         android:layout_width="match_parent"
@@ -73,15 +73,116 @@
         android:gravity="center_vertical"
         android:paddingHorizontal="@dimen/margin_big"
         android:paddingVertical="@dimen/margin_medium"
-        android:visibility="gone"
         android:text="@string/title_developer"
         android:textColor="@color/colorText"
-        android:textSize="@dimen/text_size_standart" />
+        android:textSize="@dimen/text_size_standart"
+        android:visibility="gone" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/colorGrayVeryLight" />
+
+    <LinearLayout
+        android:id="@+id/steam"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="16dp"
+            android:src="@drawable/steam" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawablePadding="@dimen/margin_medium"
+            android:gravity="center_vertical"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="@dimen/margin_medium"
+            android:text="Подключить Steam"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/text_size_standart" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/battlenet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="16dp"
+            android:src="@drawable/pngegg" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawablePadding="@dimen/margin_medium"
+            android:gravity="center_vertical"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="@dimen/margin_medium"
+            android:text="Подключить Battle.NET"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/text_size_standart" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/origin"
+        android:layout_width="wrap_content"
+        android:layout_height="58dp"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="16dp"
+            android:src="@drawable/origin" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawablePadding="@dimen/margin_medium"
+            android:gravity="center_vertical"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="@dimen/margin_medium"
+            android:text="Подключить Origin"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/text_size_standart" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/epic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="16dp"
+            android:src="@drawable/epic_games_icon_512x512_7qpmojcd" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawablePadding="@dimen/margin_medium"
+            android:gravity="center_vertical"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="@dimen/margin_medium"
+            android:text="Подключить Epic Games"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/text_size_standart" />
+    </LinearLayout>
 
     <TextView
         android:id="@+id/exit"

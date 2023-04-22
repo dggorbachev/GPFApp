@@ -18,6 +18,11 @@ android {
         versionCode 10045
         versionName "1.27"
     }
+
+    buildFeatures {
+        viewBinding true
+    }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -103,4 +108,7 @@ dependencies {
 
     //Analytics
     implementation 'com.yandex.android:mobmetricalib:3.16.1'
+
+    implementation 'de.hdodenhof:circleimageview:2.2.0'
+    implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.3'
 }

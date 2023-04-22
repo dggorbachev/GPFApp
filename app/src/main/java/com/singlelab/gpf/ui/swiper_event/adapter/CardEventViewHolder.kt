@@ -16,7 +16,9 @@ class CardEventViewHolder(inflater: LayoutInflater, parent: ViewGroup) :
     fun bind(event: Event, listener: OnCardEventListener) {
         itemView.title.text = event.tempName + ", " + event.tempAge
         itemView.descMan.text = event.tempDescription
-        itemView.record.text = kotlin.random.Random.nextInt(830, 19723).toString()
+        itemView.record2048.text = event.record2048.toString()
+        itemView.recordFlappyCats.text = event.recordFlappyCat.toString()
+        itemView.recordPianoTiles.text = event.recordPiano.toString()
         itemView.text_location.text = event.tempCity
 //        itemView.start_date.text =
 //            event.startTime.parse(Const.DATE_FORMAT_TIME_ZONE, Const.DATE_FORMAT_ON_CARD)
@@ -80,7 +82,12 @@ class CardEventViewHolder(inflater: LayoutInflater, parent: ViewGroup) :
                     }
                     if (s == "PUBG") {
                         Glide.with(itemView)
-                            .load(ContextCompat.getDrawable(itemView.context, R.drawable.pubg_10201))
+                            .load(
+                                ContextCompat.getDrawable(
+                                    itemView.context,
+                                    R.drawable.pubg_10201
+                                )
+                            )
                             .into(itemView.emoji_one)
                     }
                     if (s == "Diablo 4") {
@@ -117,7 +124,12 @@ class CardEventViewHolder(inflater: LayoutInflater, parent: ViewGroup) :
                     }
                     if (s == "PUBG") {
                         Glide.with(itemView)
-                            .load(ContextCompat.getDrawable(itemView.context, R.drawable.pubg_10201))
+                            .load(
+                                ContextCompat.getDrawable(
+                                    itemView.context,
+                                    R.drawable.pubg_10201
+                                )
+                            )
                             .into(itemView.emoji_two)
                     }
                     if (s == "Diablo 4") {
@@ -154,7 +166,12 @@ class CardEventViewHolder(inflater: LayoutInflater, parent: ViewGroup) :
                     }
                     if (s == "PUBG") {
                         Glide.with(itemView)
-                            .load(ContextCompat.getDrawable(itemView.context, R.drawable.pubg_10201))
+                            .load(
+                                ContextCompat.getDrawable(
+                                    itemView.context,
+                                    R.drawable.pubg_10201
+                                )
+                            )
                             .into(itemView.emoji_three)
                     }
                     if (s == "Diablo 4") {

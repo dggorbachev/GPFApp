@@ -34,7 +34,10 @@ class Event(
     var tempGames: List<String> = listOf("CS:GO"),
     var tempCity: String = "Moscow",
     var tempDescription: String = "CS:GO based player. Ранг Gold-Nova 1, 200 часов в игре, ищу дуо для апа Gold Nova 3!!!",
-    var tempAge: String = "21"
+    var tempAge: String = "21",
+    var record2048: Int = 0,
+    var recordFlappyCat: Int = 0,
+    var recordPiano: Int = 0
 ) {
 
     companion object {

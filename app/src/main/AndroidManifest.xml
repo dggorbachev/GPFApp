@@ -89,6 +89,23 @@
             </intent-filter>
         </service>
 
+        <activity
+            android:name=".interactive_games.flappy_cats.FlappyCatsHomeActivity"
+            android:screenOrientation="portrait">
+
+        </activity>
+        <activity
+            android:name=".interactive_games.flappy_cats.Game.StartGame"
+            android:screenOrientation="portrait" />
+        <activity android:name=".interactive_games.piano_tiles.view.PianoTilesActivity" />
+
+        <activity
+            android:name=".interactive_games.game_2048.PrimaryMenuActivity"
+            android:screenOrientation="portrait"
+            tools:ignore="IntentFilterExportedReceiver" />
+        <activity
+            android:name=".interactive_games.game_2048.PrimaryActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

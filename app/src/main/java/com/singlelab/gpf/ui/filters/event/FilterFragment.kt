@@ -29,6 +29,7 @@ import com.singlelab.gpf.model.city.City
 import com.singlelab.gpf.model.event.Distance
 import com.singlelab.gpf.model.event.EventType
 import com.singlelab.gpf.ui.cities.CitiesFragment
+import com.singlelab.gpf.ui.swiper_event.SwiperEventPresenter
 import com.singlelab.gpf.ui.view.range_picker.DateRangePicker
 import com.singlelab.gpf.util.toDateFormat
 import dagger.hilt.android.AndroidEntryPoint
@@ -174,11 +175,21 @@ class FilterFragment : BaseFragment(),
             }
         }
         checkbox_online.setListener(CompoundButton.OnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                SwiperEventPresenter.isCompetitive = -1
+            } else if (!checkbox_not_online.getChecked()){
+                SwiperEventPresenter.isCompetitive = 0
+            }
             presenter.filterEvent?.isOnlyOnline = isChecked
             showLocation(!isChecked)
         })
         checkbox_not_online.setListener(
             CompoundButton.OnCheckedChangeListener { _, isChecked ->
+                if (isChecked) {
+                    SwiperEventPresenter.isCompetitive = 1
+                } else if (!checkbox_online.getChecked()) {
+                    SwiperEventPresenter.isCompetitive = 0
+                }
                 presenter.filterEvent?.isExceptOnline = isChecked
                 if (isChecked) {
                     checkbox_online.setChecked(false)

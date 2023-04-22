@@ -24,7 +24,7 @@ class ActivityPuzzle : AppCompatActivity() {
     private var pressBackToast: Toast? = null
     private val IS_FULLSCREEN_PREF = "is_fullscreen_pref"
 
-    @SuppressLint("ClickableViewAccessibility")
+    @SuppressLint("ClickableViewAccessibility", "SuspiciousIndentation")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_2048)
