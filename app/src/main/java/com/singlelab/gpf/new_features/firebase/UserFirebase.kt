@@ -5,8 +5,12 @@ data class UserFirebase(
     val city: String,
     val description: String,
     val friends: List<String>,
+    val games: List<String>,
     val icon: String,
     val id: String,
     val login: String,
-    val name: String
+    val name: String,
+    val recordFlappyCats: Long,
+    val recordMathCubes: Long,
+    val recordPianoTiles: Long
 )

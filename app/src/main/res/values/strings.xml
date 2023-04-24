@@ -206,7 +206,8 @@
     <string name="search_city">Найти город</string>
 
     <!-- Filters -->
-    <string name="choose_types">Выбери интересующие тебя типы событий:</string>
+    <string name="choose_types">Выбери интересующие тебя игры:</string>
+    <string name="choose_games">Выберите свои игры:</string>
     <string name="apply">Применить</string>
     <string name="permission_location_denied">Доступ к местоположению запрещен</string>
     <string name="on_geolocation">Не удалось получить геопозицию</string>
@@ -217,7 +218,8 @@
     <string name="age_exact">Возраст: %1$d</string>
     <string name="empty_persons">Возможные новые участники не найдены. Попробуй изменить фильтры</string>
     <string name="selected_types">Выбрано:</string>
-    <string name="selected_all">Любое событие</string>
+    <string name="selected_all">Любая игра</string>
+    <string name="non_selected_all">Нет игры</string>
     <string name="selected_nothing">Ничего не выбрано</string>
     <string name="choose_date">В любой день</string>
     <string name="mtrl_picker_range_header_only_start_selected">%1$s - Выберите конечную дату</string>
@@ -226,6 +228,7 @@
     <string name="invalid_age">Некорректный возраст</string>
     <string name="empty_login">Не заполнен логин</string>
     <string name="empty_mail">Почта указана неверно</string>
+    <string name="empty_password">Пароль указан неверно (минимум 6 символов)</string>
     <string name="empty_name">Не заполнено имя</string>
     <string name="empty_description">Не заполнено описание профиля</string>
     <string name="empty_age">Не заполнен возраст</string>

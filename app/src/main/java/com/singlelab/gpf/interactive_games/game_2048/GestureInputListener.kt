@@ -4,10 +4,10 @@ import android.app.AlertDialog
 import android.view.MotionEvent
 import android.view.View
 import android.view.View.OnTouchListener
+import com.google.firebase.firestore.FirebaseFirestore
 import com.singlelab.gpf.R
-import com.singlelab.gpf.interactive_games.game_2048.PrimaryActivity
-import com.singlelab.gpf.interactive_games.game_2048.PrimaryView
 import com.singlelab.gpf.ui.my_profile.MyProfilePresenter
+import com.singlelab.net.exceptions.ApiException
 
 internal class GestureInputListener(private val mView: PrimaryView) : OnTouchListener {
     private var x = 0f
@@ -23,6 +23,32 @@ internal class GestureInputListener(private val mView: PrimaryView) : OnTouchLis
     private var mHasMoved = false
     override fun onTouch(view: View, event: MotionEvent): Boolean {
         MyProfilePresenter.profile!!.personRecord2048 = mView.mGame.mScore.toInt()
+        val docData = hashMapOf(
+            "id" to MyProfilePresenter.profile!!.personUid,
+            "login" to MyProfilePresenter.profile!!.login!!,
+            "name" to MyProfilePresenter.profile!!.name,
+            "description" to MyProfilePresenter.profile!!.description!!,
+            "icon" to MyProfilePresenter.profile!!.imageContentUid!!,
+            "city" to MyProfilePresenter.profile!!.cityName,
+            "age" to MyProfilePresenter.profile!!.age,
+            "recordMathCubes" to MyProfilePresenter.profile!!.personRecord2048,
+            "recordFlappyCats" to MyProfilePresenter.profile!!.personRecordCats,
+            "recordPianoTiles" to MyProfilePresenter.profile!!.personRecordPiano,
+            "games" to MyProfilePresenter.profile!!.games,
+            "friends" to MyProfilePresenter.profile!!.friends
+        )
+
+        try {
+            val db = FirebaseFirestore.getInstance()
+            db.collection("users").document(MyProfilePresenter.profile!!.personUid)
+                .set(docData).addOnSuccessListener {
+                }
+                .addOnFailureListener {
+                    throw ApiException("")
+                }
+        } catch (e: Exception) {
+        }
+
         when (event.action) {
             MotionEvent.ACTION_DOWN -> {
                 x = event.x
@@ -36,6 +62,7 @@ internal class GestureInputListener(private val mView: PrimaryView) : OnTouchLis
                 mHasMoved = false
                 return true
             }
+
             MotionEvent.ACTION_MOVE -> {
                 x = event.x
                 y = event.y
@@ -103,6 +130,7 @@ internal class GestureInputListener(private val mView: PrimaryView) : OnTouchLis
                 mPreviousY = y
                 return true
             }
+
             MotionEvent.ACTION_UP -> {
                 x = event.x
                 y = event.y

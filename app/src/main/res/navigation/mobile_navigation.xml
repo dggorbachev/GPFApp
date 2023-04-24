@@ -368,6 +368,7 @@
             app:nullable="true" />
     </fragment>
 
+
     <fragment
         android:id="@+id/filters_person"
         android:name="com.singlelab.gpf.ui.filters.person.FilterPersonFragment"
@@ -444,4 +445,22 @@
         android:id="@+id/recordsFragment"
         android:name="com.singlelab.gpf.ui.records.RecordsFragment"
         android:label="RecordsFragment" />
+
+    <action
+        android:id="@+id/moveToChooseGamesFragment"
+        app:destination="@id/chooseGamesFragment" />
+
+    <action
+        android:id="@+id/moveToMyProfileFragment"
+        app:destination="@id/my_profile" />
+
+    <fragment
+        android:id="@+id/chooseGamesFragment"
+        android:name="com.singlelab.gpf.new_features.choose_games.ChooseGamesFragment"
+        android:label="ChooseGamesFragment">
+        <argument
+            android:name="filterEvent"
+            app:nullable="true"
+            app:argType="com.singlelab.gpf.model.event.FilterEvent" />
+    </fragment>
 </navigation>

@@ -8,6 +8,7 @@ enum class ValidationError(val titleResId: Int) {
     EMPTY_CITY(R.string.choose_city),
     EMPTY_MAIL(R.string.empty_mail),
     EMPTY_LOGIN(R.string.empty_login),
+    EMPTY_PASSWORD(R.string.empty_password),
     EMPTY_NAME(R.string.empty_name),
     EMPTY_DESCRIPTION(R.string.empty_description),
     EMPTY_AGE(R.string.empty_age),

@@ -9,7 +9,7 @@ enum class EventType(
     val colorRes: Int = R.color.colorParty
 ) {
     PARTY(0, R.drawable.pngwing_com, R.string.dota_2, R.color.colorParty),
-    CULTURE(1, R.drawable.csgo, R.string.CSGO),
+    CSGO(1, R.drawable.csgo, R.string.CSGO),
     SPORT(2, R.drawable.overwatch, R.string.Overwatch),
     NATURE(3, R.drawable.valorant, R.string.Valorant),
     COMMUNICATION(4, R.drawable.pubg_10201, R.string.PUBG),

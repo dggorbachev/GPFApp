@@ -136,23 +136,26 @@ class RegistrationPresenter @Inject constructor(
     }
 
     fun saveUser(user: FirebaseUser?, profile: ProfileRequest) {
-        if (user == null)
-            throw ApiException("Image not Uploaded. Check Internet Connection or try again later")
-
-        val docData = hashMapOf(
-            "id" to user.uid,
-            "login" to profile.login!!,
-            "name" to profile.name!!,
-            "description" to profile.description!!,
-            "icon" to profile.image!!,
-            "city" to profile.city!!,
-            "age" to profile.age!!,
-            "friends" to arrayListOf<String>()
-        )
-
-        val db = FirebaseFirestore.getInstance()
-
         try {
+            if (user == null)
+                throw ApiException("User not found. Try again later!")
+
+            val docData = hashMapOf(
+                "id" to user.uid,
+                "login" to profile.login!!,
+                "name" to profile.name!!,
+                "description" to profile.description!!,
+                "icon" to profile.image!!,
+                "city" to profile.city!!,
+                "age" to profile.age!!,
+                "recordMathCubes" to 0,
+                "recordFlappyCats" to 0,
+                "recordPianoTiles" to 0,
+                "games" to arrayListOf<String>(),
+                "friends" to arrayListOf<String>()
+            )
+
+            val db = FirebaseFirestore.getInstance()
             db.collection("users").document(user.uid)
                 .set(docData)
                 .addOnSuccessListener {
@@ -225,6 +228,7 @@ class RegistrationPresenter @Inject constructor(
     fun validation(
         mail: String?,
         login: String?,
+        password: String?,
         city: String?,
         name: String?,
         age: String?,
@@ -234,6 +238,7 @@ class RegistrationPresenter @Inject constructor(
 
             !mail.isValidEmail() -> ValidationError.EMPTY_MAIL
             login.isNullOrEmpty() -> ValidationError.EMPTY_LOGIN
+            password.isNullOrEmpty() || password.length <= 6 -> ValidationError.EMPTY_PASSWORD
             city.isNullOrEmpty() -> ValidationError.EMPTY_CITY
             name.isNullOrEmpty() -> ValidationError.EMPTY_NAME
             description.isNullOrEmpty() -> ValidationError.EMPTY_DESCRIPTION

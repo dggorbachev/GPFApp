@@ -7,9 +7,11 @@ import android.content.Intent
 import android.graphics.*
 import android.view.*
 import android.view.GestureDetector.SimpleOnGestureListener
+import com.google.firebase.firestore.FirebaseFirestore
 import com.singlelab.gpf.R
 import com.singlelab.gpf.interactive_games.flappy_cats.FlappyCatsHomeActivity
 import com.singlelab.gpf.ui.my_profile.MyProfilePresenter
+import com.singlelab.net.exceptions.ApiException
 import java.util.*
 
 @SuppressLint("ViewConstructor")
@@ -694,6 +696,31 @@ class GameView internal constructor(
             } else {
                 if (!savescore) {
                     MyProfilePresenter.profile!!.personRecordCats = score
+                    val docData = hashMapOf(
+                        "id" to MyProfilePresenter.profile!!.personUid,
+                        "login" to MyProfilePresenter.profile!!.login!!,
+                        "name" to MyProfilePresenter.profile!!.name,
+                        "description" to MyProfilePresenter.profile!!.description!!,
+                        "icon" to MyProfilePresenter.profile!!.imageContentUid!!,
+                        "city" to MyProfilePresenter.profile!!.cityName,
+                        "age" to MyProfilePresenter.profile!!.age,
+                        "recordMathCubes" to MyProfilePresenter.profile!!.personRecord2048,
+                        "recordFlappyCats" to MyProfilePresenter.profile!!.personRecordCats,
+                        "recordPianoTiles" to MyProfilePresenter.profile!!.personRecordPiano,
+                        "games" to MyProfilePresenter.profile!!.games,
+                        "friends" to MyProfilePresenter.profile!!.friends
+                    )
+
+                    try {
+                        val db = FirebaseFirestore.getInstance()
+                        db.collection("users").document(MyProfilePresenter.profile!!.personUid)
+                            .set(docData).addOnSuccessListener {
+                            }
+                            .addOnFailureListener {
+                                throw ApiException("")
+                            }
+                    } catch (e: Exception) {
+                    }
                 }
                 drawBackground(3)
                 overPaint.getTextBounds("Score: $score", 0, "Score: $score".length, rect)

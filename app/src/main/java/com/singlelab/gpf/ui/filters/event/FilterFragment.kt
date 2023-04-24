@@ -8,6 +8,7 @@ import android.location.LocationManager
 import android.os.Bundle
 import android.os.Parcelable
 import android.provider.Settings
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -177,7 +178,7 @@ class FilterFragment : BaseFragment(),
         checkbox_online.setListener(CompoundButton.OnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
                 SwiperEventPresenter.isCompetitive = -1
-            } else if (!checkbox_not_online.getChecked()){
+            } else if (!checkbox_not_online.getChecked()) {
                 SwiperEventPresenter.isCompetitive = 0
             }
             presenter.filterEvent?.isOnlyOnline = isChecked

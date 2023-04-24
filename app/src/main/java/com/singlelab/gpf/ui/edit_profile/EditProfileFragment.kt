@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import androidx.fragment.app.FragmentResultListener
 import androidx.navigation.fragment.findNavController
+import com.google.firebase.firestore.FirebaseFirestore
 import com.singlelab.gpf.R
 import com.singlelab.gpf.base.BaseFragment
 import com.singlelab.gpf.model.Const
@@ -19,8 +20,16 @@ import com.singlelab.gpf.ui.cities.CitiesFragment
 import com.singlelab.gpf.ui.my_profile.MyProfilePresenter
 import com.singlelab.gpf.ui.view.input.InputView
 import com.singlelab.gpf.ui.view.input.OnInvalidStringsListener
+import com.singlelab.net.exceptions.ApiException
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.fragment_edit_profile.*
+import kotlinx.android.synthetic.main.fragment_edit_profile.age
+import kotlinx.android.synthetic.main.fragment_edit_profile.button_back
+import kotlinx.android.synthetic.main.fragment_edit_profile.button_update
+import kotlinx.android.synthetic.main.fragment_edit_profile.city
+import kotlinx.android.synthetic.main.fragment_edit_profile.description
+import kotlinx.android.synthetic.main.fragment_edit_profile.login
+import kotlinx.android.synthetic.main.fragment_edit_profile.name
+import kotlinx.android.synthetic.main.fragment_edit_profile.text_city
 import moxy.presenter.InjectPresenter
 import moxy.presenter.ProvidePresenter
 import javax.inject.Inject
@@ -228,16 +237,38 @@ class EditProfileFragment : BaseFragment(), EditProfileView, OnInvalidStringsLis
         }
         button_update.setOnClickListener {
             button_update.isEnabled = false
+
             MyProfilePresenter.profile!!.login = login.getText()
             MyProfilePresenter.profile!!.name = name.getText()
-            try {
-                MyProfilePresenter.profile!!.age =
-                    age.getText().toInt()
-            } catch (e: java.lang.Exception) {
-            }
-
+            MyProfilePresenter.profile!!.age =
+                age.getText().toInt()
+            MyProfilePresenter.profile!!.cityName = city.getText()
             MyProfilePresenter.profile!!.description = description.getText()
+            val docData = hashMapOf(
+                "id" to MyProfilePresenter.profile!!.personUid,
+                "login" to MyProfilePresenter.profile!!.login!!,
+                "name" to MyProfilePresenter.profile!!.name,
+                "description" to MyProfilePresenter.profile!!.description!!,
+                "icon" to MyProfilePresenter.profile!!.imageContentUid!!,
+                "city" to MyProfilePresenter.profile!!.cityName,
+                "age" to MyProfilePresenter.profile!!.age,
+                "recordMathCubes" to MyProfilePresenter.profile!!.personRecord2048,
+                "recordFlappyCats" to MyProfilePresenter.profile!!.personRecordCats,
+                "recordPianoTiles" to MyProfilePresenter.profile!!.personRecordPiano,
+                "games" to MyProfilePresenter.profile!!.games,
+                "friends" to MyProfilePresenter.profile!!.friends
+            )
 
+            try {
+                val db = FirebaseFirestore.getInstance()
+                db.collection("users").document(MyProfilePresenter.profile!!.personUid)
+                    .set(docData).addOnSuccessListener {
+                    }
+                    .addOnFailureListener {
+                        throw ApiException("")
+                    }
+            } catch (e: Exception) {
+            }
             presenter.updateProfile()
         }
         parentFragmentManager.setFragmentResultListener(

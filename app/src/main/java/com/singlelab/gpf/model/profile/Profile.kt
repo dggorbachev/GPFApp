@@ -1,6 +1,7 @@
 package com.singlelab.gpf.model.profile
 
 import android.os.Parcelable
+import com.singlelab.gpf.new_features.games_model.GamePerson
 import com.singlelab.net.model.person.ProfileResponse
 import kotlinx.android.parcel.Parcelize
 
@@ -19,7 +20,8 @@ class Profile(
     var personRecord2048: Int = 0,
     var personRecordCats: Int = 0,
     var personRecordPiano: Int = 0,
-    var password: String? = null
+    var password: String? = null,
+    var games: MutableList<GamePerson>? = null
 ) : Parcelable {
     companion object {
         fun fromResponse(profileResponse: ProfileResponse?): Profile? {

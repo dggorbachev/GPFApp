@@ -84,8 +84,33 @@
         android:background="@color/colorGrayVeryLight" />
 
     <LinearLayout
+        android:id="@+id/games"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="16dp"
+            android:src="@drawable/ic_emoji_book" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawablePadding="@dimen/margin_medium"
+            android:gravity="center_vertical"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="@dimen/margin_medium"
+            android:text="Выбрать игры"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/text_size_standart" />
+    </LinearLayout>
+
+    <LinearLayout
         android:id="@+id/steam"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
@@ -111,6 +136,7 @@
     <LinearLayout
         android:id="@+id/battlenet"
         android:layout_width="wrap_content"
+        android:visibility="gone"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
@@ -136,6 +162,7 @@
     <LinearLayout
         android:id="@+id/origin"
         android:layout_width="wrap_content"
+        android:visibility="gone"
         android:layout_height="58dp"
         android:orientation="horizontal">
 
@@ -162,6 +189,7 @@
     <LinearLayout
         android:id="@+id/epic"
         android:layout_width="wrap_content"
+        android:visibility="gone"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 

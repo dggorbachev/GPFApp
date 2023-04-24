@@ -376,6 +376,7 @@ class RegistrationFragment : BaseFragment(), RegistrationView, OnActivityResultL
         return presenter.validation(
             layout_mail.getText(),
             layout_login1.getText(),
+            layout_password.text.toString(),
             text_city.getText(),
             layout_name.getText(),
             layout_age.getText(),

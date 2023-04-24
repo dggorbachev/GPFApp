@@ -27,6 +27,7 @@ import com.singlelab.gpf.model.profile.Profile
 import com.singlelab.gpf.model.view.PagerTab
 import com.singlelab.gpf.new_features.firebase.UserFirebase
 import com.singlelab.gpf.new_features.firebase.mapToObject
+import com.singlelab.gpf.new_features.games_model.GamePerson
 import com.singlelab.gpf.ui.view.pager.FriendsView
 import com.singlelab.gpf.ui.view.pager.PagerAdapter
 import com.singlelab.gpf.ui.view.pager.PagerTabView
@@ -86,10 +87,8 @@ class MyProfileFragment : BaseFragment(), MyProfileView, OnActivityResultListene
 
     private lateinit var auth: FirebaseAuth
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Log.d("in profile", "in pr")
         auth = FirebaseAuth.getInstance()
 
         if (auth.currentUser == null) {
@@ -99,9 +98,8 @@ class MyProfileFragment : BaseFragment(), MyProfileView, OnActivityResultListene
         } else {
             if (MyProfilePresenter.profile == null || MyProfilePresenter.profile!!.login == null) {
                 showLoading(true, true)
-
                 reload()
-            }else{
+            } else {
                 presenter.loadProfile(MyProfilePresenter.profile == null)
             }
         }
@@ -145,14 +143,19 @@ class MyProfileFragment : BaseFragment(), MyProfileView, OnActivityResultListene
         }
     }
 
-    private fun fail(){
+    private fun fail() {
         Toast.makeText(
             context,
             "Failed to load data. Try again later!.",
             Toast.LENGTH_SHORT
         ).show()
     }
+
     private fun launchProfile(user: UserFirebase) {
+        MyProfilePresenter.profile!!.games = mutableListOf()
+        user.games.forEach {
+            MyProfilePresenter.profile!!.games!!.add(GamePerson.valueOf(it))
+        }
         MyProfilePresenter.profile!!.apply {
             login = user.login
             name = user.name
@@ -161,9 +164,9 @@ class MyProfileFragment : BaseFragment(), MyProfileView, OnActivityResultListene
             personUid = user.id
             age = user.age.toInt()
             imageContentUid = user.icon
-            personRecord2048 = 0
-            personRecordCats = 0
-            personRecordPiano = 0
+            personRecord2048 = user.recordMathCubes.toInt()
+            personRecordCats = user.recordFlappyCats.toInt()
+            personRecordPiano = user.recordPianoTiles.toInt()
         }
         presenter.loadProfile(MyProfilePresenter.profile == null)
     }
