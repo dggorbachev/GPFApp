@@ -13,23 +13,39 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.FragmentResultListener
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DefaultItemAnimator
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.singlelab.gpf.R
 import com.singlelab.gpf.base.BaseFragment
 import com.singlelab.gpf.base.OnlyForAuthFragments
 import com.singlelab.gpf.model.event.Event
 import com.singlelab.gpf.model.event.FilterEvent
 import com.singlelab.gpf.model.view.ToastType
+import com.singlelab.gpf.new_features.firebase.UserFirebase
+import com.singlelab.gpf.new_features.firebase.mapToObject
+import com.singlelab.gpf.new_features.games_model.GamePerson
 import com.singlelab.gpf.ui.filters.event.FilterFragment
+import com.singlelab.gpf.ui.my_profile.MyProfilePresenter
 import com.singlelab.gpf.ui.swiper_event.adapter.CardStackEventAdapter
 import com.singlelab.gpf.ui.swiper_event.adapter.OnCardEventListener
 import com.singlelab.gpf.ui.view.dialog.OnDialogViewClickListener
-import com.yuyakaido.android.cardstackview.*
+import com.yuyakaido.android.cardstackview.CardStackLayoutManager
+import com.yuyakaido.android.cardstackview.CardStackListener
+import com.yuyakaido.android.cardstackview.Direction
+import com.yuyakaido.android.cardstackview.StackFrom
+import com.yuyakaido.android.cardstackview.SwipeableMethod
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.fragment_swiper_event.*
-import kotlinx.android.synthetic.main.view_template_card.*
+import kotlinx.android.synthetic.main.fragment_swiper_event.button_filter
+import kotlinx.android.synthetic.main.fragment_swiper_event.card_empty_events
+import kotlinx.android.synthetic.main.fragment_swiper_event.card_stack_view
+import kotlinx.android.synthetic.main.fragment_swiper_event.icon_empty_events
+import kotlinx.android.synthetic.main.fragment_swiper_event.icon_empty_events_full_filter
+import kotlinx.android.synthetic.main.fragment_swiper_event.info_dialog
+import kotlinx.android.synthetic.main.fragment_swiper_event.text_empty_swipes
+import kotlinx.android.synthetic.main.view_template_card.view_template_card
 import moxy.presenter.InjectPresenter
 import moxy.presenter.ProvidePresenter
-import java.util.*
+import java.util.Locale
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -55,8 +71,54 @@ class SwiperEventFragment : BaseFragment(), SwiperEventView, OnlyForAuthFragment
         return inflater.inflate(R.layout.fragment_swiper_event, container, false)
     }
 
+    private lateinit var auth: FirebaseAuth
+
+    private fun reload() {
+        auth.currentUser!!.reload().addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                val db = FirebaseFirestore.getInstance()
+                db.collection("users")
+                    .get()
+                    .addOnSuccessListener { result ->
+                        for (document in result) {
+                            if (document.id == auth.currentUser!!.uid) {
+                                showLoading(false, true)
+                                launchProfile(mapToObject(document.data, UserFirebase::class))
+                            }
+                        }
+                    }
+                    .addOnFailureListener { exception ->
+                    }
+            } else {
+            }
+        }
+    }
+
+    private fun launchProfile(user: UserFirebase) {
+        MyProfilePresenter.profile!!.games = mutableListOf()
+        user.games.forEach {
+            MyProfilePresenter.profile!!.games!!.add(GamePerson.valueOf(it))
+        }
+        MyProfilePresenter.profile!!.apply {
+            login = user.login
+            name = user.name
+            description = user.description
+            cityName = user.city
+            personUid = user.id
+            age = user.age.toInt()
+            imageContentUid = user.icon
+            personRecord2048 = user.recordMathCubes.toInt()
+            personRecordCats = user.recordFlappyCats.toInt()
+            personRecordPiano = user.recordPianoTiles.toInt()
+        }
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        auth = FirebaseAuth.getInstance()
+        if (MyProfilePresenter.profile!!.personUid == "asd") {
+            reload()
+        }
         setListeners()
         initCardStack()
     }
@@ -114,9 +176,11 @@ class SwiperEventFragment : BaseFragment(), SwiperEventView, OnlyForAuthFragment
             Direction.Right -> {
                 presenter.acceptEvent()
             }
+
             Direction.Left -> {
                 presenter.rejectEvent()
             }
+
             else -> {
             }
         }
