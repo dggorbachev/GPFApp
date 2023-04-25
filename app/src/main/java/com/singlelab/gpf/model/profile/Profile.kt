@@ -16,7 +16,7 @@ class Profile(
     var age: Int,
     var imageContentUid: String? = null,
     var isFriend: Boolean = false,
-    val friends: List<Person> = arrayListOf(),
+    var friends: List<String> = arrayListOf(),
     var personRecord2048: Int = 0,
     var personRecordCats: Int = 0,
     var personRecordPiano: Int = 0,
@@ -36,9 +36,7 @@ class Profile(
                     profileResponse.age,
                     profileResponse.imageContentUid,
                     profileResponse.isFriend,
-                    profileResponse.friends.mapNotNull {
-                        Person.fromResponse(it)
-                    }
+                    profileResponse.friends.map { it.toString() }
                 )
             } else {
                 null

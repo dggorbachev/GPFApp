@@ -3,7 +3,6 @@ package com.singlelab.gpf.ui.my_profile
 import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -161,6 +160,7 @@ class MyProfileFragment : BaseFragment(), MyProfileView, OnActivityResultListene
             name = user.name
             description = user.description
             cityName = user.city
+            friends = user.friends
             personUid = user.id
             age = user.age.toInt()
             imageContentUid = user.icon

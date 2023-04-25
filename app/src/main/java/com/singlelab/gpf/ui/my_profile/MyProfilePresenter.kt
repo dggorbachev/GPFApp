@@ -2,6 +2,7 @@ package com.singlelab.gpf.ui.my_profile
 
 import android.graphics.Bitmap
 import android.util.Log
+import com.google.firebase.firestore.FirebaseFirestore
 import com.singlelab.gpf.base.BaseInteractor
 import com.singlelab.gpf.base.BasePresenter
 import com.singlelab.gpf.model.Const
@@ -9,6 +10,9 @@ import com.singlelab.gpf.model.profile.Badge
 import com.singlelab.gpf.model.profile.Person
 import com.singlelab.gpf.model.profile.PersonNotifications
 import com.singlelab.gpf.model.profile.Profile
+import com.singlelab.gpf.new_features.firebase.UserFirebase
+import com.singlelab.gpf.new_features.firebase.mapToObject
+import com.singlelab.gpf.new_features.games_model.GamePerson
 import com.singlelab.gpf.pref.Preferences
 import com.singlelab.gpf.ui.my_profile.interactor.MyProfileInteractor
 import com.singlelab.gpf.util.resize
@@ -189,8 +193,45 @@ class MyProfilePresenter @Inject constructor(
 //                        interactor.saveFriends(it)
 //                    }
                     runOnMainThread {
-                        friends = myFriends
-                        this.viewState.onLoadedFriends(myFriends)
+//                        friends = myFriends
+                        val db = FirebaseFirestore.getInstance()
+
+                        // get user from cloudstore
+                        db.collection("users")
+                            .get()
+                            .addOnSuccessListener { result ->
+                                val frinds = mutableListOf<Person>()
+                                for (document in result) {
+                                    if (profile!!.friends.any {
+                                            it == document.id
+                                        }) {
+
+                                        val fb = mapToObject(
+                                            document.data,
+                                            UserFirebase::class
+                                        )
+                                        frinds.add(
+                                            Person(
+                                                personUid = fb.id,
+                                                login = fb.login,
+                                                name = fb.name,
+                                                description = fb.description,
+                                                cityName = fb.city,
+                                                age = fb.age.toInt(),
+                                                imageContentUid = fb.icon,
+                                                isFriend = true
+                                            )
+                                        )
+                                    }
+                                }
+                                Log.d("asd",profile!!.friends.toString())
+                                Log.d("asd",frinds.toString())
+                                this.viewState.onLoadedFriends(frinds)
+                            }
+                            .addOnFailureListener { exception ->
+
+                            }
+
                     }
                 } catch (e: ApiException) {
                     runOnMainThread {

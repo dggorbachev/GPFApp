@@ -3,6 +3,7 @@ package com.singlelab.gpf.ui.swiper_event
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -95,6 +96,8 @@ class SwiperEventFragment : BaseFragment(), SwiperEventView, OnlyForAuthFragment
     }
 
     private fun launchProfile(user: UserFirebase) {
+        Log.d("friendsme", user.friends.toString())
+        Log.d("friendsme", auth.currentUser!!.uid)
         MyProfilePresenter.profile!!.games = mutableListOf()
         user.games.forEach {
             MyProfilePresenter.profile!!.games!!.add(GamePerson.valueOf(it))
@@ -103,6 +106,7 @@ class SwiperEventFragment : BaseFragment(), SwiperEventView, OnlyForAuthFragment
             login = user.login
             name = user.name
             description = user.description
+            friends = user.friends
             cityName = user.city
             personUid = user.id
             age = user.age.toInt()

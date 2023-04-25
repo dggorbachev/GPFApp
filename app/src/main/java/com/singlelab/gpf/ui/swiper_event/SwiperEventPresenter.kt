@@ -1,6 +1,5 @@
 package com.singlelab.gpf.ui.swiper_event
 
-import android.util.Log
 import com.google.firebase.firestore.FirebaseFirestore
 import com.singlelab.gpf.base.BaseInteractor
 import com.singlelab.gpf.base.BasePresenter
@@ -96,11 +95,13 @@ class SwiperEventPresenter @Inject constructor(
                             events.add(
                                 Event(
                                     tempImage = user.icon,
+                                    tempLogin = user.login,
                                     tempName = user.name,
                                     tempGames = newGames,
                                     tempCity = user.city,
                                     tempDescription = user.description,
                                     tempAge = user.age.toString(),
+                                    tempId = user.id,
                                     record2048 = user.recordMathCubes.toInt(),
                                     recordFlappyCat = user.recordFlappyCats.toInt(),
                                     recordPiano = user.recordPianoTiles.toInt()

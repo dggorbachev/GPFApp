@@ -30,11 +30,13 @@ class Event(
     val isOnline: Boolean=false,
     val promoRequestUid: String? = null,
     var tempImage: String = "https://avatars.akamai.steamstatic.com/815bbc83c18710991afed30a18daa3314322f8d0_full.jpg",
+    var tempLogin: String = "@Misha",
     var tempName: String = "Миша",
     var tempGames: List<String> = listOf("CS:GO"),
     var tempCity: String = "Moscow",
     var tempDescription: String = "CS:GO based player. Ранг Gold-Nova 1, 200 часов в игре, ищу дуо для апа Gold Nova 3!!!",
     var tempAge: String = "21",
+    var tempId: String = "",
     var record2048: Int = 0,
     var recordFlappyCat: Int = 0,
     var recordPiano: Int = 0

@@ -82,6 +82,7 @@ class AuthFragment : BaseFragment(), AuthView, OnBackPressListener {
 //        layout_code.setMaxLength(6)
 //        layout_code.setInputType(InputType.TYPE_CLASS_NUMBER)
     }
+
     private fun showError(str: String) {
         showSnackbar(
             str,
@@ -200,6 +201,7 @@ class AuthFragment : BaseFragment(), AuthView, OnBackPressListener {
             description = user.description
             cityName = user.city
             personUid = user.id
+            friends = user.friends
             age = user.age.toInt()
             imageContentUid = user.icon
             personRecord2048 = 0
