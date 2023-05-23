@@ -22,7 +22,7 @@ class Profile(
     var personRecordCats: Int = 0,
     var personRecordPiano: Int = 0,
     var password: String? = null,
-    var games: MutableList<GamePerson>? = null
+    var games: MutableList<GamePerson>? = mutableListOf(GamePerson.DOTA)
 ) : Parcelable {
     companion object {
         fun fromResponse(profileResponse: ProfileResponse?): Profile? {

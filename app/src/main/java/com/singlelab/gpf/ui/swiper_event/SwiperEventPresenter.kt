@@ -1,6 +1,7 @@
 package com.singlelab.gpf.ui.swiper_event
 
 import android.util.Log
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.singlelab.gpf.base.BaseInteractor
 import com.singlelab.gpf.base.BasePresenter
@@ -189,114 +190,44 @@ class SwiperEventPresenter @Inject constructor(
     fun acceptEvent() {
         invokeSuspend {
 
-            if (!MyProfilePresenter.profile!!.likeTo.contains(this.event!!.tempId)) {
-                MyProfilePresenter.profile!!.likeTo.add(this.event!!.tempId)
-                if (MyProfilePresenter.profile!!.login != null) {
-                    val docData = hashMapOf(
-                        "id" to MyProfilePresenter.profile!!.personUid,
-                        "login" to MyProfilePresenter.profile!!.login!!,
-                        "name" to MyProfilePresenter.profile!!.name,
-                        "description" to MyProfilePresenter.profile!!.description!!,
-                        "icon" to MyProfilePresenter.profile!!.imageContentUid!!,
-                        "city" to MyProfilePresenter.profile!!.cityName,
-                        "age" to MyProfilePresenter.profile!!.age,
-                        "recordMathCubes" to MyProfilePresenter.profile!!.personRecord2048,
-                        "recordFlappyCats" to MyProfilePresenter.profile!!.personRecordCats,
-                        "recordPianoTiles" to MyProfilePresenter.profile!!.personRecordPiano,
-                        "games" to MyProfilePresenter.profile!!.games,
-                        "friends" to MyProfilePresenter.profile!!.friends,
-                        "likeTo" to MyProfilePresenter.profile!!.likeTo
-                    )
-
-                    try {
+            if (MyProfilePresenter.profile!!.login == null) {
+                val auth = FirebaseAuth.getInstance()
+                auth.currentUser!!.reload().addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
                         val db = FirebaseFirestore.getInstance()
-                        db.collection("users").document(MyProfilePresenter.profile!!.personUid)
-                            .set(docData).addOnSuccessListener {
-                            }
-                            .addOnFailureListener {
-                                throw ApiException("")
-                            }
-                    } catch (e: Exception) {
-                    }
-                }
-            }
 
-            val db = FirebaseFirestore.getInstance()
-            db.collection("users")
-                .get()
-                .addOnSuccessListener { result ->
-                    for (document in result) {
-                        val user = mapToObject(document.data, UserFirebase::class)
-                        if (user.id != MyProfilePresenter.profile!!.personUid) {
-                            if (user.likeTo.contains(MyProfilePresenter.profile!!.personUid) && MyProfilePresenter.profile!!.likeTo.contains(
-                                    user.id
-                                )
-                            ) {
-
-                                MyProfilePresenter.profile!!.friends.add(user.id)
-                                MyProfilePresenter.profile!!.likeTo.remove(user.id)
-
-                                val docData = hashMapOf(
-                                    "id" to user.id,
-                                    "login" to user.login,
-                                    "name" to user.name,
-                                    "description" to user.description,
-                                    "icon" to user.icon,
-                                    "city" to user.city,
-                                    "age" to user.age,
-                                    "recordMathCubes" to user.recordMathCubes,
-                                    "recordFlappyCats" to user.recordFlappyCats,
-                                    "recordPianoTiles" to user.recordPianoTiles,
-                                    "games" to user.games,
-                                    "friends" to user.friends,
-                                    "likeTo" to user.likeTo
-                                )
-
-                                try {
-                                    db.collection("users").document(user.id)
-                                        .set(docData).addOnSuccessListener {
-                                        }
-                                        .addOnFailureListener {
-                                            throw ApiException("")
-                                        }
-                                } catch (e: Exception) {
-                                }
-
-                                if (MyProfilePresenter.profile!!.login != null) {
-                                    val docData = hashMapOf(
-                                        "id" to MyProfilePresenter.profile!!.personUid,
-                                        "login" to MyProfilePresenter.profile!!.login!!,
-                                        "name" to MyProfilePresenter.profile!!.name,
-                                        "description" to MyProfilePresenter.profile!!.description!!,
-                                        "icon" to MyProfilePresenter.profile!!.imageContentUid!!,
-                                        "city" to MyProfilePresenter.profile!!.cityName,
-                                        "age" to MyProfilePresenter.profile!!.age,
-                                        "recordMathCubes" to MyProfilePresenter.profile!!.personRecord2048,
-                                        "recordFlappyCats" to MyProfilePresenter.profile!!.personRecordCats,
-                                        "recordPianoTiles" to MyProfilePresenter.profile!!.personRecordPiano,
-                                        "games" to MyProfilePresenter.profile!!.games,
-                                        "friends" to MyProfilePresenter.profile!!.friends,
-                                        "likeTo" to MyProfilePresenter.profile!!.likeTo
-                                    )
-
-                                    try {
-                                        db.collection("users")
-                                            .document(MyProfilePresenter.profile!!.personUid)
-                                            .set(docData).addOnSuccessListener {
-                                            }
-                                            .addOnFailureListener {
-                                                throw ApiException("")
-                                            }
-                                    } catch (e: Exception) {
+                        // get user from cloudstore
+                        db.collection("users")
+                            .get()
+                            .addOnSuccessListener { result ->
+                                var found = false
+                                for (document in result) {
+                                    if (document.id == auth.currentUser!!.uid) {
+                                        launchProfile(
+                                            mapToObject(
+                                                document.data,
+                                                UserFirebase::class
+                                            )
+                                        )
+                                        ll1()
+                                        found = true
                                     }
                                 }
-
+                                // if no id on cloudstore -> error
+                                if (!found) {
+                                    fail()
+                                }
                             }
-                        }
+                            .addOnFailureListener { exception ->
+                                fail()
+                            }
+                    } else {
+                        fail()
                     }
                 }
-
-
+            } else {
+                ll1()
+            }
 
             delay(500)
             runOnMainThread {
@@ -328,6 +259,137 @@ class SwiperEventPresenter @Inject constructor(
 //                }
 //            }
 //        }
+    }
+
+    private fun ll1() {
+        if (!MyProfilePresenter.profile!!.likeTo.contains(this.event!!.tempId)) {
+            MyProfilePresenter.profile!!.likeTo.add(this.event!!.tempId)
+            if (MyProfilePresenter.profile!!.login != null) {
+                Log.d("games123", MyProfilePresenter.profile!!.games.toString())
+                val docData = hashMapOf(
+                    "id" to MyProfilePresenter.profile!!.personUid,
+                    "login" to MyProfilePresenter.profile!!.login!!,
+                    "name" to MyProfilePresenter.profile!!.name,
+                    "description" to MyProfilePresenter.profile!!.description!!,
+                    "icon" to MyProfilePresenter.profile!!.imageContentUid!!,
+                    "city" to MyProfilePresenter.profile!!.cityName,
+                    "age" to MyProfilePresenter.profile!!.age,
+                    "recordMathCubes" to MyProfilePresenter.profile!!.personRecord2048,
+                    "recordFlappyCats" to MyProfilePresenter.profile!!.personRecordCats,
+                    "recordPianoTiles" to MyProfilePresenter.profile!!.personRecordPiano,
+                    "games" to MyProfilePresenter.profile!!.games,
+                    "friends" to MyProfilePresenter.profile!!.friends,
+                    "likeTo" to MyProfilePresenter.profile!!.likeTo
+                )
+
+                try {
+                    val db = FirebaseFirestore.getInstance()
+                    db.collection("users").document(MyProfilePresenter.profile!!.personUid)
+                        .set(docData).addOnSuccessListener {
+                        }
+                        .addOnFailureListener {
+                            throw ApiException("")
+                        }
+                } catch (e: Exception) {
+                }
+            }
+        }
+
+        val db = FirebaseFirestore.getInstance()
+        db.collection("users")
+            .get()
+            .addOnSuccessListener { result ->
+                for (document in result) {
+                    val user = mapToObject(document.data, UserFirebase::class)
+                    if (user.id != MyProfilePresenter.profile!!.personUid) {
+                        if (user.likeTo.contains(MyProfilePresenter.profile!!.personUid) && MyProfilePresenter.profile!!.likeTo.contains(
+                                user.id
+                            )
+                        ) {
+
+                            MyProfilePresenter.profile!!.friends.add(user.id)
+                            MyProfilePresenter.profile!!.likeTo.remove(user.id)
+
+                            val docData = hashMapOf(
+                                "id" to user.id,
+                                "login" to user.login,
+                                "name" to user.name,
+                                "description" to user.description,
+                                "icon" to user.icon,
+                                "city" to user.city,
+                                "age" to user.age,
+                                "recordMathCubes" to user.recordMathCubes,
+                                "recordFlappyCats" to user.recordFlappyCats,
+                                "recordPianoTiles" to user.recordPianoTiles,
+                                "games" to user.games,
+                                "friends" to user.friends,
+                                "likeTo" to user.likeTo
+                            )
+
+                            try {
+                                db.collection("users").document(user.id)
+                                    .set(docData).addOnSuccessListener {
+                                    }
+                                    .addOnFailureListener {
+                                        throw ApiException("")
+                                    }
+                            } catch (e: Exception) {
+                            }
+
+                            if (MyProfilePresenter.profile!!.login != null) {
+                                val docData = hashMapOf(
+                                    "id" to MyProfilePresenter.profile!!.personUid,
+                                    "login" to MyProfilePresenter.profile!!.login!!,
+                                    "name" to MyProfilePresenter.profile!!.name,
+                                    "description" to MyProfilePresenter.profile!!.description!!,
+                                    "icon" to MyProfilePresenter.profile!!.imageContentUid!!,
+                                    "city" to MyProfilePresenter.profile!!.cityName,
+                                    "age" to MyProfilePresenter.profile!!.age,
+                                    "recordMathCubes" to MyProfilePresenter.profile!!.personRecord2048,
+                                    "recordFlappyCats" to MyProfilePresenter.profile!!.personRecordCats,
+                                    "recordPianoTiles" to MyProfilePresenter.profile!!.personRecordPiano,
+                                    "games" to MyProfilePresenter.profile!!.games,
+                                    "friends" to MyProfilePresenter.profile!!.friends,
+                                    "likeTo" to MyProfilePresenter.profile!!.likeTo
+                                )
+
+                                try {
+                                    db.collection("users")
+                                        .document(MyProfilePresenter.profile!!.personUid)
+                                        .set(docData).addOnSuccessListener {
+                                        }
+                                        .addOnFailureListener {
+                                            throw ApiException("")
+                                        }
+                                } catch (e: Exception) {
+                                }
+                            }
+
+                        }
+                    }
+                }
+            }
+    }
+
+    private fun launchProfile(user: UserFirebase) {
+        MyProfilePresenter.profile!!.games = mutableListOf()
+        user.games.forEach {
+            MyProfilePresenter.profile!!.games!!.add(GamePerson.valueOf(it))
+        }
+        MyProfilePresenter.profile!!.apply {
+            login = user.login
+            name = user.name
+            description = user.description
+            cityName = user.city
+            friends = user.friends as MutableList<String>
+            personUid = user.id
+            likeTo = user.likeTo as MutableList<String>
+            age = user.age.toInt()
+            imageContentUid = user.icon
+            personRecord2048 = user.recordMathCubes.toInt()
+            personRecordCats = user.recordFlappyCats.toInt()
+            personRecordPiano = user.recordPianoTiles.toInt()
+        }
     }
 
     fun rejectEvent() {

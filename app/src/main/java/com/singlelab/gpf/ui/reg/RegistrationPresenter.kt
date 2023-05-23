@@ -14,6 +14,7 @@ import com.singlelab.gpf.base.BaseInteractor
 import com.singlelab.gpf.base.BasePresenter
 import com.singlelab.gpf.model.city.City
 import com.singlelab.gpf.model.view.ValidationError
+import com.singlelab.gpf.new_features.games_model.GamePerson
 import com.singlelab.gpf.new_features.imgur.Upload
 import com.singlelab.gpf.pref.Preferences
 import com.singlelab.gpf.ui.my_profile.MyProfilePresenter
@@ -170,6 +171,7 @@ class RegistrationPresenter @Inject constructor(
                             personUid = user.uid
                             age = profile.age!!
                             imageContentUid = profile.image!!
+                            games = mutableListOf(GamePerson.DOTA)
                             personRecord2048 = 0
                             personRecordCats = 0
                             personRecordPiano = 0

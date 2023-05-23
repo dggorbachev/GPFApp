@@ -162,6 +162,7 @@ class MyProfileFragment : BaseFragment(), MyProfileView, OnActivityResultListene
             cityName = user.city
             friends = user.friends as MutableList<String>
             personUid = user.id
+            likeTo = user.likeTo as MutableList<String>
             age = user.age.toInt()
             imageContentUid = user.icon
             personRecord2048 = user.recordMathCubes.toInt()

@@ -256,7 +256,8 @@ class EditProfileFragment : BaseFragment(), EditProfileView, OnInvalidStringsLis
                 "recordFlappyCats" to MyProfilePresenter.profile!!.personRecordCats,
                 "recordPianoTiles" to MyProfilePresenter.profile!!.personRecordPiano,
                 "games" to MyProfilePresenter.profile!!.games,
-                "friends" to MyProfilePresenter.profile!!.friends
+                "friends" to MyProfilePresenter.profile!!.friends,
+                        "likeTo" to MyProfilePresenter.profile!!.likeTo
             )
 
             try {
