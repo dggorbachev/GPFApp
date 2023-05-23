@@ -16,7 +16,8 @@ class Profile(
     var age: Int,
     var imageContentUid: String? = null,
     var isFriend: Boolean = false,
-    var friends: List<String> = arrayListOf(),
+    var friends: MutableList<String> = arrayListOf(),
+    var likeTo: MutableList<String> = mutableListOf<String>(),
     var personRecord2048: Int = 0,
     var personRecordCats: Int = 0,
     var personRecordPiano: Int = 0,
@@ -36,7 +37,7 @@ class Profile(
                     profileResponse.age,
                     profileResponse.imageContentUid,
                     profileResponse.isFriend,
-                    profileResponse.friends.map { it.toString() }
+                    profileResponse.friends.map { it.toString() } as MutableList<String>
                 )
             } else {
                 null

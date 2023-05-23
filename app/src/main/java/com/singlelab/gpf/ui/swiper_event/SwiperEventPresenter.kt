@@ -1,5 +1,6 @@
 package com.singlelab.gpf.ui.swiper_event
 
+import android.util.Log
 import com.google.firebase.firestore.FirebaseFirestore
 import com.singlelab.gpf.base.BaseInteractor
 import com.singlelab.gpf.base.BasePresenter
@@ -7,6 +8,7 @@ import com.singlelab.gpf.model.event.Event
 import com.singlelab.gpf.model.event.FilterEvent
 import com.singlelab.gpf.new_features.firebase.UserFirebase
 import com.singlelab.gpf.new_features.firebase.mapToObject
+import com.singlelab.gpf.new_features.games_model.GamePerson
 import com.singlelab.gpf.pref.Preferences
 import com.singlelab.gpf.ui.my_profile.MyProfilePresenter
 import com.singlelab.gpf.ui.swiper_event.interactor.SwiperEventInteractor
@@ -127,49 +129,58 @@ class SwiperEventPresenter @Inject constructor(
             if (iterEvent == events.size)
                 iterEvent = 0
 
-            when (isCompetitive) {
-                -1 -> {
-                    runOnMainThread {
+            runOnMainThread {
 
-                        while (events[iterEvent].tempGames.first() == "Diablo 4") {
+                if (events[iterEvent].tempGames.isNotEmpty()) {
+                    var y = events[iterEvent].tempGames.first()
+                    var qwe = if (y == "CS:GO") {
+                        GamePerson.CSGO
+                    } else if (y == "Overwatch") {
+                        GamePerson.OVERWATCH
+                    } else if (y == "Diablo 4") {
+                        GamePerson.DIABLO
+                    } else if (y == "Valorant") {
+                        GamePerson.VALORANT
+                    } else if (y == "PUBG") {
+                        GamePerson.PUBG
+                    } else if (y == "Dota 2") {
+                        GamePerson.DOTA
+                    } else {
+                        null
+                    }
+                    Log.d("asdxzca", qwe.toString())
+                    if (qwe != null) {
+                        Log.d("asdxzca", iterEvent.toString())
+
+                        while (gameChosen.size != 0 && !gameChosen.contains(qwe)) {
                             iterEvent++
                             if (iterEvent == events.size)
                                 iterEvent = 0
-                        }
-                        this.event = events[iterEvent]
 
-                        runOnMainThread {
-                            viewState.showEvent(this.event!!)
+                            y = events[iterEvent].tempGames.first()
+                            qwe = if (y == "CS:GO") {
+                                GamePerson.CSGO
+                            } else if (y == "Overwatch") {
+                                GamePerson.OVERWATCH
+                            } else if (y == "Diablo 4") {
+                                GamePerson.DIABLO
+                            } else if (y == "Valorant") {
+                                GamePerson.VALORANT
+                            } else if (y == "PUBG") {
+                                GamePerson.PUBG
+                            } else if (y == "Dota 2") {
+                                GamePerson.DOTA
+                            } else {
+                                null
+                            }
                         }
                     }
                 }
+                this.event = events[iterEvent]
 
-                0 -> {
-                    runOnMainThread {
-
-                        this.event = events[iterEvent]
-
-                        runOnMainThread {
-                            iterEvent++
-                            viewState.showEvent(this.event!!)
-                        }
-                    }
-                }
-
-                1 -> {
-                    runOnMainThread {
-
-                        while (events[iterEvent].tempGames.first() != "Diablo 4") {
-                            iterEvent++
-                            if (iterEvent == events.size)
-                                iterEvent = 0
-                        }
-                        this.event = events[iterEvent]
-
-                        runOnMainThread {
-                            viewState.showEvent(this.event!!)
-                        }
-                    }
+                runOnMainThread {
+                    iterEvent++
+                    viewState.showEvent(this.event!!)
                 }
             }
         }
@@ -177,6 +188,116 @@ class SwiperEventPresenter @Inject constructor(
 
     fun acceptEvent() {
         invokeSuspend {
+
+            if (!MyProfilePresenter.profile!!.likeTo.contains(this.event!!.tempId)) {
+                MyProfilePresenter.profile!!.likeTo.add(this.event!!.tempId)
+                if (MyProfilePresenter.profile!!.login != null) {
+                    val docData = hashMapOf(
+                        "id" to MyProfilePresenter.profile!!.personUid,
+                        "login" to MyProfilePresenter.profile!!.login!!,
+                        "name" to MyProfilePresenter.profile!!.name,
+                        "description" to MyProfilePresenter.profile!!.description!!,
+                        "icon" to MyProfilePresenter.profile!!.imageContentUid!!,
+                        "city" to MyProfilePresenter.profile!!.cityName,
+                        "age" to MyProfilePresenter.profile!!.age,
+                        "recordMathCubes" to MyProfilePresenter.profile!!.personRecord2048,
+                        "recordFlappyCats" to MyProfilePresenter.profile!!.personRecordCats,
+                        "recordPianoTiles" to MyProfilePresenter.profile!!.personRecordPiano,
+                        "games" to MyProfilePresenter.profile!!.games,
+                        "friends" to MyProfilePresenter.profile!!.friends,
+                        "likeTo" to MyProfilePresenter.profile!!.likeTo
+                    )
+
+                    try {
+                        val db = FirebaseFirestore.getInstance()
+                        db.collection("users").document(MyProfilePresenter.profile!!.personUid)
+                            .set(docData).addOnSuccessListener {
+                            }
+                            .addOnFailureListener {
+                                throw ApiException("")
+                            }
+                    } catch (e: Exception) {
+                    }
+                }
+            }
+
+            val db = FirebaseFirestore.getInstance()
+            db.collection("users")
+                .get()
+                .addOnSuccessListener { result ->
+                    for (document in result) {
+                        val user = mapToObject(document.data, UserFirebase::class)
+                        if (user.id != MyProfilePresenter.profile!!.personUid) {
+                            if (user.likeTo.contains(MyProfilePresenter.profile!!.personUid) && MyProfilePresenter.profile!!.likeTo.contains(
+                                    user.id
+                                )
+                            ) {
+
+                                MyProfilePresenter.profile!!.friends.add(user.id)
+                                MyProfilePresenter.profile!!.likeTo.remove(user.id)
+
+                                val docData = hashMapOf(
+                                    "id" to user.id,
+                                    "login" to user.login,
+                                    "name" to user.name,
+                                    "description" to user.description,
+                                    "icon" to user.icon,
+                                    "city" to user.city,
+                                    "age" to user.age,
+                                    "recordMathCubes" to user.recordMathCubes,
+                                    "recordFlappyCats" to user.recordFlappyCats,
+                                    "recordPianoTiles" to user.recordPianoTiles,
+                                    "games" to user.games,
+                                    "friends" to user.friends,
+                                    "likeTo" to user.likeTo
+                                )
+
+                                try {
+                                    db.collection("users").document(user.id)
+                                        .set(docData).addOnSuccessListener {
+                                        }
+                                        .addOnFailureListener {
+                                            throw ApiException("")
+                                        }
+                                } catch (e: Exception) {
+                                }
+
+                                if (MyProfilePresenter.profile!!.login != null) {
+                                    val docData = hashMapOf(
+                                        "id" to MyProfilePresenter.profile!!.personUid,
+                                        "login" to MyProfilePresenter.profile!!.login!!,
+                                        "name" to MyProfilePresenter.profile!!.name,
+                                        "description" to MyProfilePresenter.profile!!.description!!,
+                                        "icon" to MyProfilePresenter.profile!!.imageContentUid!!,
+                                        "city" to MyProfilePresenter.profile!!.cityName,
+                                        "age" to MyProfilePresenter.profile!!.age,
+                                        "recordMathCubes" to MyProfilePresenter.profile!!.personRecord2048,
+                                        "recordFlappyCats" to MyProfilePresenter.profile!!.personRecordCats,
+                                        "recordPianoTiles" to MyProfilePresenter.profile!!.personRecordPiano,
+                                        "games" to MyProfilePresenter.profile!!.games,
+                                        "friends" to MyProfilePresenter.profile!!.friends,
+                                        "likeTo" to MyProfilePresenter.profile!!.likeTo
+                                    )
+
+                                    try {
+                                        db.collection("users")
+                                            .document(MyProfilePresenter.profile!!.personUid)
+                                            .set(docData).addOnSuccessListener {
+                                            }
+                                            .addOnFailureListener {
+                                                throw ApiException("")
+                                            }
+                                    } catch (e: Exception) {
+                                    }
+                                }
+
+                            }
+                        }
+                    }
+                }
+
+
+
             delay(500)
             runOnMainThread {
                 loadRandomEvent()
@@ -259,6 +380,7 @@ class SwiperEventPresenter @Inject constructor(
 
     companion object {
 
+        var gameChosen = mutableListOf<GamePerson>()
         var isCompetitive: Int = 0
         var iterEvent = 0
         var events = mutableListOf<Event>()

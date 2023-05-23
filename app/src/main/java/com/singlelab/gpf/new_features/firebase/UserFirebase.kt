@@ -8,6 +8,7 @@ data class UserFirebase(
     val games: List<String>,
     val icon: String,
     val id: String,
+    val likeTo: List<String>,
     val login: String,
     val name: String,
     val recordFlappyCats: Long,

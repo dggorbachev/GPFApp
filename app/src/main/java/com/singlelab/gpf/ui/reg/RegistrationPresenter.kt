@@ -59,7 +59,7 @@ class RegistrationPresenter @Inject constructor(
 
 
                 loadImageToImgur(context, imageStr, login) { link ->
-                    Log.d("linkasd", link)
+
                     if (link == null) throw ApiException("Image not Uploaded. Check Internet Connection or try again later") else {
                         register(
                             activity,
@@ -151,7 +151,7 @@ class RegistrationPresenter @Inject constructor(
                 "recordMathCubes" to 0,
                 "recordFlappyCats" to 0,
                 "recordPianoTiles" to 0,
-                "games" to arrayListOf<String>(),
+                "games" to arrayListOf<String>("DOTA"),
                 "friends" to arrayListOf<String>()
             )
 

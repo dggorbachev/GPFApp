@@ -45,9 +45,9 @@ class FriendsView @JvmOverloads constructor(
     ) {
         this.clickListener = listener
         this.personClickListener = personClickListener
-        search_friends.setOnClickListener {
-            clickListener?.onSearchFriendsClick()
-        }
+//        search_friends.setOnClickListener {
+//            clickListener?.onSearchFriendsClick()
+//        }
         show_all.setOnClickListener {
             clickListener?.onSearchFriendsClick()
         }

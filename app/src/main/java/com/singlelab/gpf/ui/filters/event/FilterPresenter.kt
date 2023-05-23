@@ -1,11 +1,14 @@
 package com.singlelab.gpf.ui.filters.event
 
+import android.util.Log
 import com.singlelab.gpf.model.city.City
 import com.singlelab.gpf.model.event.Distance
 import com.singlelab.gpf.model.event.EventType
 import com.singlelab.gpf.model.event.FilterEvent
 import com.singlelab.gpf.model.profile.FilterPerson
+import com.singlelab.gpf.new_features.games_model.GamePerson
 import com.singlelab.gpf.pref.Preferences
+import com.singlelab.gpf.ui.swiper_event.SwiperEventPresenter
 import moxy.InjectViewState
 import moxy.MvpPresenter
 import javax.inject.Inject
@@ -72,6 +75,17 @@ class FilterPresenter @Inject constructor(preferences: Preferences?) : MvpPresen
             add(EventType.findById(type))
             viewState.showTypes(this)
         }
+        SwiperEventPresenter.gameChosen.add(
+            when (type) {
+                0 -> GamePerson.DOTA
+                1 -> GamePerson.CSGO
+                2 -> GamePerson.OVERWATCH
+                3 -> GamePerson.VALORANT
+                4 -> GamePerson.PUBG
+                5 -> GamePerson.DIABLO
+                else -> GamePerson.DOTA
+            }
+        )
     }
 
     private fun removeType(type: Int) {
@@ -79,5 +93,16 @@ class FilterPresenter @Inject constructor(preferences: Preferences?) : MvpPresen
             removeAll { it.id == type }
             viewState.showTypes(this)
         }
+        SwiperEventPresenter.gameChosen.remove(
+            when (type) {
+                0 -> GamePerson.DOTA
+                1 -> GamePerson.CSGO
+                2 -> GamePerson.OVERWATCH
+                3 -> GamePerson.VALORANT
+                4 -> GamePerson.PUBG
+                5 -> GamePerson.DIABLO
+                else -> GamePerson.DOTA
+            }
+        )
     }
 }

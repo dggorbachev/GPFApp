@@ -201,7 +201,7 @@ class AuthFragment : BaseFragment(), AuthView, OnBackPressListener {
             description = user.description
             cityName = user.city
             personUid = user.id
-            friends = user.friends
+            friends = user.friends as MutableList<String>
             age = user.age.toInt()
             imageContentUid = user.icon
             personRecord2048 = 0

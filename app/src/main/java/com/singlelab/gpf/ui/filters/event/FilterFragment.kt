@@ -8,7 +8,6 @@ import android.location.LocationManager
 import android.os.Bundle
 import android.os.Parcelable
 import android.provider.Settings
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -29,6 +28,7 @@ import com.singlelab.gpf.model.Const
 import com.singlelab.gpf.model.city.City
 import com.singlelab.gpf.model.event.Distance
 import com.singlelab.gpf.model.event.EventType
+import com.singlelab.gpf.new_features.games_model.GamePerson
 import com.singlelab.gpf.ui.cities.CitiesFragment
 import com.singlelab.gpf.ui.swiper_event.SwiperEventPresenter
 import com.singlelab.gpf.ui.view.range_picker.DateRangePicker
@@ -177,8 +177,35 @@ class FilterFragment : BaseFragment(),
         }
         checkbox_online.setListener(CompoundButton.OnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
+                emoji_grid.children.forEachIndexed { index, view ->
+                    if (index == 5) {
+                        if (SwiperEventPresenter.gameChosen.contains(GamePerson.DIABLO))
+                            view.performClick()
+                    }
+                    if (index == 0) {
+                        if (!SwiperEventPresenter.gameChosen.contains(GamePerson.DOTA))
+                            view.performClick()
+                    }
+                    if (index == 1) {
+                        if (!SwiperEventPresenter.gameChosen.contains(GamePerson.CSGO))
+                            view.performClick()
+                    }
+                    if (index == 2) {
+                        if (!SwiperEventPresenter.gameChosen.contains(GamePerson.OVERWATCH))
+                            view.performClick()
+                    }
+                    if (index == 3) {
+                        if (!SwiperEventPresenter.gameChosen.contains(GamePerson.VALORANT))
+                            view.performClick()
+                    }
+                    if (index == 4) {
+                        if (!SwiperEventPresenter.gameChosen.contains(GamePerson.PUBG))
+                            view.performClick()
+                    }
+                }
                 SwiperEventPresenter.isCompetitive = -1
             } else if (!checkbox_not_online.getChecked()) {
+
                 SwiperEventPresenter.isCompetitive = 0
             }
             presenter.filterEvent?.isOnlyOnline = isChecked
@@ -187,6 +214,32 @@ class FilterFragment : BaseFragment(),
         checkbox_not_online.setListener(
             CompoundButton.OnCheckedChangeListener { _, isChecked ->
                 if (isChecked) {
+                    emoji_grid.children.forEachIndexed { index, view ->
+                        if (index == 5) {
+                            if (!SwiperEventPresenter.gameChosen.contains(GamePerson.DIABLO))
+                                view.performClick()
+                        }
+                        if (index == 0) {
+                            if (SwiperEventPresenter.gameChosen.contains(GamePerson.DOTA))
+                                view.performClick()
+                        }
+                        if (index == 1) {
+                            if (SwiperEventPresenter.gameChosen.contains(GamePerson.CSGO))
+                                view.performClick()
+                        }
+                        if (index == 2) {
+                            if (SwiperEventPresenter.gameChosen.contains(GamePerson.OVERWATCH))
+                                view.performClick()
+                        }
+                        if (index == 3) {
+                            if (SwiperEventPresenter.gameChosen.contains(GamePerson.VALORANT))
+                                view.performClick()
+                        }
+                        if (index == 4) {
+                            if (SwiperEventPresenter.gameChosen.contains(GamePerson.PUBG))
+                                view.performClick()
+                        }
+                    }
                     SwiperEventPresenter.isCompetitive = 1
                 } else if (!checkbox_online.getChecked()) {
                     SwiperEventPresenter.isCompetitive = 0

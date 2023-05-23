@@ -12,7 +12,6 @@ import com.singlelab.gpf.model.profile.PersonNotifications
 import com.singlelab.gpf.model.profile.Profile
 import com.singlelab.gpf.new_features.firebase.UserFirebase
 import com.singlelab.gpf.new_features.firebase.mapToObject
-import com.singlelab.gpf.new_features.games_model.GamePerson
 import com.singlelab.gpf.pref.Preferences
 import com.singlelab.gpf.ui.my_profile.interactor.MyProfileInteractor
 import com.singlelab.gpf.util.resize
@@ -44,7 +43,7 @@ class MyProfilePresenter @Inject constructor(
                 18,
                 "https://gflusercontent.gflclan.com/file/forums-prod/monthly_2018_11/0f837319a39026212f4597d6a57948ce2541dff2_full.jpg.3abe6b209c42299263c337a24d456310.jpg",
                 false,
-                arrayListOf(), 0, 0, 0
+                arrayListOf(), mutableListOf(), 0, 0, 0
             )
 
         var myFriends = mutableListOf(
@@ -224,8 +223,8 @@ class MyProfilePresenter @Inject constructor(
                                         )
                                     }
                                 }
-                                Log.d("asd",profile!!.friends.toString())
-                                Log.d("asd",frinds.toString())
+                                Log.d("asd", profile!!.friends.toString())
+                                Log.d("asd", frinds.toString())
                                 this.viewState.onLoadedFriends(frinds)
                             }
                             .addOnFailureListener { exception ->

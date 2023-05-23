@@ -106,7 +106,7 @@ class SwiperEventFragment : BaseFragment(), SwiperEventView, OnlyForAuthFragment
             login = user.login
             name = user.name
             description = user.description
-            friends = user.friends
+            friends = user.friends as MutableList<String>
             cityName = user.city
             personUid = user.id
             age = user.age.toInt()
@@ -120,9 +120,9 @@ class SwiperEventFragment : BaseFragment(), SwiperEventView, OnlyForAuthFragment
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         auth = FirebaseAuth.getInstance()
-        if (MyProfilePresenter.profile!!.personUid == "asd") {
-            reload()
-        }
+//        if (MyProfilePresenter.profile!!.personUid == "asd") {
+//            reload()
+//        }
         setListeners()
         initCardStack()
     }
