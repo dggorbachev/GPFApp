@@ -102,8 +102,8 @@ class AuthFragment : BaseFragment(), AuthView, OnBackPressListener {
 
     override fun showLoading(isShow: Boolean, withoutBackground: Boolean) {
         super.showLoading(isShow, withoutBackground)
-        button_send_code.isEnabled = !isShow
-        button_auth.isEnabled = !isShow
+//        button_send_code.isEnabled = !isShow
+//        button_auth.isEnabled = !isShow
     }
 
     override fun onCodeSend(phone: String, isPushCode: Boolean) {
@@ -204,9 +204,10 @@ class AuthFragment : BaseFragment(), AuthView, OnBackPressListener {
             friends = user.friends as MutableList<String>
             age = user.age.toInt()
             imageContentUid = user.icon
-            personRecord2048 = 0
-            personRecordCats = 0
-            personRecordPiano = 0
+            personRecord2048 = user.recordMathCubes.toInt()
+            personRecordCats = user.recordFlappyCats.toInt()
+            personRecordPiano = user.recordPianoTiles.toInt()
+            personRecordTetris = user.recordTetris.toInt()
         }
         findNavController().navigate(R.id.action_auth_to_my_profile)
     }

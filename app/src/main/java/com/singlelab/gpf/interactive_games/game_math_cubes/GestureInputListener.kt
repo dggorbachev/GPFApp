@@ -1,4 +1,4 @@
-package com.singlelab.gpf.interactive_games.game_2048
+package com.singlelab.gpf.interactive_games.game_math_cubes
 
 import android.app.AlertDialog
 import android.view.MotionEvent
@@ -22,32 +22,35 @@ internal class GestureInputListener(private val mView: PrimaryView) : OnTouchLis
     private var mVeryLastDirection = 1
     private var mHasMoved = false
     override fun onTouch(view: View, event: MotionEvent): Boolean {
-        MyProfilePresenter.profile!!.personRecord2048 = mView.mGame.mScore.toInt()
-        val docData = hashMapOf(
-            "id" to MyProfilePresenter.profile!!.personUid,
-            "login" to MyProfilePresenter.profile!!.login!!,
-            "name" to MyProfilePresenter.profile!!.name,
-            "description" to MyProfilePresenter.profile!!.description!!,
-            "icon" to MyProfilePresenter.profile!!.imageContentUid!!,
-            "city" to MyProfilePresenter.profile!!.cityName,
-            "age" to MyProfilePresenter.profile!!.age,
-            "recordMathCubes" to MyProfilePresenter.profile!!.personRecord2048,
-            "recordFlappyCats" to MyProfilePresenter.profile!!.personRecordCats,
-            "recordPianoTiles" to MyProfilePresenter.profile!!.personRecordPiano,
-            "games" to MyProfilePresenter.profile!!.games,
-            "friends" to MyProfilePresenter.profile!!.friends,
-                        "likeTo" to MyProfilePresenter.profile!!.likeTo
-        )
+        if (MyProfilePresenter.profile!!.personRecord2048 < mView.mGame.mScore.toInt()) {
+            MyProfilePresenter.profile!!.personRecord2048 = mView.mGame.mScore.toInt()
+            val docData = hashMapOf(
+                "id" to MyProfilePresenter.profile!!.personUid,
+                "login" to MyProfilePresenter.profile!!.login!!,
+                "name" to MyProfilePresenter.profile!!.name,
+                "description" to MyProfilePresenter.profile!!.description!!,
+                "icon" to MyProfilePresenter.profile!!.imageContentUid!!,
+                "city" to MyProfilePresenter.profile!!.cityName,
+                "age" to MyProfilePresenter.profile!!.age,
+                "recordMathCubes" to MyProfilePresenter.profile!!.personRecord2048,
+                "recordFlappyCats" to MyProfilePresenter.profile!!.personRecordCats,
+                "recordPianoTiles" to MyProfilePresenter.profile!!.personRecordPiano,
+                "recordTetris" to MyProfilePresenter.profile!!.personRecordTetris,
+                "games" to MyProfilePresenter.profile!!.games,
+                "friends" to MyProfilePresenter.profile!!.friends,
+                "likeTo" to MyProfilePresenter.profile!!.likeTo
+            )
 
-        try {
-            val db = FirebaseFirestore.getInstance()
-            db.collection("users").document(MyProfilePresenter.profile!!.personUid)
-                .set(docData).addOnSuccessListener {
-                }
-                .addOnFailureListener {
-                    throw ApiException("")
-                }
-        } catch (e: Exception) {
+            try {
+                val db = FirebaseFirestore.getInstance()
+                db.collection("users").document(MyProfilePresenter.profile!!.personUid)
+                    .set(docData).addOnSuccessListener {
+                    }
+                    .addOnFailureListener {
+                        throw ApiException("")
+                    }
+            } catch (e: Exception) {
+            }
         }
 
         when (event.action) {

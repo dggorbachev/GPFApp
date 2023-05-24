@@ -1,6 +1,5 @@
-package com.singlelab.gpf.interactive_games.game_2048
+package com.singlelab.gpf.interactive_games.game_math_cubes
 
-import com.singlelab.gpf.interactive_games.game_2048.CellItem
 import java.util.ArrayList
 
 class GridItems(sizeX: Int, sizeY: Int) {

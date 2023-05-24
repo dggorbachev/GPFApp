@@ -14,6 +14,7 @@ import com.singlelab.gpf.model.event.EventType
 import com.singlelab.gpf.model.event.FilterEvent
 import com.singlelab.gpf.model.view.ToastType
 import com.singlelab.gpf.new_features.games_model.GamePerson
+import com.singlelab.gpf.ui.my_profile.MyProfilePresenter
 import com.singlelab.gpf.ui.my_profile.MyProfilePresenter.Companion.profile
 import com.singlelab.net.exceptions.ApiException
 import dagger.hilt.android.AndroidEntryPoint
@@ -118,8 +119,10 @@ class ChooseGamesFragment : BaseFragment() {
             "recordMathCubes" to profile!!.personRecord2048,
             "recordFlappyCats" to profile!!.personRecordCats,
             "recordPianoTiles" to profile!!.personRecordPiano,
+            "recordTetris" to MyProfilePresenter.profile!!.personRecordTetris,
             "games" to profile!!.games,
-            "friends" to profile!!.friends
+            "friends" to profile!!.friends,
+            "likeTo" to profile!!.likeTo
         )
 
         try {

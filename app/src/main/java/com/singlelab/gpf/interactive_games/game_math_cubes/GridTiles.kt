@@ -1,6 +1,4 @@
-package com.singlelab.gpf.interactive_games.game_2048
-
-import com.singlelab.gpf.interactive_games.game_2048.CellItem
+package com.singlelab.gpf.interactive_games.game_math_cubes
 
 class GridTiles : CellItem {
     val mValue: Int

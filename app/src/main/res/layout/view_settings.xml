@@ -110,11 +110,13 @@
 
     <LinearLayout
         android:id="@+id/steam"
+        android:clickable="false"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
         <ImageView
+            android:clickable="false"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_marginStart="30dp"
@@ -122,6 +124,7 @@
             android:src="@drawable/steam" />
 
         <TextView
+            android:clickable="false"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:drawablePadding="@dimen/margin_medium"
@@ -129,7 +132,7 @@
             android:paddingHorizontal="16dp"
             android:paddingVertical="@dimen/margin_medium"
             android:text="Подключить Steam"
-            android:textColor="@android:color/black"
+            android:textColor="@android:color/darker_gray"
             android:textSize="@dimen/text_size_standart" />
     </LinearLayout>
 

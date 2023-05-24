@@ -131,13 +131,13 @@ class SettingsView @JvmOverloads constructor(
             }
         }
 
-        steam.setOnClickListener {
-            val browserIntent = Intent(
-                Intent.ACTION_VIEW,
-                Uri.parse("https://store.steampowered.com/login/?l=russian")
-            )
-            startActivity(context, browserIntent, null)
-        }
+//        steam.setOnClickListener {
+//            val browserIntent = Intent(
+//                Intent.ACTION_VIEW,
+//                Uri.parse("https://store.steampowered.com/login/?l=russian")
+//            )
+//            startActivity(context, browserIntent, null)
+//        }
 
         battlenet.setOnClickListener {
             val browserIntent = Intent(

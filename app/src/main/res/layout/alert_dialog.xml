@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/alert_dialog"
+        android:paddingTop="10dp"
+        android:paddingEnd="20dp"
+        android:paddingStart="20dp"
+        android:paddingBottom="5dp"
+        android:orientation="vertical">
+
+    <TextView
+            android:id="@+id/dialog_info"
+            android:layout_width="wrap_content"
+            android:layout_height="65dp"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:textSize="20dp"
+            android:text="  Are you sure you want\nto leave the game ?"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_below="@id/dialog_info"
+            android:layout_gravity="center_horizontal"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/dialog_cancel"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingTop="5dp"
+                android:backgroundTint="@color/second_phase"
+                android:textColor="@color/black"
+                android:text="Cancel"/>
+
+            <Button
+                android:id="@+id/dialog_ok"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingTop="5dp"
+                android:backgroundTint="@color/second_phase"
+                android:textColor="@color/black"
+                android:text="Agree"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>

@@ -159,7 +159,7 @@
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_marginTop="@dimen/margin_big"
-            android:background="@color/transparent"
+            android:background="@android:color/transparent"
             app:cardCornerRadius="15dp"
             app:cardElevation="0dp"
             app:layout_constraintEnd_toStartOf="@id/button_upload_image"

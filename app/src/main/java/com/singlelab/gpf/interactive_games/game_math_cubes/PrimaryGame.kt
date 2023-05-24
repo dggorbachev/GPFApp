@@ -1,10 +1,8 @@
-package com.singlelab.gpf.interactive_games.game_2048
+package com.singlelab.gpf.interactive_games.game_math_cubes
 
-import android.app.AlertDialog
 import android.content.Context
 import android.preference.PreferenceManager
 import android.widget.Toast
-import com.singlelab.gpf.R
 import java.util.*
 
 class PrimaryGame(private val mContext: Context, private val mView: PrimaryView) {

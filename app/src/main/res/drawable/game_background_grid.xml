@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item>
+        <shape
+                android:shape="rectangle">
+            <size
+                    android:width="260dp"
+                    android:height="510dp"/>
+            <solid
+                    android:color="@color/second_phase"/>
+            <corners
+                    android:radius="10dp"/>
+            <stroke
+                    android:color="@color/fourth_phase"
+                    android:width="3dp"/>
+        </shape>
+    </item>
+    <item
+            android:start="-246dp"
+            android:width="550dp">
+        <rotate
+                android:fromDegrees="90">
+            <shape
+                    android:shape="line">
+
+                <stroke android:color="@color/fourth_phase"
+                        android:width="0.5dp"/>
+            </shape>
+        </rotate>
+    </item>
+    <item
+            android:start="-222dp"
+            android:width="550dp">
+        <rotate
+                android:fromDegrees="90">
+            <shape
+                    android:shape="line">
+                <stroke android:color="@color/fourth_phase"
+                        android:width="0.5dp"/>
+            </shape>
+        </rotate>
+    </item>
+    <item
+            android:start="-198dp"
+            android:width="550dp">
+        <rotate
+                android:fromDegrees="90">
+            <shape
+                    android:shape="line">
+                <stroke android:color="@color/fourth_phase"
+                        android:width="0.5dp"/>
+            </shape>
+        </rotate>
+    </item>
+    <item
+            android:start="-174dp"
+            android:width="550dp">
+        <rotate
+                android:fromDegrees="90">
+            <shape
+                    android:shape="line">
+                <stroke android:color="@color/fourth_phase"
+                        android:width="0.5dp"/>
+            </shape>
+        </rotate>
+    </item>
+
+    <item
+            android:start="-150dp"
+            android:width="550dp">
+
+        <rotate
+                android:fromDegrees="90">
+
+            <shape
+                    android:shape="line">
+
+                <stroke android:color="@color/fourth_phase"
+                        android:width="0.5dp"/>
+            </shape>
+
+        </rotate>
+    </item>
+
+    <item
+            android:start="-126dp"
+            android:width="550dp">
+
+        <rotate
+                android:fromDegrees="90">
+
+            <shape
+                    android:shape="line">
+
+                <stroke android:color="@color/fourth_phase"
+                        android:width="0.5dp"/>
+            </shape>
+
+        </rotate>
+    </item>
+
+    <item
+            android:start="-102dp"
+            android:width="550dp">
+
+        <rotate
+                android:fromDegrees="90">
+
+            <shape
+                    android:shape="line">
+
+                <stroke android:color="@color/fourth_phase"
+                        android:width="0.5dp"/>
+            </shape>
+
+        </rotate>
+    </item>
+
+    <item
+            android:start="-78dp"
+            android:width="550dp">
+
+        <rotate
+                android:fromDegrees="90">
+
+            <shape
+                    android:shape="line">
+
+                <stroke android:color="@color/fourth_phase"
+                        android:width="0.5dp"/>
+            </shape>
+
+        </rotate>
+    </item>
+
+    <item
+            android:start="-54dp"
+            android:width="550dp">
+
+        <rotate
+                android:fromDegrees="90">
+
+            <shape
+                    android:shape="line">
+
+                <stroke android:color="@color/fourth_phase"
+                        android:width="0.5dp"/>
+            </shape>
+
+        </rotate>
+    </item>
+
+</layer-list>

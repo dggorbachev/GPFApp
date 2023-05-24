@@ -695,32 +695,35 @@ class GameView internal constructor(
                 }
             } else {
                 if (!savescore) {
-                    MyProfilePresenter.profile!!.personRecordCats = score
-                    val docData = hashMapOf(
-                        "id" to MyProfilePresenter.profile!!.personUid,
-                        "login" to MyProfilePresenter.profile!!.login!!,
-                        "name" to MyProfilePresenter.profile!!.name,
-                        "description" to MyProfilePresenter.profile!!.description!!,
-                        "icon" to MyProfilePresenter.profile!!.imageContentUid!!,
-                        "city" to MyProfilePresenter.profile!!.cityName,
-                        "age" to MyProfilePresenter.profile!!.age,
-                        "recordMathCubes" to MyProfilePresenter.profile!!.personRecord2048,
-                        "recordFlappyCats" to MyProfilePresenter.profile!!.personRecordCats,
-                        "recordPianoTiles" to MyProfilePresenter.profile!!.personRecordPiano,
-                        "games" to MyProfilePresenter.profile!!.games,
-                        "friends" to MyProfilePresenter.profile!!.friends,
-                        "likeTo" to MyProfilePresenter.profile!!.likeTo
-                    )
+                    if (MyProfilePresenter.profile!!.personRecordCats < score) {
+                        MyProfilePresenter.profile!!.personRecordCats = score
+                        val docData = hashMapOf(
+                            "id" to MyProfilePresenter.profile!!.personUid,
+                            "login" to MyProfilePresenter.profile!!.login!!,
+                            "name" to MyProfilePresenter.profile!!.name,
+                            "description" to MyProfilePresenter.profile!!.description!!,
+                            "icon" to MyProfilePresenter.profile!!.imageContentUid!!,
+                            "city" to MyProfilePresenter.profile!!.cityName,
+                            "age" to MyProfilePresenter.profile!!.age,
+                            "recordMathCubes" to MyProfilePresenter.profile!!.personRecord2048,
+                            "recordFlappyCats" to MyProfilePresenter.profile!!.personRecordCats,
+                            "recordPianoTiles" to MyProfilePresenter.profile!!.personRecordPiano,
+                            "recordTetris" to MyProfilePresenter.profile!!.personRecordTetris,
+                            "games" to MyProfilePresenter.profile!!.games,
+                            "friends" to MyProfilePresenter.profile!!.friends,
+                            "likeTo" to MyProfilePresenter.profile!!.likeTo
+                        )
 
-                    try {
-                        val db = FirebaseFirestore.getInstance()
-                        db.collection("users").document(MyProfilePresenter.profile!!.personUid)
-                            .set(docData).addOnSuccessListener {
-                            }
-                            .addOnFailureListener {
-                                throw ApiException("")
-                            }
-                    } catch (e: Exception) {
+                        try {
+                            val db = FirebaseFirestore.getInstance()
+                            db.collection("users").document(MyProfilePresenter.profile!!.personUid)
+                                .set(docData).addOnSuccessListener {
+                                }
+                                .addOnFailureListener {
+                                    throw ApiException("")
+                                }
+                        } catch (e: Exception) {
+                        }
                     }
                 }
                 drawBackground(3)

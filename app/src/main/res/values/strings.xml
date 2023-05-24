@@ -341,4 +341,41 @@
     <string name="size_4x4" translatable="false">Play</string>
     <string name="size_5x5" translatable="false">5x5</string>
     <string name="size_6x6" translatable="false">6x6</string>
+
+    <string name="tetromino_cap">NEON TETRIS</string>
+    <string name="retry">RETRY</string>
+    <string name="next_block">NEXT BLOCK</string>
+    <string name="level">LEVEL</string>
+    <string name="high_score">HIGH SCORE</string>
+    <string name="plus">+</string>
+    <string name="zero">0</string>
+
+    <string name="highscore">Current HighScore : %s</string>
+
+    <string name="right_arrow">Right Arrow</string>
+    <string name="left_arrow">Left Arrow</string>
+    <string name="up_arrow">Up Arrow</string>
+    <string name="down_arrow">Down Arrow</string>
+    <string name="switch_arrow">Switch Arrow</string>
+
+    <string name="resume_play">Resume Play</string>
+    <string name="pause_play">Pause Play</string>
+    <string name="resume_sound">Resume Sound</string>
+    <string name="pause_sound">Pause Sound</string>
+
+    <string name="username">Username</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="sign_in">Sign In</string>
+    <string name="sign_up">Sign Up</string>
+
+    <string name="welcome1">Welcome %s</string>
+
+    <string name="play">PLAY</string>
+    <string name="log_in">LOG IN</string>
+    <string name="log_out">LOG OUT</string>
+    <string name="register">REGISTER</string>
+    <string name="ranking">RANKING</string>
+
+    <string name="ranking_table">Worldwide Ranking</string>
 </resources>

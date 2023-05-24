@@ -13,5 +13,6 @@ data class UserFirebase(
     val name: String,
     val recordFlappyCats: Long,
     val recordMathCubes: Long,
-    val recordPianoTiles: Long
+    val recordPianoTiles: Long,
+    val recordTetris:Long
 )

@@ -58,6 +58,31 @@ class SwiperEventPresenter @Inject constructor(
 
     @OptIn(ExperimentalStdlibApi::class)
     fun loadRandomEvent(isFirstAttach: Boolean = false) {
+        if (MyProfilePresenter.profile!!.login == null) {
+            val auth = FirebaseAuth.getInstance()
+            auth.currentUser!!.reload().addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    val db = FirebaseFirestore.getInstance()
+
+                    db.collection("users")
+                        .get()
+                        .addOnSuccessListener { result ->
+                            for (document in result) {
+                                if (document.id == auth.currentUser!!.uid) {
+                                    launchProfile(
+                                        mapToObject(
+                                            document.data,
+                                            UserFirebase::class
+                                        )
+                                    )
+                                }
+                            }
+                        }
+                        .addOnFailureListener { exception ->
+                        }
+                }
+            }
+        }
         if (isFirstAttach) {
             val db = FirebaseFirestore.getInstance()
 
@@ -107,7 +132,8 @@ class SwiperEventPresenter @Inject constructor(
                                     tempId = user.id,
                                     record2048 = user.recordMathCubes.toInt(),
                                     recordFlappyCat = user.recordFlappyCats.toInt(),
-                                    recordPiano = user.recordPianoTiles.toInt()
+                                    recordPiano = user.recordPianoTiles.toInt(),
+                                    recordTetris = user.recordTetris.toInt()
                                 )
                             )
                         }
@@ -277,6 +303,7 @@ class SwiperEventPresenter @Inject constructor(
                     "recordMathCubes" to MyProfilePresenter.profile!!.personRecord2048,
                     "recordFlappyCats" to MyProfilePresenter.profile!!.personRecordCats,
                     "recordPianoTiles" to MyProfilePresenter.profile!!.personRecordPiano,
+                    "recordTetris" to MyProfilePresenter.profile!!.personRecordTetris,
                     "games" to MyProfilePresenter.profile!!.games,
                     "friends" to MyProfilePresenter.profile!!.friends,
                     "likeTo" to MyProfilePresenter.profile!!.likeTo
@@ -321,6 +348,7 @@ class SwiperEventPresenter @Inject constructor(
                                 "recordMathCubes" to user.recordMathCubes,
                                 "recordFlappyCats" to user.recordFlappyCats,
                                 "recordPianoTiles" to user.recordPianoTiles,
+                                "recordTetris" to user.recordTetris,
                                 "games" to user.games,
                                 "friends" to user.friends,
                                 "likeTo" to user.likeTo
@@ -348,6 +376,7 @@ class SwiperEventPresenter @Inject constructor(
                                     "recordMathCubes" to MyProfilePresenter.profile!!.personRecord2048,
                                     "recordFlappyCats" to MyProfilePresenter.profile!!.personRecordCats,
                                     "recordPianoTiles" to MyProfilePresenter.profile!!.personRecordPiano,
+                                    "recordTetris" to MyProfilePresenter.profile!!.personRecordTetris,
                                     "games" to MyProfilePresenter.profile!!.games,
                                     "friends" to MyProfilePresenter.profile!!.friends,
                                     "likeTo" to MyProfilePresenter.profile!!.likeTo
@@ -389,6 +418,7 @@ class SwiperEventPresenter @Inject constructor(
             personRecord2048 = user.recordMathCubes.toInt()
             personRecordCats = user.recordFlappyCats.toInt()
             personRecordPiano = user.recordPianoTiles.toInt()
+            personRecordTetris = user.recordTetris.toInt()
         }
     }
 

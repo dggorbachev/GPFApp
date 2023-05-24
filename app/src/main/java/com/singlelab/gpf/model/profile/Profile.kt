@@ -21,6 +21,7 @@ class Profile(
     var personRecord2048: Int = 0,
     var personRecordCats: Int = 0,
     var personRecordPiano: Int = 0,
+    var personRecordTetris: Int = 0,
     var password: String? = null,
     var games: MutableList<GamePerson>? = mutableListOf(GamePerson.DOTA)
 ) : Parcelable {

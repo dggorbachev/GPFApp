@@ -114,6 +114,7 @@ class SwiperEventFragment : BaseFragment(), SwiperEventView, OnlyForAuthFragment
             personRecord2048 = user.recordMathCubes.toInt()
             personRecordCats = user.recordFlappyCats.toInt()
             personRecordPiano = user.recordPianoTiles.toInt()
+            personRecordTetris=user.recordTetris.toInt()
         }
     }
 

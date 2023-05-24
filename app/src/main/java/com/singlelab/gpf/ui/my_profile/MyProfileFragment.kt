@@ -168,6 +168,7 @@ class MyProfileFragment : BaseFragment(), MyProfileView, OnActivityResultListene
             personRecord2048 = user.recordMathCubes.toInt()
             personRecordCats = user.recordFlappyCats.toInt()
             personRecordPiano = user.recordPianoTiles.toInt()
+            personRecordTetris = user.recordTetris.toInt()
         }
         presenter.loadProfile(MyProfilePresenter.profile == null)
     }

@@ -55,4 +55,19 @@
     <color name="darkBlue">#000080</color>
     <color name="darkRed">#8B0000</color>
     <color name="red">#FF0000</color>
+
+    <color name="lightGray">#E2E2E2</color>
+    <color name="green">#009907</color>
+    <color name="yellow">#FFF045</color>
+    <color name="blue">#8EC9FC</color>
+    <color name="first_phase">#ee4540</color>
+    <color name="second_phase">#C72C41</color>
+    <color name="third_phase">#801336</color>
+    <color name="fourth_phase">#510A32</color>
+    <color name="fifth_phase">#2d142c</color>
+    <color name="orange">#F97708</color>
+    <color name="purple">#9B51FF</color>
+    <color name="blueGray">#AEC1D1</color>
+    <color name="deepRed">#FF0909</color>
+    <color name="transparent">#80AEC1D1</color>
 </resources>

@@ -255,6 +255,7 @@ class EditProfileFragment : BaseFragment(), EditProfileView, OnInvalidStringsLis
                 "recordMathCubes" to MyProfilePresenter.profile!!.personRecord2048,
                 "recordFlappyCats" to MyProfilePresenter.profile!!.personRecordCats,
                 "recordPianoTiles" to MyProfilePresenter.profile!!.personRecordPiano,
+                "recordTetris" to MyProfilePresenter.profile!!.personRecordTetris,
                 "games" to MyProfilePresenter.profile!!.games,
                 "friends" to MyProfilePresenter.profile!!.friends,
                         "likeTo" to MyProfilePresenter.profile!!.likeTo

@@ -74,7 +74,8 @@ class PersonPresenter @Inject constructor(
                                     tempAge = user.age.toString(),
                                     record2048 = user.recordMathCubes.toInt(),
                                     recordFlappyCat = user.recordFlappyCats.toInt(),
-                                    recordPiano = user.recordPianoTiles.toInt()
+                                    recordPiano = user.recordPianoTiles.toInt(),
+                                    recordTetris = user.recordTetris.toInt()
                                 )
                             )
                         }
@@ -187,9 +188,10 @@ class PersonPresenter @Inject constructor(
             "recordMathCubes" to MyProfilePresenter.profile!!.personRecord2048,
             "recordFlappyCats" to MyProfilePresenter.profile!!.personRecordCats,
             "recordPianoTiles" to MyProfilePresenter.profile!!.personRecordPiano,
+            "recordTetris" to MyProfilePresenter.profile!!.personRecordTetris,
             "games" to MyProfilePresenter.profile!!.games,
             "friends" to MyProfilePresenter.profile!!.friends,
-                        "likeTo" to MyProfilePresenter.profile!!.likeTo
+            "likeTo" to MyProfilePresenter.profile!!.likeTo
         )
 
         try {
@@ -228,9 +230,10 @@ class PersonPresenter @Inject constructor(
             "recordMathCubes" to MyProfilePresenter.profile!!.personRecord2048,
             "recordFlappyCats" to MyProfilePresenter.profile!!.personRecordCats,
             "recordPianoTiles" to MyProfilePresenter.profile!!.personRecordPiano,
+            "recordTetris" to MyProfilePresenter.profile!!.personRecordTetris,
             "games" to MyProfilePresenter.profile!!.games,
             "friends" to MyProfilePresenter.profile!!.friends,
-                        "likeTo" to MyProfilePresenter.profile!!.likeTo
+            "likeTo" to MyProfilePresenter.profile!!.likeTo
         )
 
         try {

@@ -152,6 +152,8 @@ class RegistrationPresenter @Inject constructor(
                 "recordMathCubes" to 0,
                 "recordFlappyCats" to 0,
                 "recordPianoTiles" to 0,
+                "recordTetris" to 0,
+                "likeTo" to arrayListOf<String>(),
                 "games" to arrayListOf<String>("DOTA"),
                 "friends" to arrayListOf<String>()
             )
@@ -240,7 +242,7 @@ class RegistrationPresenter @Inject constructor(
 
             !mail.isValidEmail() -> ValidationError.EMPTY_MAIL
             login.isNullOrEmpty() -> ValidationError.EMPTY_LOGIN
-            password.isNullOrEmpty() || password.length <= 6 -> ValidationError.EMPTY_PASSWORD
+            password.isNullOrEmpty() || password.length < 6 -> ValidationError.EMPTY_PASSWORD
             city.isNullOrEmpty() -> ValidationError.EMPTY_CITY
             name.isNullOrEmpty() -> ValidationError.EMPTY_NAME
             description.isNullOrEmpty() -> ValidationError.EMPTY_DESCRIPTION

@@ -19,6 +19,8 @@ class CardEventViewHolder(inflater: LayoutInflater, parent: ViewGroup) :
         itemView.record2048.text = event.record2048.toString()
         itemView.recordFlappyCats.text = event.recordFlappyCat.toString()
         itemView.recordPianoTiles.text = event.recordPiano.toString()
+        itemView.recordTetris.text = event.recordTetris.toString()
+
         itemView.text_location.text = event.tempCity
 //        itemView.start_date.text =
 //            event.startTime.parse(Const.DATE_FORMAT_TIME_ZONE, Const.DATE_FORMAT_ON_CARD)

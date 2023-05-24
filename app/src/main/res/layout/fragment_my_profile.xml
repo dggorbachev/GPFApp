@@ -165,7 +165,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_very_small"
-            android:background="@color/transparent"
+            android:background="@android:color/transparent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/description"
@@ -178,7 +178,7 @@
             app:tabPaddingEnd="@dimen/margin_big"
             app:tabPaddingStart="@dimen/margin_big"
             app:tabPaddingTop="0dp"
-            app:tabRippleColor="@color/transparent"
+            app:tabRippleColor="@android:color/transparent"
             app:tabSelectedTextColor="@color/colorPrimaryAccent"
             app:tabTextAppearance="@style/TabTextStyle"
             app:tabTextColor="@color/colorGrayMedium">

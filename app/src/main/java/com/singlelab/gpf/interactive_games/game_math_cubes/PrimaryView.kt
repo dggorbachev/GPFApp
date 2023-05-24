@@ -1,4 +1,4 @@
-package com.singlelab.gpf.interactive_games.game_2048;
+package com.singlelab.gpf.interactive_games.game_math_cubes;
 
 import android.content.Context
 import android.graphics.drawable.BitmapDrawable
@@ -10,7 +10,6 @@ import android.util.Log
 import android.view.View
 import androidx.core.content.res.ResourcesCompat
 import com.singlelab.gpf.R
-import com.singlelab.gpf.interactive_games.game_2048.GestureInputListener
 import java.lang.Exception
 
 class PrimaryView : View {

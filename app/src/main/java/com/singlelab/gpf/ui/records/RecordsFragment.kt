@@ -37,10 +37,12 @@ class RecordsFragment : BaseFragment() {
         val best2048 = copyEvents.sortedByDescending { it.record2048 }
         val bestFlappyCats = copyEvents.sortedByDescending { it.recordFlappyCat }
         val bestPianoTiles = copyEvents.sortedByDescending { it.recordPiano }
+        val bestTetris = copyEvents.sortedByDescending { it.recordTetris }
 
         record2048.text = MyProfilePresenter.profile!!.personRecord2048.toString()
         recordFlappyCats.text = MyProfilePresenter.profile!!.personRecordCats.toString()
         recordTiles.text = MyProfilePresenter.profile!!.personRecordPiano.toString()
+        recordTetrisall.text = MyProfilePresenter.profile!!.personRecordTetris.toString()
 
         name20481.text = best2048[0].tempName
         name20482.text = best2048[1].tempName
@@ -62,6 +64,14 @@ class RecordsFragment : BaseFragment() {
         recordTiles1.text = bestPianoTiles[0].recordPiano.toString()
         recordTiles2.text = bestPianoTiles[1].recordPiano.toString()
         recordTiles3.text = bestPianoTiles[2].recordPiano.toString()
+
+
+        nameTetris1.text = bestTetris[0].tempName
+        nameTetris2.text = bestTetris[1].tempName
+        nameTetris3.text = bestTetris[2].tempName
+        recordTetris1.text = bestTetris[0].recordTetris.toString()
+        recordTetris2.text = bestTetris[1].recordTetris.toString()
+        recordTetris3.text = bestTetris[2].recordTetris.toString()
 //        game.setOnClickListener {
 //            findNavController().navigate(R.id.action_games_to_dva48)
 //        }

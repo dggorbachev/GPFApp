@@ -649,6 +649,309 @@
             </com.google.android.material.card.MaterialCardView>
 
             <com.google.android.material.card.MaterialCardView
+                android:id="@+id/game5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:backgroundTint="@color/colorBack2"
+                app:cardCornerRadius="10dp"
+                app:cardUseCompatPadding="true"
+                app:layout_constraintTop_toBottomOf="@id/game4">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <LinearLayout
+                        android:id="@+id/ll5"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/white"
+                        android:orientation="horizontal"
+                        android:padding="10dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <ImageView
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:layout_gravity="start"
+                            android:src="@drawable/tetrix" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginStart="10dp"
+                            android:fontFamily="@font/noto_sans_bold"
+                            android:includeFontPadding="false"
+                            android:text="Neon Tetris"
+                            android:textColor="@color/colorText"
+                            android:textSize="20sp" />
+
+
+                    </LinearLayout>
+
+                    <FrameLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_gravity="end"
+                        android:layout_marginEnd="20dp"
+                        android:orientation="vertical"
+                        app:layout_constraintBottom_toBottomOf="@id/ll5"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center|top"
+                            android:layout_marginTop="10dp"
+                            android:fontFamily="@font/noto_sans_bold"
+                            android:includeFontPadding="false"
+                            android:text="Мой рекорд"
+                            android:textColor="@color/colorGrayMedium"
+                            android:textSize="11sp" />
+
+                        <TextView
+                            android:id="@+id/recordTetrisall"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="bottom|center"
+                            android:layout_marginBottom="13dp"
+                            android:fontFamily="@font/noto_sans_bold"
+                            android:includeFontPadding="false"
+                            android:textColor="@color/colorText"
+                            android:textSize="20sp"
+                            tools:text="123" />
+                    </FrameLayout>
+
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/cl5"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toBottomOf="@id/ll5">
+
+                        <LinearLayout
+                            android:id="@+id/ll6"
+                            android:layout_width="match_parent"
+                            android:layout_height="70dp"
+                            android:orientation="horizontal"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginStart="30dp"
+                                android:fontFamily="@font/noto_sans_bold"
+                                android:includeFontPadding="false"
+                                android:text="1"
+                                android:textColor="@color/colorText"
+                                android:textSize="20sp" />
+
+                            <TextView
+                                android:id="@+id/nameTetris1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginStart="30dp"
+                                android:fontFamily="@font/noto_sans_bold"
+                                android:includeFontPadding="false"
+                                android:text="Name"
+                                android:textColor="@color/colorText"
+                                android:textSize="20sp" />
+
+                        </LinearLayout>
+
+                        <FrameLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dp"
+                            android:layout_gravity="end"
+                            android:layout_marginEnd="35dp"
+                            android:orientation="vertical"
+                            app:layout_constraintBottom_toBottomOf="@id/ll6"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center|top"
+                                android:layout_marginTop="10dp"
+                                android:fontFamily="@font/noto_sans_bold"
+                                android:includeFontPadding="false"
+                                android:text="Рекорд"
+                                android:textColor="@color/colorGrayMedium"
+                                android:textSize="11sp" />
+
+                            <TextView
+                                android:id="@+id/recordTetris1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="bottom|center"
+                                android:layout_marginBottom="13dp"
+                                android:fontFamily="@font/noto_sans_bold"
+                                android:includeFontPadding="false"
+                                android:textColor="@color/colorText"
+                                android:textSize="20sp"
+                                tools:text="123" />
+                        </FrameLayout>
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/cl6"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toBottomOf="@id/cl5">
+
+                        <LinearLayout
+                            android:id="@+id/ll7"
+                            android:layout_width="match_parent"
+                            android:layout_height="70dp"
+                            android:orientation="horizontal"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginStart="30dp"
+                                android:fontFamily="@font/noto_sans_bold"
+                                android:includeFontPadding="false"
+                                android:text="2"
+                                android:textColor="@color/colorText"
+                                android:textSize="20sp" />
+
+                            <TextView
+                                android:id="@+id/nameTetris2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginStart="30dp"
+                                android:fontFamily="@font/noto_sans_bold"
+                                android:includeFontPadding="false"
+                                android:text="Name"
+                                android:textColor="@color/colorText"
+                                android:textSize="20sp" />
+
+                        </LinearLayout>
+
+                        <FrameLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dp"
+                            android:layout_gravity="end"
+                            android:layout_marginEnd="35dp"
+                            android:orientation="vertical"
+                            app:layout_constraintBottom_toBottomOf="@id/ll7"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center|top"
+                                android:layout_marginTop="10dp"
+                                android:fontFamily="@font/noto_sans_bold"
+                                android:includeFontPadding="false"
+                                android:text="Рекорд"
+                                android:textColor="@color/colorGrayMedium"
+                                android:textSize="11sp" />
+
+                            <TextView
+                                android:id="@+id/recordTetris2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="bottom|center"
+                                android:layout_marginBottom="13dp"
+                                android:fontFamily="@font/noto_sans_bold"
+                                android:includeFontPadding="false"
+                                android:textColor="@color/colorText"
+                                android:textSize="20sp"
+                                tools:text="123" />
+                        </FrameLayout>
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/cl8"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toBottomOf="@id/cl6">
+
+                        <LinearLayout
+                            android:id="@+id/ll8"
+                            android:layout_width="match_parent"
+                            android:layout_height="70dp"
+                            android:orientation="horizontal"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginStart="30dp"
+                                android:fontFamily="@font/noto_sans_bold"
+                                android:includeFontPadding="false"
+                                android:text="3"
+                                android:textColor="@color/colorText"
+                                android:textSize="20sp" />
+
+                            <TextView
+                                android:id="@+id/nameTetris3"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginStart="30dp"
+                                android:fontFamily="@font/noto_sans_bold"
+                                android:includeFontPadding="false"
+                                android:text="Name"
+                                android:textColor="@color/colorText"
+                                android:textSize="20sp" />
+
+                        </LinearLayout>
+
+                        <FrameLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dp"
+                            android:layout_gravity="end"
+                            android:layout_marginEnd="35dp"
+                            android:orientation="vertical"
+                            app:layout_constraintBottom_toBottomOf="@id/ll8"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center|top"
+                                android:layout_marginTop="10dp"
+                                android:fontFamily="@font/noto_sans_bold"
+                                android:includeFontPadding="false"
+                                android:text="Рекорд"
+                                android:textColor="@color/colorGrayMedium"
+                                android:textSize="11sp" />
+
+                            <TextView
+                                android:id="@+id/recordTetris3"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="bottom|center"
+                                android:layout_marginBottom="13dp"
+                                android:fontFamily="@font/noto_sans_bold"
+                                android:includeFontPadding="false"
+                                android:textColor="@color/colorText"
+                                android:textSize="20sp"
+                                tools:text="123" />
+                        </FrameLayout>
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
                 android:id="@+id/game3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -948,10 +1251,11 @@
                         </FrameLayout>
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
-
                 </androidx.constraintlayout.widget.ConstraintLayout>
-
             </com.google.android.material.card.MaterialCardView>
+
         </androidx.constraintlayout.widget.ConstraintLayout>
+
     </androidx.core.widget.NestedScrollView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,11 +1,9 @@
-package com.singlelab.gpf.interactive_games.game_2048
+package com.singlelab.gpf.interactive_games.game_math_cubes
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.content.Intent
-import android.graphics.Typeface
 import android.preference.PreferenceManager
-import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.widget.Button

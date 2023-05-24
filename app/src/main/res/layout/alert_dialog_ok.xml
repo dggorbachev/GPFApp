@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/alert_dialog"
+        android:orientation="vertical"
+        android:paddingStart="20dp"
+        android:paddingTop="10dp"
+        android:paddingEnd="20dp"
+        android:paddingBottom="10dp">
+
+        <TextView
+            android:id="@+id/dialog_coming_soon"
+            android:layout_width="wrap_content"
+            android:layout_height="65dp"
+            android:gravity="center"
+            android:text="  Coming Soon "
+            android:textColor="@color/fourth_phase"
+            android:textSize="20dp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_below="@id/dialog_info"
+            android:layout_gravity="center_horizontal"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/dialog_ok"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:backgroundTint="@color/second_phase"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:text="Ok"
+                android:textColor="@color/green" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>

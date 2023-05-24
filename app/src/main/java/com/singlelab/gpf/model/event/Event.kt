@@ -39,7 +39,8 @@ class Event(
     var tempId: String = "",
     var record2048: Int = 0,
     var recordFlappyCat: Int = 0,
-    var recordPiano: Int = 0
+    var recordPiano: Int = 0,
+    var recordTetris:Int=0
 ) {
 
     companion object {

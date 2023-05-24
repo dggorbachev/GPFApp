@@ -8,7 +8,7 @@ import com.singlelab.gpf.ui.my_profile.MyProfilePresenter
 import com.singlelab.net.exceptions.ApiException
 import java.text.DateFormat
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Calendar
 
 class GameoverFragmentPresenter(
     var score: Int,
@@ -22,32 +22,35 @@ class GameoverFragmentPresenter(
     }
 
     fun saveScore(playerName: String?) {
-        MyProfilePresenter.profile!!.personRecordPiano = score
-        val docData = hashMapOf(
-            "id" to MyProfilePresenter.profile!!.personUid,
-            "login" to MyProfilePresenter.profile!!.login!!,
-            "name" to MyProfilePresenter.profile!!.name,
-            "description" to MyProfilePresenter.profile!!.description!!,
-            "icon" to MyProfilePresenter.profile!!.imageContentUid!!,
-            "city" to MyProfilePresenter.profile!!.cityName,
-            "age" to MyProfilePresenter.profile!!.age,
-            "recordMathCubes" to MyProfilePresenter.profile!!.personRecord2048,
-            "recordFlappyCats" to MyProfilePresenter.profile!!.personRecordCats,
-            "recordPianoTiles" to MyProfilePresenter.profile!!.personRecordPiano,
-            "games" to MyProfilePresenter.profile!!.games,
-            "friends" to MyProfilePresenter.profile!!.friends,
-                        "likeTo" to MyProfilePresenter.profile!!.likeTo
-        )
+        if (MyProfilePresenter.profile!!.personRecordPiano < score) {
+            MyProfilePresenter.profile!!.personRecordPiano = score
+            val docData = hashMapOf(
+                "id" to MyProfilePresenter.profile!!.personUid,
+                "login" to MyProfilePresenter.profile!!.login!!,
+                "name" to MyProfilePresenter.profile!!.name,
+                "description" to MyProfilePresenter.profile!!.description!!,
+                "icon" to MyProfilePresenter.profile!!.imageContentUid!!,
+                "city" to MyProfilePresenter.profile!!.cityName,
+                "age" to MyProfilePresenter.profile!!.age,
+                "recordMathCubes" to MyProfilePresenter.profile!!.personRecord2048,
+                "recordFlappyCats" to MyProfilePresenter.profile!!.personRecordCats,
+                "recordPianoTiles" to MyProfilePresenter.profile!!.personRecordPiano,
+                "recordTetris" to MyProfilePresenter.profile!!.personRecordTetris,
+                "games" to MyProfilePresenter.profile!!.games,
+                "friends" to MyProfilePresenter.profile!!.friends,
+                "likeTo" to MyProfilePresenter.profile!!.likeTo
+            )
 
-        try {
-            val db = FirebaseFirestore.getInstance()
-            db.collection("users").document(MyProfilePresenter.profile!!.personUid)
-                .set(docData).addOnSuccessListener {
-                }
-                .addOnFailureListener {
-                    throw ApiException("")
-                }
-        } catch (e: Exception) {
+            try {
+                val db = FirebaseFirestore.getInstance()
+                db.collection("users").document(MyProfilePresenter.profile!!.personUid)
+                    .set(docData).addOnSuccessListener {
+                    }
+                    .addOnFailureListener {
+                        throw ApiException("")
+                    }
+            } catch (e: Exception) {
+            }
         }
         // TODO SCORE
 //        Date date = Calendar.getInstance().getTime();

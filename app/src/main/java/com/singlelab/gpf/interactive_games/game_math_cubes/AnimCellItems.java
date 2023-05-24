@@ -1,4 +1,4 @@
-package com.singlelab.gpf.interactive_games.game_2048;
+package com.singlelab.gpf.interactive_games.game_math_cubes;
 
 class AnimCellItems extends CellItem
 {
