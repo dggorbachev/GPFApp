@@ -681,6 +681,7 @@ open class GameActivity : AppCompatActivity(), View.OnClickListener, View.OnLong
                     "recordTetris" to MyProfilePresenter.profile!!.personRecordTetris,
                     "games" to MyProfilePresenter.profile!!.games,
                     "friends" to MyProfilePresenter.profile!!.friends,
+                    "newFriends" to MyProfilePresenter.profile!!.newFriends,
                     "likeTo" to MyProfilePresenter.profile!!.likeTo
                 )
 

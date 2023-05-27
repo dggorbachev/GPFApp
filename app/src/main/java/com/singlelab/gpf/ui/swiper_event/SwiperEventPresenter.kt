@@ -19,6 +19,7 @@ import kotlinx.coroutines.delay
 import moxy.InjectViewState
 import javax.inject.Inject
 
+
 @InjectViewState
 class SwiperEventPresenter @Inject constructor(
     private val interactor: SwiperEventInteractor,
@@ -58,97 +59,138 @@ class SwiperEventPresenter @Inject constructor(
 
     @OptIn(ExperimentalStdlibApi::class)
     fun loadRandomEvent(isFirstAttach: Boolean = false) {
-        if (MyProfilePresenter.profile!!.login == null) {
-            val auth = FirebaseAuth.getInstance()
-            auth.currentUser!!.reload().addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    val db = FirebaseFirestore.getInstance()
+//        if (MyProfilePresenter.profile!!.login == null) {
+        val auth = FirebaseAuth.getInstance()
+        auth.currentUser!!.reload().addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                val db = FirebaseFirestore.getInstance()
 
-                    db.collection("users")
-                        .get()
-                        .addOnSuccessListener { result ->
-                            for (document in result) {
-                                if (document.id == auth.currentUser!!.uid) {
-                                    launchProfile(
-                                        mapToObject(
-                                            document.data,
-                                            UserFirebase::class
-                                        )
+                db.collection("users")
+                    .get()
+                    .addOnSuccessListener { result ->
+                        for (document in result) {
+                            if (document.id == auth.currentUser!!.uid) {
+                                launchProfile(
+                                    mapToObject(
+                                        document.data,
+                                        UserFirebase::class
                                     )
-
-                                }
-                            }
-                        }
-                        .addOnFailureListener { exception ->
-                        }
-                }
-            }
-        }
-        if (isFirstAttach) {
-            val db = FirebaseFirestore.getInstance()
-
-            db.collection("users")
-                .get()
-                .addOnSuccessListener { result ->
-                    for (document in result) {
-                        val user = mapToObject(document.data, UserFirebase::class)
-                        if (user.id != MyProfilePresenter.profile!!.personUid) {
-                            val newGames = mutableListOf<String>()
-                            user.games.forEach {
-                                when (it) {
-                                    "DOTA" -> {
-                                        newGames.add("Dota 2")
-                                    }
-
-                                    "CSGO" -> {
-                                        newGames.add("CS:GO")
-                                    }
-
-                                    "OVERWATCH" -> {
-                                        newGames.add("Overwatch")
-                                    }
-
-                                    "VALORANT" -> {
-                                        newGames.add("Valorant")
-                                    }
-
-                                    "PUBG" -> {
-                                        newGames.add("PUBG")
-                                    }
-
-                                    "DIABLO" -> {
-                                        newGames.add("Diablo 4")
-                                    }
-                                }
-                            }
-                            events.add(
-                                Event(
-                                    tempImage = user.icon,
-                                    tempLogin = user.login,
-                                    tempName = user.name,
-                                    tempGames = newGames,
-                                    tempCity = user.city,
-                                    tempDescription = user.description,
-                                    tempAge = user.age.toString(),
-                                    tempId = user.id,
-                                    record2048 = user.recordMathCubes.toInt(),
-                                    recordFlappyCat = user.recordFlappyCats.toInt(),
-                                    recordPiano = user.recordPianoTiles.toInt(),
-                                    recordTetris = user.recordTetris.toInt()
                                 )
-                            )
+
+                                if (isFirstAttach) {
+                                    val db = FirebaseFirestore.getInstance()
+
+                                    db.collection("users")
+                                        .get()
+                                        .addOnSuccessListener { result ->
+                                            for (document in result) {
+                                                val user =
+                                                    mapToObject(document.data, UserFirebase::class)
+                                                if (user.id != MyProfilePresenter.profile!!.personUid) {
+                                                    val newGames = mutableListOf<String>()
+                                                    user.games.forEach {
+                                                        when (it) {
+                                                            "DOTA" -> {
+                                                                newGames.add("Dota 2")
+                                                            }
+
+                                                            "CSGO" -> {
+                                                                newGames.add("CS:GO")
+                                                            }
+
+                                                            "OVERWATCH" -> {
+                                                                newGames.add("Overwatch")
+                                                            }
+
+                                                            "VALORANT" -> {
+                                                                newGames.add("Valorant")
+                                                            }
+
+                                                            "PUBG" -> {
+                                                                newGames.add("PUBG")
+                                                            }
+
+                                                            "DIABLO" -> {
+                                                                newGames.add("Diablo 4")
+                                                            }
+                                                        }
+                                                    }
+                                                    events.add(
+                                                        Event(
+                                                            tempImage = user.icon,
+                                                            tempLogin = user.login,
+                                                            tempName = user.name,
+                                                            tempGames = newGames,
+                                                            tempCity = user.city,
+                                                            tempDescription = user.description,
+                                                            tempAge = user.age.toString(),
+                                                            tempId = user.id,
+                                                            record2048 = user.recordMathCubes.toInt(),
+                                                            recordFlappyCat = user.recordFlappyCats.toInt(),
+                                                            recordPiano = user.recordPianoTiles.toInt(),
+                                                            recordTetris = user.recordTetris.toInt()
+                                                        )
+                                                    )
+                                                }
+                                            }
+
+                                            events = events.shuffled().toMutableList()
+
+                                            checkNewFriends()
+                                            randomEvent()
+                                        }
+                                        .addOnFailureListener { exception ->
+                                            fail()
+                                        }
+                                } else {
+                                    checkNewFriends()
+                                    randomEvent()
+                                }
+                            }
                         }
                     }
+                    .addOnFailureListener { exception ->
+                    }
+            }
+        }
+//        }
 
-                    events = events.shuffled().toMutableList()
+    }
 
-                    randomEvent()
-                }
-                .addOnFailureListener { exception ->
-                    fail()
-                }
-        } else {
-            randomEvent()
+
+    private fun checkNewFriends() {
+        val db = FirebaseFirestore.getInstance()
+        if (MyProfilePresenter.profile!!.newFriends.size != 0) {
+            for (fr in MyProfilePresenter.profile!!.newFriends) {
+                viewState.toAcceptedEvent(true, events.find { it.tempId == fr }!!.tempName)
+            }
+            MyProfilePresenter.profile!!.newFriends = mutableListOf()
+            val docData = hashMapOf(
+                "id" to MyProfilePresenter.profile!!.personUid,
+                "login" to MyProfilePresenter.profile!!.login!!,
+                "name" to MyProfilePresenter.profile!!.name,
+                "description" to MyProfilePresenter.profile!!.description!!,
+                "icon" to MyProfilePresenter.profile!!.imageContentUid!!,
+                "city" to MyProfilePresenter.profile!!.cityName,
+                "age" to MyProfilePresenter.profile!!.age,
+                "recordMathCubes" to MyProfilePresenter.profile!!.personRecord2048,
+                "recordFlappyCats" to MyProfilePresenter.profile!!.personRecordCats,
+                "recordPianoTiles" to MyProfilePresenter.profile!!.personRecordPiano,
+                "recordTetris" to MyProfilePresenter.profile!!.personRecordTetris,
+                "games" to MyProfilePresenter.profile!!.games,
+                "friends" to MyProfilePresenter.profile!!.friends,
+                "newFriends" to MyProfilePresenter.profile!!.newFriends,
+                "likeTo" to MyProfilePresenter.profile!!.likeTo
+            )
+            try {
+                db.collection("users").document(MyProfilePresenter.profile!!.personUid)
+                    .set(docData).addOnSuccessListener {
+                    }
+                    .addOnFailureListener {
+                        throw ApiException("")
+                    }
+            } catch (e: Exception) {
+            }
         }
     }
 
@@ -217,50 +259,54 @@ class SwiperEventPresenter @Inject constructor(
 
     fun acceptEvent() {
         invokeSuspend {
+//            if (MyProfilePresenter.profile!!.login == null) {
+            val auth = FirebaseAuth.getInstance()
+            auth.currentUser!!.reload().addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    val db = FirebaseFirestore.getInstance()
 
-            if (MyProfilePresenter.profile!!.login == null) {
-                val auth = FirebaseAuth.getInstance()
-                auth.currentUser!!.reload().addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        val db = FirebaseFirestore.getInstance()
-
-                        // get user from cloudstore
-                        db.collection("users")
-                            .get()
-                            .addOnSuccessListener { result ->
-                                var found = false
-                                for (document in result) {
-                                    if (document.id == auth.currentUser!!.uid) {
-                                        launchProfile(
-                                            mapToObject(
-                                                document.data,
-                                                UserFirebase::class
-                                            )
+                    // get user from cloudstore
+                    db.collection("users")
+                        .get()
+                        .addOnSuccessListener { result ->
+                            var found = false
+                            for (document in result) {
+                                if (document.id == auth.currentUser!!.uid) {
+                                    launchProfile(
+                                        mapToObject(
+                                            document.data,
+                                            UserFirebase::class
                                         )
-                                        ll1()
-                                        found = true
+                                    )
+                                    ll1()
+                                    found = true
+                                    invokeSuspend {
+
+                                        delay(500)
+
+                                        runOnMainThread {
+                                            loadRandomEvent()
+                                        }
                                     }
                                 }
-                                // if no id on cloudstore -> error
-                                if (!found) {
-                                    fail()
-                                }
                             }
-                            .addOnFailureListener { exception ->
+                            // if no id on cloudstore -> error
+                            if (!found) {
                                 fail()
                             }
-                    } else {
-                        fail()
-                    }
+                        }
+                        .addOnFailureListener { exception ->
+                            fail()
+                        }
+                } else {
+                    fail()
                 }
-            } else {
-                ll1()
             }
+//            } else {
+//                ll1()
+//            }
 
-            delay(500)
-            runOnMainThread {
-                loadRandomEvent()
-            }
+
         }
 //        val uid = AuthData.uid ?: return
 //        event?.eventUid?.let { eventUid ->
@@ -308,6 +354,7 @@ class SwiperEventPresenter @Inject constructor(
                     "recordTetris" to MyProfilePresenter.profile!!.personRecordTetris,
                     "games" to MyProfilePresenter.profile!!.games,
                     "friends" to MyProfilePresenter.profile!!.friends,
+                    "newFriends" to MyProfilePresenter.profile!!.newFriends,
                     "likeTo" to MyProfilePresenter.profile!!.likeTo
                 )
 
@@ -342,6 +389,8 @@ class SwiperEventPresenter @Inject constructor(
                             val friends1 = user.friends.toMutableList()
                             friends1.add(MyProfilePresenter.profile!!.personUid)
                             liketo1.remove(MyProfilePresenter.profile!!.personUid)
+                            user.newFriends.add(MyProfilePresenter.profile!!.personUid)
+                            viewState.toAcceptedEvent(true, user.name)
 
                             user.likeTo = liketo1
                             user.friends = friends1
@@ -359,6 +408,7 @@ class SwiperEventPresenter @Inject constructor(
                                 "recordTetris" to user.recordTetris,
                                 "games" to user.games,
                                 "friends" to user.friends,
+                                "newFriends" to user.newFriends,
                                 "likeTo" to user.likeTo
                             )
 
@@ -387,6 +437,7 @@ class SwiperEventPresenter @Inject constructor(
                                     "recordTetris" to MyProfilePresenter.profile!!.personRecordTetris,
                                     "games" to MyProfilePresenter.profile!!.games,
                                     "friends" to MyProfilePresenter.profile!!.friends,
+                                    "newFriends" to MyProfilePresenter.profile!!.newFriends,
                                     "likeTo" to MyProfilePresenter.profile!!.likeTo
                                 )
 
@@ -419,6 +470,7 @@ class SwiperEventPresenter @Inject constructor(
             description = user.description
             cityName = user.city
             friends = user.friends as MutableList<String>
+            newFriends = user.newFriends
             personUid = user.id
             likeTo = user.likeTo as MutableList<String>
             age = user.age.toInt()
@@ -434,6 +486,7 @@ class SwiperEventPresenter @Inject constructor(
 
     private fun checkFriends() {
         val db = FirebaseFirestore.getInstance()
+
         db.collection("users")
             .get()
             .addOnSuccessListener { result ->
@@ -462,6 +515,8 @@ class SwiperEventPresenter @Inject constructor(
             val friends1 = user.friends.toMutableList()
             friends1.add(MyProfilePresenter.profile!!.personUid)
             liketo1.remove(MyProfilePresenter.profile!!.personUid)
+            user.newFriends.add(MyProfilePresenter.profile!!.personUid)
+            viewState.toAcceptedEvent(true, user.name)
 
             user.likeTo = liketo1
             user.friends = friends1
@@ -479,6 +534,7 @@ class SwiperEventPresenter @Inject constructor(
                 "recordTetris" to user.recordTetris,
                 "games" to user.games,
                 "friends" to user.friends,
+                "newFriends" to user.newFriends,
                 "likeTo" to user.likeTo
             )
 
@@ -507,6 +563,7 @@ class SwiperEventPresenter @Inject constructor(
                     "recordTetris" to MyProfilePresenter.profile!!.personRecordTetris,
                     "games" to MyProfilePresenter.profile!!.games,
                     "friends" to MyProfilePresenter.profile!!.friends,
+                    "newFriends" to MyProfilePresenter.profile!!.newFriends,
                     "likeTo" to MyProfilePresenter.profile!!.likeTo
                 )
 

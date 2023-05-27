@@ -11,8 +11,9 @@ data class UserFirebase(
     var likeTo: List<String>,
     val login: String,
     val name: String,
+    var newFriends: MutableList<String>,
     val recordFlappyCats: Long,
     val recordMathCubes: Long,
     val recordPianoTiles: Long,
-    val recordTetris:Long
+    val recordTetris: Long
 )

@@ -155,7 +155,8 @@ class RegistrationPresenter @Inject constructor(
                 "recordTetris" to 0,
                 "likeTo" to arrayListOf<String>(),
                 "games" to arrayListOf<String>("DOTA"),
-                "friends" to arrayListOf<String>()
+                "friends" to arrayListOf<String>(),
+                "newFriends" to arrayListOf<String>()
             )
 
             val db = FirebaseFirestore.getInstance()

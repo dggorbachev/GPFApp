@@ -122,6 +122,7 @@ class ChooseGamesFragment : BaseFragment() {
             "recordTetris" to MyProfilePresenter.profile!!.personRecordTetris,
             "games" to profile!!.games,
             "friends" to profile!!.friends,
+            "newFriends" to profile!!.newFriends,
             "likeTo" to profile!!.likeTo
         )
 

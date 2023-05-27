@@ -14,6 +14,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.FragmentResultListener
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DefaultItemAnimator
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.singlelab.gpf.R
@@ -106,7 +107,9 @@ class SwiperEventFragment : BaseFragment(), SwiperEventView, OnlyForAuthFragment
             login = user.login
             name = user.name
             description = user.description
+            likeTo = user.likeTo as MutableList<String>
             friends = user.friends as MutableList<String>
+            newFriends = user.newFriends
             cityName = user.city
             personUid = user.id
             age = user.age.toInt()
@@ -114,7 +117,7 @@ class SwiperEventFragment : BaseFragment(), SwiperEventView, OnlyForAuthFragment
             personRecord2048 = user.recordMathCubes.toInt()
             personRecordCats = user.recordFlappyCats.toInt()
             personRecordPiano = user.recordPianoTiles.toInt()
-            personRecordTetris=user.recordTetris.toInt()
+            personRecordTetris = user.recordTetris.toInt()
         }
     }
 
@@ -142,15 +145,22 @@ class SwiperEventFragment : BaseFragment(), SwiperEventView, OnlyForAuthFragment
     }
 
     override fun toAcceptedEvent(isOpenEvent: Boolean, eventUid: String) {
-        if (isOpenEvent) {
-            findNavController().navigate(
-                SwiperEventFragmentDirections.actionSwiperEventToEvent(
-                    eventUid
-                )
-            )
-        } else {
-            presenter.loadRandomEvent()
-        }
+//        if (isOpenEvent) {
+//            findNavController().navigate(
+//                SwiperEventFragmentDirections.actionSwiperEventToEvent(
+//                    eventUid
+//                )
+//            )
+//        } else {
+//            presenter.loadRandomEvent()
+//        }
+
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle("Notification")
+            .setMessage("You have new friend: $eventUid")
+            .setPositiveButton(
+                "OK"
+            ) { dialogInterface, i -> dialogInterface.cancel() }.show()
     }
 
     override fun showEmptySwipes(isFullFilter: Boolean) {

@@ -161,6 +161,7 @@ class MyProfileFragment : BaseFragment(), MyProfileView, OnActivityResultListene
             description = user.description
             cityName = user.city
             friends = user.friends as MutableList<String>
+            newFriends = user.newFriends
             personUid = user.id
             likeTo = user.likeTo as MutableList<String>
             age = user.age.toInt()

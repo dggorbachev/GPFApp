@@ -17,6 +17,7 @@ class Profile(
     var imageContentUid: String? = null,
     var isFriend: Boolean = false,
     var friends: MutableList<String> = arrayListOf(),
+    var newFriends: MutableList<String> = arrayListOf(),
     var likeTo: MutableList<String> = mutableListOf<String>(),
     var personRecord2048: Int = 0,
     var personRecordCats: Int = 0,

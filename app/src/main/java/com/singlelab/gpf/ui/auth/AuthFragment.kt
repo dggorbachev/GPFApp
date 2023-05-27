@@ -18,6 +18,7 @@ import com.singlelab.gpf.base.listeners.OnBackPressListener
 import com.singlelab.gpf.model.view.ToastType
 import com.singlelab.gpf.new_features.firebase.UserFirebase
 import com.singlelab.gpf.new_features.firebase.mapToObject
+import com.singlelab.gpf.new_features.games_model.GamePerson
 import com.singlelab.gpf.ui.my_profile.MyProfilePresenter
 import com.singlelab.gpf.ui.view.tutorial.TutorialAdapter
 import com.singlelab.gpf.util.maskPhone
@@ -195,6 +196,10 @@ class AuthFragment : BaseFragment(), AuthView, OnBackPressListener {
     }
 
     private fun launchProfile(user: UserFirebase) {
+        MyProfilePresenter.profile!!.games = mutableListOf()
+        user.games.forEach {
+            MyProfilePresenter.profile!!.games!!.add(GamePerson.valueOf(it))
+        }
         MyProfilePresenter.profile!!.apply {
             login = user.login
             name = user.name
@@ -202,6 +207,8 @@ class AuthFragment : BaseFragment(), AuthView, OnBackPressListener {
             cityName = user.city
             personUid = user.id
             friends = user.friends as MutableList<String>
+            likeTo = user.likeTo as MutableList<String>
+            newFriends=user.newFriends
             age = user.age.toInt()
             imageContentUid = user.icon
             personRecord2048 = user.recordMathCubes.toInt()

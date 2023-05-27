@@ -66,6 +66,7 @@ class PersonPresenter @Inject constructor(
                             }
                             SwiperEventPresenter.events.add(
                                 Event(
+                                    tempLogin = user.login,
                                     tempImage = user.icon,
                                     tempName = user.name,
                                     tempGames = newGames,
@@ -75,7 +76,8 @@ class PersonPresenter @Inject constructor(
                                     record2048 = user.recordMathCubes.toInt(),
                                     recordFlappyCat = user.recordFlappyCats.toInt(),
                                     recordPiano = user.recordPianoTiles.toInt(),
-                                    recordTetris = user.recordTetris.toInt()
+                                    recordTetris = user.recordTetris.toInt(),
+                                    tempId = user.id
                                 )
                             )
                         }
@@ -191,6 +193,7 @@ class PersonPresenter @Inject constructor(
             "recordTetris" to MyProfilePresenter.profile!!.personRecordTetris,
             "games" to MyProfilePresenter.profile!!.games,
             "friends" to MyProfilePresenter.profile!!.friends,
+            "newFriends" to MyProfilePresenter.profile!!.newFriends,
             "likeTo" to MyProfilePresenter.profile!!.likeTo
         )
 
@@ -233,6 +236,7 @@ class PersonPresenter @Inject constructor(
             "recordTetris" to MyProfilePresenter.profile!!.personRecordTetris,
             "games" to MyProfilePresenter.profile!!.games,
             "friends" to MyProfilePresenter.profile!!.friends,
+            "newFriends" to MyProfilePresenter.profile!!.newFriends,
             "likeTo" to MyProfilePresenter.profile!!.likeTo
         )
 

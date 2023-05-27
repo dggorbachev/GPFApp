@@ -38,6 +38,7 @@ internal class GestureInputListener(private val mView: PrimaryView) : OnTouchLis
                 "recordTetris" to MyProfilePresenter.profile!!.personRecordTetris,
                 "games" to MyProfilePresenter.profile!!.games,
                 "friends" to MyProfilePresenter.profile!!.friends,
+                "newFriends" to MyProfilePresenter.profile!!.newFriends,
                 "likeTo" to MyProfilePresenter.profile!!.likeTo
             )
 
