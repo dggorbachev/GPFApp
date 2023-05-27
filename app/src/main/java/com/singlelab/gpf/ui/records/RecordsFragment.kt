@@ -1,6 +1,7 @@
 package com.singlelab.gpf.ui.records
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,8 +15,32 @@ import com.singlelab.gpf.model.profile.Profile
 import com.singlelab.gpf.ui.my_profile.MyProfilePresenter
 import com.singlelab.gpf.ui.swiper_event.SwiperEventPresenter
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.fragment_records.*
-import kotlinx.android.synthetic.main.item_card_event.*
+import kotlinx.android.synthetic.main.fragment_records.name20481
+import kotlinx.android.synthetic.main.fragment_records.name20482
+import kotlinx.android.synthetic.main.fragment_records.name20483
+import kotlinx.android.synthetic.main.fragment_records.nameCats1
+import kotlinx.android.synthetic.main.fragment_records.nameCats2
+import kotlinx.android.synthetic.main.fragment_records.nameCats3
+import kotlinx.android.synthetic.main.fragment_records.nameTetris1
+import kotlinx.android.synthetic.main.fragment_records.nameTetris2
+import kotlinx.android.synthetic.main.fragment_records.nameTetris3
+import kotlinx.android.synthetic.main.fragment_records.nameTiles1
+import kotlinx.android.synthetic.main.fragment_records.nameTiles2
+import kotlinx.android.synthetic.main.fragment_records.nameTiles3
+import kotlinx.android.synthetic.main.fragment_records.record20481
+import kotlinx.android.synthetic.main.fragment_records.record20482
+import kotlinx.android.synthetic.main.fragment_records.record20483
+import kotlinx.android.synthetic.main.fragment_records.recordFlappyCats1
+import kotlinx.android.synthetic.main.fragment_records.recordFlappyCats2
+import kotlinx.android.synthetic.main.fragment_records.recordFlappyCats3
+import kotlinx.android.synthetic.main.fragment_records.recordTetris1
+import kotlinx.android.synthetic.main.fragment_records.recordTetris2
+import kotlinx.android.synthetic.main.fragment_records.recordTetris3
+import kotlinx.android.synthetic.main.fragment_records.recordTetrisall
+import kotlinx.android.synthetic.main.fragment_records.recordTiles
+import kotlinx.android.synthetic.main.fragment_records.recordTiles1
+import kotlinx.android.synthetic.main.fragment_records.recordTiles2
+import kotlinx.android.synthetic.main.fragment_records.recordTiles3
 import kotlinx.android.synthetic.main.item_card_event.record2048
 import kotlinx.android.synthetic.main.item_card_event.recordFlappyCats
 
