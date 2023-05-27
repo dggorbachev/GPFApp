@@ -1,10 +1,12 @@
 package com.singlelab.gpf.ui.friends
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -22,7 +24,6 @@ import com.singlelab.gpf.new_features.firebase.ChatFirebase
 import com.singlelab.gpf.new_features.firebase.mapToObject
 import com.singlelab.gpf.ui.chat.ChatPresenter
 import com.singlelab.gpf.ui.chat.common.ChatOpeningInvocationType
-import com.singlelab.gpf.ui.swiper_event.SwiperEventPresenter
 import com.singlelab.gpf.ui.view.person.OnPersonItemClickListener
 import com.singlelab.gpf.ui.view.person.PersonAdapter
 import com.singlelab.gpf.util.ContactsUtil
@@ -232,8 +233,46 @@ class FriendsFragment : BaseFragment(), FriendsView, OnlyForAuthFragments,
             }
     }
 
+
     override fun onAddToFriends(personUid: String) {
-        presenter.addToFriends(personUid)
+
+        showChangeLangDialog(personUid)
+    }
+
+    fun showChangeLangDialog(personUid: String) {
+        val dialogBuilder = AlertDialog.Builder(context)
+        val inflater = this.layoutInflater
+        val dialogView = inflater.inflate(R.layout.alert_group_chat_name, null)
+        dialogBuilder.setView(dialogView)
+        val edt = dialogView.findViewById<View>(R.id.etUserInput) as EditText
+        dialogBuilder.setPositiveButton(
+            "Готово"
+        ) { dialog, whichButton ->
+            val auth = FirebaseAuth.getInstance()
+            val db = FirebaseFirestore.getInstance()
+            val chatId = getRandomString(20)
+
+            val chatDocData = hashMapOf(
+                "id" to chatId,
+                "image" to "https://www.marketingdirecto.com/wp-content/uploads/2012/11/focus-group.jpg",
+                "isGroup" to true,
+                "isLastMessageImage" to false,
+                "lastMessageUserId" to auth.currentUser!!.uid,
+                "lastMessageValue" to "Чат создан",
+                "title" to edt.text.toString(),
+                "users" to listOf<String>(personUid, auth.currentUser!!.uid)
+            )
+
+            db.collection("chats").document(chatId)
+                .set(chatDocData)
+
+        }
+        dialogBuilder.setNegativeButton(
+            "Отмена"
+        ) { dialog, whichButton ->
+        }
+        val b = dialogBuilder.create()
+        b.show()
     }
 
     override fun onInviteClick(personUid: String, eventUid: String) {
@@ -289,5 +328,12 @@ class FriendsFragment : BaseFragment(), FriendsView, OnlyForAuthFragments,
     override fun onWriteExternalPermissionDenied() {
     }
 
+
+    fun getRandomString(length: Int = 20): String {
+        val allowedChars = ('A'..'Z') + ('a'..'z') + ('0'..'9')
+        return (1..length)
+            .map { allowedChars.random() }
+            .joinToString("")
+    }
 
 }

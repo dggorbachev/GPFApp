@@ -306,6 +306,9 @@ constructor(
                     if (chat.id == chatUid) {
                         selectedChat = chat
                         chatNotFound = "false"
+
+                        viewState.showMute(selectedChat.isGroup)
+
                     }
                 }
 
@@ -321,6 +324,9 @@ constructor(
                         title = "",
                         users = listOf(currentUserId, personIdWeCameFrom)
                     )
+
+                    viewState.showMute(selectedChat.isGroup)
+
 
                     Log.d("ChatUid1", generatedChatId)
                     chatUid = generatedChatId

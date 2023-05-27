@@ -39,7 +39,7 @@
         android:padding="24dp"
         android:visibility="invisible"
         android:clickable="false"
-        android:src="@drawable/ic_mute"
+        android:src="@drawable/ic_add"
         android:tint="@color/selector_gray_icon"
         app:layout_constraintBottom_toBottomOf="@id/chatTitleView"
         app:layout_constraintEnd_toEndOf="parent"
