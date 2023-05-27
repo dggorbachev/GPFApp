@@ -64,7 +64,6 @@ class SearchEventFragment : BaseFragment(), SearchEventView,
     override fun showSearchResults(events: List<EventSummary>?) {
         if (events.isNullOrEmpty()) {
             title_empty_search.visibility = View.VISIBLE
-            recycler_search_results.visibility = View.GONE
         } else {
             (recycler_search_results.adapter as EventsAdapter).setData(events)
             title_empty_search.visibility = View.GONE
@@ -74,7 +73,6 @@ class SearchEventFragment : BaseFragment(), SearchEventView,
 
     override fun showEmptyQuery() {
         title_empty_search.visibility = View.GONE
-        recycler_search_results.visibility = View.GONE
     }
 
     override fun onClickEvent(uid: String) {

@@ -1,9 +1,14 @@
 package com.singlelab.gpf.ui.friends
 
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.firestore.FirebaseFirestore
 import com.singlelab.gpf.base.BaseInteractor
 import com.singlelab.gpf.base.BasePresenter
 import com.singlelab.gpf.model.Const
 import com.singlelab.gpf.model.profile.Person
+import com.singlelab.gpf.new_features.firebase.UserFirebase
+import com.singlelab.gpf.new_features.firebase.mapToObject
 import com.singlelab.gpf.pref.Preferences
 import com.singlelab.gpf.ui.friends.interactor.FriendsInteractor
 import com.singlelab.net.exceptions.ApiException
@@ -38,32 +43,7 @@ class FriendsPresenter @Inject constructor(
     }
 
     fun search(searchStr: String, page: Int = 1) {
-        pageNumber = page
-        if (searchStr.isBlank()) {
-            viewState.showFriends(friends)
-        } else {
-            isLoading = true
-            viewState.showLoading(isShow = true, withoutBackground = true)
-            invokeSuspend {
-                try {
-                    val request = SearchPersonRequest(pageNumber, pageSize, searchStr)
-                    searchResults = interactor.search(request)?.toMutableList()
-                    isLoading = false
-                    runOnMainThread {
-                        viewState.showLoading(isShow = false, withoutBackground = true)
-                        searchResults?.let {
-                            viewState.showSearchResult(it, pageNumber)
-                        }
-                    }
-                } catch (e: ApiException) {
-                    isLoading = false
-                    runOnMainThread {
-                        viewState.showLoading(isShow = false, withoutBackground = true)
-                        viewState.showError(e.message)
-                    }
-                }
-            }
-        }
+
     }
 
     fun addToFriends(personUid: String) {
@@ -205,24 +185,62 @@ class FriendsPresenter @Inject constructor(
     }
 
     private fun loadFriends() {
-        val uid = AuthData.uid ?: return
         viewState.showLoading(isShow = true, withoutBackground = true)
-        invokeSuspend {
-            try {
-                friends = interactor.getFriends(uid)?.toMutableList()
-                if (eventUid != null) {
-                    friends?.removeAll { it.friendshipApprovalRequired }
+
+        val db = FirebaseFirestore.getInstance()
+        val auth = FirebaseAuth.getInstance()
+        lateinit var currentUser: UserFirebase
+        val friends = mutableListOf<UserFirebase>()
+
+        db.collection("users")
+            .get().addOnSuccessListener { result ->
+
+                for (userDoc in result) {
+                    val user = mapToObject(userDoc.data, UserFirebase::class)
+
+                    if (auth.currentUser!!.uid == user.id) {
+                        currentUser = user
+                    }
+                }
+
+                for (userDoc in result) {
+                    val user = mapToObject(userDoc.data, UserFirebase::class)
+
+                    if (currentUser.friends.contains(user.id)) {
+                        friends.add(user)
+                    }
                 }
                 runOnMainThread {
                     viewState.showLoading(isShow = false, withoutBackground = true)
-                    viewState.showFriends(friends)
+                    viewState.showFriends(friends.toPersonMutableList())
                 }
-            } catch (e: ApiException) {
-                runOnMainThread {
-                    viewState.showLoading(isShow = false, withoutBackground = true)
-                    viewState.showError(e.message)
-                }
+
+//                friends = interactor.getFriends(uid)?.toMutableList()
+//                if (eventUid != null) {
+//                    friends?.removeAll { it.friendshipApprovalRequired }
+//                }
+//                runOnMainThread {
+//                    viewState.showLoading(isShow = false, withoutBackground = true)
+//                    viewState.showFriends(friends)
+//                }
             }
-        }
     }
+
+    private fun UserFirebase.toPerson(): Person =
+        Person(
+            personUid = this.id,
+            name = this.name,
+            login = this.login,
+            description = this.description,
+            age = this.age.toInt(),
+            cityName = this.city,
+            imageContentUid = this.icon,
+            isFriend = false,
+            isInvited = false,
+            friendshipApprovalRequired = false
+        )
+
+    private fun  MutableList<UserFirebase>.toPersonMutableList(): MutableList<Person> = map{
+        it.toPerson()
+    }.toMutableList()
 }

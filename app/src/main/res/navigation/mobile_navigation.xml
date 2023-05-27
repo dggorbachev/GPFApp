@@ -75,6 +75,10 @@
         <action
             android:id="@+id/action_from_chats_to_chat"
             app:destination="@id/chat" />
+
+        <action
+            android:id="@+id/action_from_chats_to_friends"
+            app:destination="@id/friends" />
     </fragment>
 
     <fragment

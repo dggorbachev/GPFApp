@@ -1,6 +1,7 @@
 package com.singlelab.gpf.ui.friends
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,6 +9,8 @@ import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.singlelab.gpf.MainActivity
 import com.singlelab.gpf.R
 import com.singlelab.gpf.base.BaseFragment
@@ -15,7 +18,11 @@ import com.singlelab.gpf.base.OnlyForAuthFragments
 import com.singlelab.gpf.base.listeners.OnPermissionListener
 import com.singlelab.gpf.model.Const
 import com.singlelab.gpf.model.profile.Person
+import com.singlelab.gpf.new_features.firebase.ChatFirebase
+import com.singlelab.gpf.new_features.firebase.mapToObject
+import com.singlelab.gpf.ui.chat.ChatPresenter
 import com.singlelab.gpf.ui.chat.common.ChatOpeningInvocationType
+import com.singlelab.gpf.ui.swiper_event.SwiperEventPresenter
 import com.singlelab.gpf.ui.view.person.OnPersonItemClickListener
 import com.singlelab.gpf.ui.view.person.PersonAdapter
 import com.singlelab.gpf.util.ContactsUtil
@@ -189,15 +196,40 @@ class FriendsFragment : BaseFragment(), FriendsView, OnlyForAuthFragments,
     }
 
     override fun onChatClick(personName: String, personUid: String) {
-        findNavController().navigate(
-            FriendsFragmentDirections.actionFromFriendsToChat(
-                null,
-                ChatOpeningInvocationType.Person(
-                    title = personName,
-                    personUid = personUid
+
+        val db = FirebaseFirestore.getInstance()
+
+        db.collection("chats")
+            .get()
+            .addOnSuccessListener { chatDocs ->
+
+                val auth = FirebaseAuth.getInstance()
+                val currentUserId = auth.currentUser!!.uid
+                var wasFound = false
+
+                for (chatDocument in chatDocs) {
+                    val chat = mapToObject(chatDocument.data, ChatFirebase::class)
+
+                    if (chat.users.contains(personUid) && chat.users.contains(currentUserId) && !chat.isGroup) {
+                        Log.d("ChatUid9", chat.id)
+                        ChatPresenter.chatUid = chat.id
+                        wasFound = true
+                    }
+                }
+
+                if (!wasFound)
+                    ChatPresenter.chatUid = "-1"
+
+                findNavController().navigate(
+                    FriendsFragmentDirections.actionFromFriendsToChat(
+                        null,
+                        ChatOpeningInvocationType.Person(
+                            title = personName,
+                            personUid = personUid
+                        )
+                    )
                 )
-            )
-        )
+            }
     }
 
     override fun onAddToFriends(personUid: String) {
@@ -224,8 +256,8 @@ class FriendsFragment : BaseFragment(), FriendsView, OnlyForAuthFragments,
     }
 
     private fun showSearch(isShow: Boolean) {
-        button_import_contacts.visibility = if (isShow) View.VISIBLE else View.GONE
-        edit_text_search.visibility = if (isShow) View.VISIBLE else View.GONE
+        button_import_contacts.visibility = View.GONE
+        edit_text_search.visibility = View.GONE
     }
 
     private fun onImportContactsClick() {
@@ -256,4 +288,6 @@ class FriendsFragment : BaseFragment(), FriendsView, OnlyForAuthFragments,
 
     override fun onWriteExternalPermissionDenied() {
     }
+
+
 }

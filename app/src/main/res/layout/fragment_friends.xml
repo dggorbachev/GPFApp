@@ -23,6 +23,7 @@
             <com.singlelab.gpf.ui.view.input.InputView
                 android:id="@+id/edit_text_search"
                 android:layout_width="match_parent"
+                android:visibility="gone"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/margin_medium"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -42,7 +43,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/edit_text_search"
-                tools:visibility="visible" />
+                tools:visibility="gone" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_friends"

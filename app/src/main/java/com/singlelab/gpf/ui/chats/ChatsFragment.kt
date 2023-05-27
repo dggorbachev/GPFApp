@@ -73,7 +73,7 @@ class ChatsFragment : BaseFragment(), ChatsView, OnlyForAuthFragments {
 
     private fun initViews() {
         addGroupChatButton.setOnClickListener {
-
+            findNavController().navigate(R.id.action_from_chats_to_friends)
         }
 
         chatsView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)

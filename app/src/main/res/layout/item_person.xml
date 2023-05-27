@@ -61,6 +61,7 @@
         android:layout_marginEnd="@dimen/margin_medium"
         android:clickable="true"
         android:focusable="true"
+        android:tint="@color/adekvatBlue"
         android:src="@drawable/ic_add"
         app:layout_constraintBottom_toBottomOf="@id/card_image"
         app:layout_constraintEnd_toStartOf="@id/button_chat"

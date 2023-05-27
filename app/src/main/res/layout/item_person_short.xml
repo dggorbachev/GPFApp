@@ -53,4 +53,18 @@
         app:layout_constraintVertical_bias="0.0"
         tools:text="27 лет, Москва" />
 
+    <ImageView
+        android:id="@+id/chooseUser"
+        android:layout_width="30dp"
+        android:layout_height="0dp"
+        android:visibility="gone"
+        android:src="@drawable/ic_add"
+        android:tint="@color/black"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="20dp"
+        />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
