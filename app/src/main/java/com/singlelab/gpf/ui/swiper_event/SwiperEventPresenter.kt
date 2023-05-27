@@ -75,6 +75,7 @@ class SwiperEventPresenter @Inject constructor(
                                             UserFirebase::class
                                         )
                                     )
+
                                 }
                             }
                         }
@@ -336,7 +337,13 @@ class SwiperEventPresenter @Inject constructor(
 
                             MyProfilePresenter.profile!!.friends.add(user.id)
                             MyProfilePresenter.profile!!.likeTo.remove(user.id)
+                            val liketo1 = user.likeTo.toMutableList()
+                            val friends1 = user.friends.toMutableList()
+                            friends1.add(MyProfilePresenter.profile!!.personUid)
+                            liketo1.remove(MyProfilePresenter.profile!!.personUid)
 
+                            user.likeTo = liketo1
+                            user.friends = friends1
                             val docData = hashMapOf(
                                 "id" to user.id,
                                 "login" to user.login,
@@ -365,7 +372,7 @@ class SwiperEventPresenter @Inject constructor(
                             }
 
                             if (MyProfilePresenter.profile!!.login != null) {
-                                val docData = hashMapOf(
+                                val docData1 = hashMapOf(
                                     "id" to MyProfilePresenter.profile!!.personUid,
                                     "login" to MyProfilePresenter.profile!!.login!!,
                                     "name" to MyProfilePresenter.profile!!.name,
@@ -385,7 +392,7 @@ class SwiperEventPresenter @Inject constructor(
                                 try {
                                     db.collection("users")
                                         .document(MyProfilePresenter.profile!!.personUid)
-                                        .set(docData).addOnSuccessListener {
+                                        .set(docData1).addOnSuccessListener {
                                         }
                                         .addOnFailureListener {
                                             throw ApiException("")
@@ -419,6 +426,100 @@ class SwiperEventPresenter @Inject constructor(
             personRecordCats = user.recordFlappyCats.toInt()
             personRecordPiano = user.recordPianoTiles.toInt()
             personRecordTetris = user.recordTetris.toInt()
+        }
+
+        checkFriends()
+    }
+
+    private fun checkFriends() {
+        val db = FirebaseFirestore.getInstance()
+        db.collection("users")
+            .get()
+            .addOnSuccessListener { result ->
+                for (document in result) {
+                    if (MyProfilePresenter.profile!!.likeTo.contains(document.id)) {
+                        launchProfile2(
+                            mapToObject(
+                                document.data,
+                                UserFirebase::class
+                            )
+                        )
+                    }
+                }
+            }
+    }
+
+    private fun launchProfile2(user: UserFirebase) {
+
+        val db = FirebaseFirestore.getInstance()
+
+        if (user.likeTo.contains(MyProfilePresenter.profile!!.personUid)) {
+
+            MyProfilePresenter.profile!!.friends.add(user.id)
+            MyProfilePresenter.profile!!.likeTo.remove(user.id)
+            val liketo1 = user.likeTo.toMutableList()
+            val friends1 = user.friends.toMutableList()
+            friends1.add(MyProfilePresenter.profile!!.personUid)
+            liketo1.remove(MyProfilePresenter.profile!!.personUid)
+
+            user.likeTo = liketo1
+            user.friends = friends1
+            val docData = hashMapOf(
+                "id" to user.id,
+                "login" to user.login,
+                "name" to user.name,
+                "description" to user.description,
+                "icon" to user.icon,
+                "city" to user.city,
+                "age" to user.age,
+                "recordMathCubes" to user.recordMathCubes,
+                "recordFlappyCats" to user.recordFlappyCats,
+                "recordPianoTiles" to user.recordPianoTiles,
+                "recordTetris" to user.recordTetris,
+                "games" to user.games,
+                "friends" to user.friends,
+                "likeTo" to user.likeTo
+            )
+
+            try {
+                db.collection("users").document(user.id)
+                    .set(docData).addOnSuccessListener {
+                    }
+                    .addOnFailureListener {
+                        throw ApiException("")
+                    }
+            } catch (e: Exception) {
+            }
+
+            if (MyProfilePresenter.profile!!.login != null) {
+                val docData1 = hashMapOf(
+                    "id" to MyProfilePresenter.profile!!.personUid,
+                    "login" to MyProfilePresenter.profile!!.login!!,
+                    "name" to MyProfilePresenter.profile!!.name,
+                    "description" to MyProfilePresenter.profile!!.description!!,
+                    "icon" to MyProfilePresenter.profile!!.imageContentUid!!,
+                    "city" to MyProfilePresenter.profile!!.cityName,
+                    "age" to MyProfilePresenter.profile!!.age,
+                    "recordMathCubes" to MyProfilePresenter.profile!!.personRecord2048,
+                    "recordFlappyCats" to MyProfilePresenter.profile!!.personRecordCats,
+                    "recordPianoTiles" to MyProfilePresenter.profile!!.personRecordPiano,
+                    "recordTetris" to MyProfilePresenter.profile!!.personRecordTetris,
+                    "games" to MyProfilePresenter.profile!!.games,
+                    "friends" to MyProfilePresenter.profile!!.friends,
+                    "likeTo" to MyProfilePresenter.profile!!.likeTo
+                )
+
+                try {
+                    db.collection("users")
+                        .document(MyProfilePresenter.profile!!.personUid)
+                        .set(docData1).addOnSuccessListener {
+                        }
+                        .addOnFailureListener {
+                            throw ApiException("")
+                        }
+                } catch (e: Exception) {
+                }
+            }
         }
     }
 
