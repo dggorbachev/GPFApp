@@ -1,6 +1,7 @@
 package com.singlelab.gpf.ui.chats
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -60,6 +61,7 @@ class ChatsFragment : BaseFragment(), ChatsView, OnlyForAuthFragments {
     }
 
     private fun navigateToChat(chat: ChatItem) {
+        Log.d("ChatUid3", chat.uid)
         ChatPresenter.chatUid = chat.uid
         findNavController().navigate(
             ChatsFragmentDirections.actionFromChatsToChat(
@@ -70,6 +72,10 @@ class ChatsFragment : BaseFragment(), ChatsView, OnlyForAuthFragments {
     }
 
     private fun initViews() {
+        addGroupChatButton.setOnClickListener {
+
+        }
+
         chatsView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         chatsView.adapter = chatsAdapter
         ContextCompat.getDrawable(requireContext(), R.drawable.chats_item_divider)

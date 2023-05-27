@@ -3,6 +3,7 @@ package com.singlelab.gpf.ui.events
 import android.graphics.Color
 import android.graphics.Paint
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -172,6 +173,7 @@ class EventsFragment : BaseFragment(), EventsView, OnlyForAuthFragments,
     }
 
     override fun onClickChat(eventName: String, chatUid: String) {
+        Log.d("ChatUid5", chatUid)
         findNavController().navigate(
             EventsFragmentDirections.actionEventsToChat(
                 null,

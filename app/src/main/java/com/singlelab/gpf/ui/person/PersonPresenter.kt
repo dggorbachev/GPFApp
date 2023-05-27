@@ -1,15 +1,19 @@
 package com.singlelab.gpf.ui.person
 
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.singlelab.gpf.base.BaseInteractor
 import com.singlelab.gpf.base.BasePresenter
 import com.singlelab.gpf.model.event.Event
 import com.singlelab.gpf.model.profile.Profile
+import com.singlelab.gpf.new_features.firebase.ChatFirebase
 import com.singlelab.gpf.new_features.firebase.UserFirebase
 import com.singlelab.gpf.new_features.firebase.mapToObject
 import com.singlelab.gpf.pref.Preferences
+import com.singlelab.gpf.ui.chat.ChatPresenter
 import com.singlelab.gpf.ui.my_profile.MyProfilePresenter
 import com.singlelab.gpf.ui.person.interactor.PersonInteractor
 import com.singlelab.gpf.ui.swiper_event.SwiperEventPresenter
@@ -23,6 +27,9 @@ class PersonPresenter @Inject constructor(
     preferences: Preferences?
 ) : BasePresenter<PersonView>(preferences, interactor as BaseInteractor) {
 
+    companion object{
+    }
+
     private var profile: Profile? = null
 
     fun loadProfile(personUid: String) {
@@ -30,68 +37,97 @@ class PersonPresenter @Inject constructor(
         if (SwiperEventPresenter.events.size == 0) {
             val db = FirebaseFirestore.getInstance()
 
-            db.collection("users")
-                .get()
-                .addOnSuccessListener { result ->
-                    for (document in result) {
-                        val user = mapToObject(document.data, UserFirebase::class)
-                        if (user.id != MyProfilePresenter.profile!!.personUid) {
-                            val newGames = mutableListOf<String>()
-                            user.games.forEach {
-                                when (it) {
-                                    "DOTA" -> {
-                                        newGames.add("Dota 2")
-                                    }
+                    db.collection("users")
+                        .get()
+                        .addOnSuccessListener { result ->
+                            for (document in result) {
+                                val user = mapToObject(document.data, UserFirebase::class)
+                                if (user.id != MyProfilePresenter.profile!!.personUid) {
+                                    val newGames = mutableListOf<String>()
+                                    user.games.forEach {
+                                        when (it) {
+                                            "DOTA" -> {
+                                                newGames.add("Dota 2")
+                                            }
 
-                                    "CSGO" -> {
-                                        newGames.add("CS:GO")
-                                    }
+                                            "CSGO" -> {
+                                                newGames.add("CS:GO")
+                                            }
 
-                                    "OVERWATCH" -> {
-                                        newGames.add("Overwatch")
-                                    }
+                                            "OVERWATCH" -> {
+                                                newGames.add("Overwatch")
+                                            }
 
-                                    "VALORANT" -> {
-                                        newGames.add("Valorant")
-                                    }
+                                            "VALORANT" -> {
+                                                newGames.add("Valorant")
+                                            }
 
-                                    "PUBG" -> {
-                                        newGames.add("PUBG")
-                                    }
+                                            "PUBG" -> {
+                                                newGames.add("PUBG")
+                                            }
 
-                                    "DIABLO" -> {
-                                        newGames.add("Diablo 4")
+                                            "DIABLO" -> {
+                                                newGames.add("Diablo 4")
+                                            }
+                                        }
                                     }
+                                    SwiperEventPresenter.events.add(
+                                        Event(
+                                            tempLogin = user.login,
+                                            tempImage = user.icon,
+                                            tempName = user.name,
+                                            tempGames = newGames,
+                                            tempCity = user.city,
+                                            tempDescription = user.description,
+                                            tempAge = user.age.toString(),
+                                            record2048 = user.recordMathCubes.toInt(),
+                                            recordFlappyCat = user.recordFlappyCats.toInt(),
+                                            recordPiano = user.recordPianoTiles.toInt(),
+                                            recordTetris = user.recordTetris.toInt(),
+                                            tempId = user.id
+                                        )
+                                    )
                                 }
                             }
-                            SwiperEventPresenter.events.add(
-                                Event(
-                                    tempLogin = user.login,
-                                    tempImage = user.icon,
-                                    tempName = user.name,
-                                    tempGames = newGames,
-                                    tempCity = user.city,
-                                    tempDescription = user.description,
-                                    tempAge = user.age.toString(),
-                                    record2048 = user.recordMathCubes.toInt(),
-                                    recordFlappyCat = user.recordFlappyCats.toInt(),
-                                    recordPiano = user.recordPianoTiles.toInt(),
-                                    recordTetris = user.recordTetris.toInt(),
-                                    tempId = user.id
-                                )
-                            )
+
+
+                            SwiperEventPresenter.events =
+                                SwiperEventPresenter.events.shuffled().toMutableList()
+
+                            loadProf(SwiperEventPresenter.events.find { it.tempId == personUid }!!)
+
+
+                        }
+                        .addOnFailureListener { exception ->
+                        }
+        } else {
+            val db = FirebaseFirestore.getInstance()
+
+            db.collection("chats")
+                .get()
+                .addOnSuccessListener { chatDocs ->
+
+                    val auth = FirebaseAuth.getInstance()
+                    val currentUserId = auth.currentUser!!.uid
+                    var wasFound =false
+
+                    for (chatDocument in chatDocs) {
+                        val chat = mapToObject(chatDocument.data, ChatFirebase::class)
+
+                        if (chat.users.contains(personUid) && chat.users.contains(currentUserId) && !chat.isGroup) {
+                            Log.d("ChatUid9", chat.id)
+                            ChatPresenter.chatUid = chat.id
+                            wasFound = true
                         }
                     }
 
-                    SwiperEventPresenter.events =
-                        SwiperEventPresenter.events.shuffled().toMutableList()
+                    if (!wasFound)
+                        ChatPresenter.chatUid = "-1"
+
 
                     loadProf(SwiperEventPresenter.events.find { it.tempId == personUid }!!)
                 }
-                .addOnFailureListener { exception ->
-                }
-        } else {
-            loadProf(SwiperEventPresenter.events.find { it.tempId == personUid }!!)
+
         }
     }
 

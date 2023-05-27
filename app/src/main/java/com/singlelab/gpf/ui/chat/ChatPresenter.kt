@@ -1,19 +1,26 @@
 package com.singlelab.gpf.ui.chat
 
 import android.graphics.Bitmap
+import android.util.Log
+import com.google.firebase.Timestamp
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.singlelab.gpf.base.BaseInteractor
 import com.singlelab.gpf.base.BasePresenter
 import com.singlelab.gpf.model.Const.DATE_FORMAT_TIME_ZONE
+import com.singlelab.gpf.new_features.firebase.ChatFirebase
+import com.singlelab.gpf.new_features.firebase.MessageFirebase
+import com.singlelab.gpf.new_features.firebase.UserFirebase
+import com.singlelab.gpf.new_features.firebase.mapToObject
 import com.singlelab.gpf.pref.Preferences
 import com.singlelab.gpf.ui.chat.common.*
 import com.singlelab.gpf.ui.chat.interactor.ChatInteractor
 import com.singlelab.gpf.ui.chats.ChatsPresenter
-import com.singlelab.gpf.util.parseToString
+import com.singlelab.gpf.util.formatToUTC
 import com.singlelab.net.exceptions.ApiException
 import com.singlelab.net.exceptions.TimeoutException
 import com.singlelab.net.model.chat.ChatMessageResponse
 import moxy.InjectViewState
-import java.util.*
 import javax.inject.Inject
 
 @InjectViewState
@@ -29,345 +36,19 @@ constructor(
 
     companion object {
 
-        var messages1 = mutableListOf<ChatMessageItem>(
-            PrivateChatMessageItem(
-                uid = ChatMessageItem.PENDING_MESSAGE_UID,
-                text = "Я на сегодня все, спасибо за игры!",
-                type = ChatMessageItem.Type.OUTGOING,
-                status = ChatMessageItem.Status.SYNCED,
-                date = "2023-03-23T12:22:10.000",
-                images = listOf()
-            ),
-            PrivateChatMessageItem(
-                uid = ChatMessageItem.PENDING_MESSAGE_UID,
-                text = "Уже и не 5% винрейт после последней игры",
-                type = ChatMessageItem.Type.INCOMING,
-                status = ChatMessageItem.Status.SYNCED,
-                date = "2023-03-23T12:23:00.000",
-                images = listOf()
-            ),
-            PrivateChatMessageItem(
-                uid = ChatMessageItem.PENDING_MESSAGE_UID,
-                text = "Ахахахахахаха, получается так",
-                type = ChatMessageItem.Type.OUTGOING,
-                status = ChatMessageItem.Status.SYNCED,
-                date = "2023-03-23T12:23:10.000",
-                images = listOf()
-            ),
-            PrivateChatMessageItem(
-                uid = ChatMessageItem.PENDING_MESSAGE_UID,
-                text = "А я в итоге не нашел нормальный спот у Харетона",
-                type = ChatMessageItem.Type.INCOMING,
-                status = ChatMessageItem.Status.SYNCED,
-                date = "2023-03-23T12:23:30.000",
-                images = listOf()
-            ),
-            PrivateChatMessageItem(
-                uid = ChatMessageItem.PENDING_MESSAGE_UID,
-                text = "Ну хз, мне зашел верхний левый",
-                type = ChatMessageItem.Type.OUTGOING,
-                status = ChatMessageItem.Status.SYNCED,
-                date = "2023-03-23T12:24:10.000",
-                images = listOf()
-            ),
-            PrivateChatMessageItem(
-                uid = ChatMessageItem.PENDING_MESSAGE_UID,
-                text = "Дань, у меня кд там 0.3...",
-                type = ChatMessageItem.Type.INCOMING,
-                status = ChatMessageItem.Status.SYNCED,
-                date = "2023-03-23T15:20:15.000",
-                images = listOf()
-            ),
-            PrivateChatMessageItem(
-                uid = ChatMessageItem.PENDING_MESSAGE_UID,
-                text = "Это место пугает меня...",
-                type = ChatMessageItem.Type.INCOMING,
-                status = ChatMessageItem.Status.SYNCED,
-                date = "2023-03-23T16:32:01.000",
-                images = listOf()
-            ),
-            PrivateChatMessageItem(
-                uid = ChatMessageItem.PENDING_MESSAGE_UID,
-                text = "Никуда не денешься, лучше лута на карте нет",
-                type = ChatMessageItem.Type.OUTGOING,
-                status = ChatMessageItem.Status.SYNCED,
-                date = "2023-03-23T16:42:01.000",
-                images = listOf()
-            ),
-            PrivateChatMessageItem(
-                uid = ChatMessageItem.PENDING_MESSAGE_UID,
-                text = "Проиграли...",
-                type = ChatMessageItem.Type.INCOMING,
-                status = ChatMessageItem.Status.SYNCED,
-                date = "2023-03-23T16:42:11.000",
-                images = listOf()
-            )
-        )
+        lateinit var currentUserId: String
 
-        var messages2 = mutableListOf<ChatMessageItem>(
-            PrivateChatMessageItem(
-                uid = ChatMessageItem.PENDING_MESSAGE_UID,
-                text = "Привет, ты играл в рейтинговые игры в RS6?",
-                type = ChatMessageItem.Type.OUTGOING,
-                status = ChatMessageItem.Status.SYNCED,
-                date = "2023-03-25T20:29:51.000",
-                images = listOf()
-            ),
+        lateinit var selectedChat: ChatFirebase
 
-            PrivateChatMessageItem(
-                uid = ChatMessageItem.PENDING_MESSAGE_UID,
-                text = "Да, играл несколько раз. Играю за Sledge.",
-                type = ChatMessageItem.Type.INCOMING,
-                status = ChatMessageItem.Status.SYNCED,
-                date = "2023-03-25T20:31:00.000",
-                images = listOf()
-            ),
+        lateinit var chatNotFound: String
 
-            PrivateChatMessageItem(
-                uid = ChatMessageItem.PENDING_MESSAGE_UID,
-                text = "Как твои результаты? Удалось поднять свой ранг?",
-                type = ChatMessageItem.Type.OUTGOING,
-                status = ChatMessageItem.Status.SYNCED,
-                date = "2023-03-26T15:24:23.000",
-                images = listOf()
-            ),
+        lateinit var personIdWeCameFrom: String
 
-            PrivateChatMessageItem(
-                uid = ChatMessageItem.PENDING_MESSAGE_UID,
-                text = "Немного поднял ранг, но были и поражения. Иногда команды не очень слаживаются.",
-                type = ChatMessageItem.Type.INCOMING,
-                status = ChatMessageItem.Status.SYNCED,
-                date = "2023-03-26T15:34:43.000",
-                images = listOf()
-            ),
+        var chatUsers = mutableListOf<UserFirebase>()
 
-            PrivateChatMessageItem(
-                uid = ChatMessageItem.PENDING_MESSAGE_UID,
-                text = "Понимаю. Я тоже играл в рейтинговые игры, но мне сложно играть на высоких уровнях.",
-                type = ChatMessageItem.Type.OUTGOING,
-                status = ChatMessageItem.Status.SYNCED,
-                date = "2023-03-26T15:44:44.000",
-                images = listOf()
-            ),
+        var privateMessagesToShow = mutableListOf<PrivateChatMessageItem>()
 
-            PrivateChatMessageItem(
-                uid = ChatMessageItem.PENDING_MESSAGE_UID,
-                text = "Да, это действительно сложно. Нужно иметь не только хорошие навыки игры, но и командную работу.",
-                type = ChatMessageItem.Type.INCOMING,
-                status = ChatMessageItem.Status.SYNCED,
-                date = "2023-03-26T15:46:46.000",
-                images = listOf()
-            ),
-
-            PrivateChatMessageItem(
-                uid = ChatMessageItem.PENDING_MESSAGE_UID,
-                text = "А какая карта в рейтинговых играх тебе нравится больше всего?",
-                type = ChatMessageItem.Type.OUTGOING,
-                status = ChatMessageItem.Status.SYNCED,
-                date = "2023-03-27T15:46:46.000",
-                images = listOf()
-            ),
-
-            PrivateChatMessageItem(
-                uid = ChatMessageItem.PENDING_MESSAGE_UID,
-                text = "Я предпочитаю играть на карте Клубный дом. Она небольшая, но у неё хорошая динамика.",
-                type = ChatMessageItem.Type.INCOMING,
-                status = ChatMessageItem.Status.SYNCED,
-                date = "2023-03-27T15:50:50.000",
-                images = listOf()
-            ),
-
-            PrivateChatMessageItem(
-                uid = ChatMessageItem.PENDING_MESSAGE_UID,
-                text = "Понятно. Я тоже люблю эту карту, но мне больше нравится играть на более больших картах.",
-                type = ChatMessageItem.Type.OUTGOING,
-                status = ChatMessageItem.Status.SYNCED,
-                date = "2023-03-27T15:53:23.000",
-                images = listOf()
-            ),
-            PrivateChatMessageItem(
-                uid = ChatMessageItem.PENDING_MESSAGE_UID,
-                text = "Я на подобных картах только сливаю ело...",
-                type = ChatMessageItem.Type.INCOMING,
-                status = ChatMessageItem.Status.SYNCED,
-                date = "2023-03-27T15:54:45.000",
-                images = listOf()
-            )
-        )
-
-        val messages3 = mutableListOf(
-            GroupChatMessageItem(
-                "2",
-                "По следам наших последних созвонов с Ксюшей: \n" +
-                        "1) Все текущие макеты залиты в фигму, ссылка на которую лежит в чатике для дизайна. \n" +
-                        "2) Ксюша предложила интересный вариант удаления игр и платформ. Мы делаем это не на вкладке редактирования, а на вкладке профиля следующим образом: у каждой игры и платформы есть крестик.",
-                ChatMessageItem.Type.INCOMING,
-                listOf(),
-                ChatMessageItem.Status.SYNCED,
-                "2023-03-24T12:35:12.000",
-                "2",
-                personPhoto = "https://forum.truckersmp.com/uploads/monthly_2019_06/imported-photo-186659.thumb.jpeg.7ca80c40fa6e972e04cc2f14f5114d80.jpeg",
-                personName = "Александр"
-            ),
-            GroupChatMessageItem(
-                "2",
-                "Как там, кстати, дела с архитектурой?",
-                ChatMessageItem.Type.INCOMING,
-                listOf(),
-                ChatMessageItem.Status.SYNCED,
-                "2023-03-24T12:35:30.000",
-                "2",
-                personPhoto = "https://forum.truckersmp.com/uploads/monthly_2019_06/imported-photo-186659.thumb.jpeg.7ca80c40fa6e972e04cc2f14f5114d80.jpeg",
-                personName = "Александр"
-            ),
-            GroupChatMessageItem(
-                "2",
-                "Так",
-                ChatMessageItem.Type.INCOMING,
-                listOf(),
-                ChatMessageItem.Status.SYNCED,
-                "2023-03-24T15:40:20.000",
-                "1",
-                personPhoto = "https://avatars.akamai.steamstatic.com/815bbc83c18710991afed30a18daa3314322f8d0_full.jpg",
-                personName = "Вячеслав"
-            ),
-            GroupChatMessageItem(
-                "2",
-                "По архитектуре",
-                ChatMessageItem.Type.INCOMING,
-                listOf(),
-                ChatMessageItem.Status.SYNCED,
-                "2023-03-24T15:40:23.000",
-                "1",
-                personPhoto = "https://avatars.akamai.steamstatic.com/815bbc83c18710991afed30a18daa3314322f8d0_full.jpg",
-                personName = "Вячеслав"
-            ),
-            GroupChatMessageItem(
-                "2",
-                "Я набросал основу сделал шаблон",
-                ChatMessageItem.Type.INCOMING,
-                listOf(),
-                ChatMessageItem.Status.SYNCED,
-                "2023-03-24T15:40:30.000",
-                "1",
-                personPhoto = "https://avatars.akamai.steamstatic.com/815bbc83c18710991afed30a18daa3314322f8d0_full.jpg",
-                personName = "Вячеслав"
-            ),
-            GroupChatMessageItem(
-                "2",
-                "С Сашей на неделе увидимся",
-                ChatMessageItem.Type.INCOMING,
-                listOf(),
-                ChatMessageItem.Status.SYNCED,
-                "2023-03-24T15:40:59.000",
-                "1",
-                personPhoto = "https://avatars.akamai.steamstatic.com/815bbc83c18710991afed30a18daa3314322f8d0_full.jpg",
-                personName = "Вячеслав"
-            ),
-            GroupChatMessageItem(
-                "2",
-                "И глянем, сколько экран займет",
-                ChatMessageItem.Type.INCOMING,
-                listOf(),
-                ChatMessageItem.Status.SYNCED,
-                "2023-03-24T15:41:07.000",
-                "1",
-                personPhoto = "https://avatars.akamai.steamstatic.com/815bbc83c18710991afed30a18daa3314322f8d0_full.jpg",
-                personName = "Вячеслав"
-            ),
-            GroupChatMessageItem(
-                "2",
-                "А можно посмотреть?",
-                ChatMessageItem.Type.INCOMING,
-                listOf(),
-                ChatMessageItem.Status.SYNCED,
-                "2023-03-24T15:45:56.000",
-                "2",
-                personPhoto = "https://forum.truckersmp.com/uploads/monthly_2019_06/imported-photo-186659.thumb.jpeg.7ca80c40fa6e972e04cc2f14f5114d80.jpeg",
-                personName = "Александр"
-            ),
-            GroupChatMessageItem(
-                "2",
-                "Гита пока нет",
-                ChatMessageItem.Type.INCOMING,
-                listOf(),
-                ChatMessageItem.Status.SYNCED,
-                "2023-03-24T15:47:02.000",
-                "1",
-                personPhoto = "https://avatars.akamai.steamstatic.com/815bbc83c18710991afed30a18daa3314322f8d0_full.jpg",
-                personName = "Вячеслав"
-            ),
-            GroupChatMessageItem(
-                "2",
-                "Сделаем его на днях!",
-                ChatMessageItem.Type.OUTGOING,
-                listOf(),
-                ChatMessageItem.Status.SYNCED,
-                "2023-03-24T15:47:54.000",
-                "1",
-                personPhoto = "https://avatars.akamai.steamstatic.com/815bbc83c18710991afed30a18daa3314322f8d0_full.jpg",
-                personName = "Вячеслав"
-            ),
-            GroupChatMessageItem(
-                "1",
-                "давайте созвонимся, мы не обсуждали, что будем делать с карточками кандидатов. Думаю, сейчас самое время. Плюс есть ещё пара вопросов, которые надо обмозговать. Завтра часов в 20-21 сможете?",
-                ChatMessageItem.Type.INCOMING,
-                listOf(),
-                ChatMessageItem.Status.SYNCED,
-                "2023-03-25T16:23:12.000",
-                "2",
-                personPhoto = "https://forum.truckersmp.com/uploads/monthly_2019_06/imported-photo-186659.thumb.jpeg.7ca80c40fa6e972e04cc2f14f5114d80.jpeg",
-                personName = "Александр"
-            ),
-            GroupChatMessageItem(
-                "2",
-                "Ок, я готов после 8 вечера",
-                ChatMessageItem.Type.OUTGOING,
-                listOf(),
-                ChatMessageItem.Status.SYNCED,
-                "2023-03-25T17:45:45.000",
-                "1",
-                personPhoto = "https://forum.truckersmp.com/uploads/monthly_2019_06/imported-photo-186659.thumb.jpeg.7ca80c40fa6e972e04cc2f14f5114d80.jpeg",
-                personName = "Александр"
-            ),
-            GroupChatMessageItem(
-                "2",
-                "Подключусь к 20:30",
-                ChatMessageItem.Type.INCOMING,
-                listOf(),
-                ChatMessageItem.Status.SYNCED,
-                "2023-03-25T18:32:53.000",
-                "1",
-                personPhoto = "https://avatars.akamai.steamstatic.com/815bbc83c18710991afed30a18daa3314322f8d0_full.jpg",
-                personName = "Вячеслав"
-            ),
-            GroupChatMessageItem(
-                "2",
-                "вы не обсуждали с остальными, чтобы добавить например 2-3 основные функции так или сложно при реализации вам? можно было бы таким способом сделать закрепить/ добавить в команду/ выкл уведомления\n" +
-                        "удаление сюда точно не стоит, вдруг нечайно тапнут, а так эти функции например \n" +
-                        "не знаю лишнее или нет, но как удобство для пользователя мне кажется плюс",
-                ChatMessageItem.Type.OUTGOING,
-                listOf("https://i.imgur.com/uQaGGB2.png"),
-                ChatMessageItem.Status.SYNCED,
-                "2023-03-26T23:54:53.000",
-                "1",
-                personPhoto = "https://avatars.akamai.steamstatic.com/815bbc83c18710991afed30a18daa3314322f8d0_full.jpg",
-                personName = "Вячеслав"
-            ),
-            GroupChatMessageItem(
-                "3",
-                "парни, всем привет\n" +
-                        "посмотрел про совместимость трекера с гит платформами. Ситуация такая: он поддерживает гитхаб, гитлаб и бакет. С последним нужно проводить определенные махинации, а с остальными должно быть все ок. Дальше чекнул оф сайт гитлаба, есть бесплатная подписка.",
-                ChatMessageItem.Type.INCOMING,
-                listOf(),
-                ChatMessageItem.Status.SYNCED,
-                "2023-03-27T02:53:56.000",
-                "1",
-                personPhoto = "https://avatars.akamai.steamstatic.com/815bbc83c18710991afed30a18daa3314322f8d0_full.jpg",
-                personName = "Вячеслав"
-            )
-
-        )
+        var groupMessagesToShow = mutableListOf<GroupChatMessageItem>()
 
         var chatUid: String? = ""
     }
@@ -491,54 +172,61 @@ constructor(
 //            }
 //        }
 
-        val temp = Calendar.getInstance()
-        temp.timeZone = TimeZone.getTimeZone("GMT")
-        val date = temp.parseToString(DATE_FORMAT_TIME_ZONE)
-
-
-        val message = PrivateChatMessageItem(
-            uid = ChatMessageItem.PENDING_MESSAGE_UID,
-            text = messageText,
-            type = ChatMessageItem.Type.OUTGOING,
-            status = ChatMessageItem.Status.SYNCED,
-            date = date,
-            images = listOf()
+        val outgoingMessage = MessageFirebase(
+            chatId = chatUid!!,
+            id = getRandomString(),
+            images = listOf(""),
+            message = messageText,
+            senderId = currentUserId,
+            messageDate = Timestamp.now(),
+            isAnyAttachments = false
         )
 
-        val groupMessage = GroupChatMessageItem(
-            "2",
-            messageText,
-            ChatMessageItem.Type.OUTGOING,
-            listOf(),
-            ChatMessageItem.Status.SYNCED,
-            date,
-            "1",
-            personPhoto = "https://avatars.akamai.steamstatic.com/815bbc83c18710991afed30a18daa3314322f8d0_full.jpg",
-            personName = "Вячеслав"
+        val messageDocData = hashMapOf(
+            "chatId" to outgoingMessage.chatId,
+            "id" to outgoingMessage.id,
+            "images" to outgoingMessage.images,
+            "message" to outgoingMessage.message,
+            "senderId" to outgoingMessage.senderId,
+            "messageDate" to outgoingMessage.messageDate,
+            "isAnyAttachments" to outgoingMessage.isAnyAttachments
         )
 
-        when (chatUid) {
-            "1" -> {
-                messages1.add(message)
-                ChatsPresenter.allChats[0].lastMessage = messageText
-                ChatsPresenter.allChats[0].lastMessagePersonName = "Я"
+        val chatDocData = hashMapOf(
+            "id" to selectedChat.id,
+            "image" to selectedChat.image,
+            "isGroup" to selectedChat.isGroup,
+            "isLastMessageImage" to false,
+            "lastMessageUserId" to currentUserId,
+            "lastMessageValue" to messageText,
+            "title" to selectedChat.title,
+            "users" to selectedChat.users
+        )
 
+        val db = FirebaseFirestore.getInstance()
+        db.collection("messages").document(outgoingMessage.id)
+            .set(messageDocData).addOnSuccessListener {
+                db.collection("chats").document(selectedChat.id)
+                    .set(chatDocData)
             }
-            "2" -> {
-                messages2.add(message)
-                ChatsPresenter.allChats[1].lastMessage = messageText
-                ChatsPresenter.allChats[1].lastMessagePersonName = "Я"
 
-            }
-            "3" -> {
-                messages3.add(groupMessage)
-                ChatsPresenter.allChats[2].lastMessage = messageText
-                ChatsPresenter.allChats[2].lastMessagePersonName = "Я"
 
-            }
-            else -> {}
+
+        if (selectedChat.isGroup) {
+            groupMessagesToShow.add(outgoingMessage.toGroupChatMessage())
+            viewState.showNewMessage(outgoingMessage.toGroupChatMessage())
+
+        } else {
+            privateMessagesToShow.add(outgoingMessage.toPrivateChatMessage())
+            viewState.showNewMessage(outgoingMessage.toPrivateChatMessage())
         }
-        viewState.showNewMessage(message)
+
+        if (chatNotFound == "false") {
+            ChatsPresenter.allChats.first { it.uid == selectedChat.id }.apply {
+                lastMessage = messageText
+                lastMessagePersonName = "Я"
+            }
+        }
     }
 
     fun onChatTitleClick() {
@@ -601,29 +289,110 @@ constructor(
 //                viewState.showChat(messages, page)
 //            }
 //        }
-        runOnMainThread {
-            when (chatUid) {
-                "1" -> {
-                    viewState.showChat(messages1, page)
-                    ChatsPresenter.allChats[0].unreadMessagesCount = 0
-                }
-                "2" -> {
-                    viewState.showChat(messages2, page)
-                    ChatsPresenter.allChats[1].unreadMessagesCount = 0
 
-                }
-                "3" -> {
-                    viewState.showChat(messages3, page)
-                    ChatsPresenter.allChats[2].unreadMessagesCount = 0
+        val db = FirebaseFirestore.getInstance()
+        val auth = FirebaseAuth.getInstance()
+        currentUserId = auth.currentUser!!.uid
+        var chatMessages = mutableListOf<MessageFirebase>()
+        chatNotFound = "true"
 
+        db.collection("chats")
+            .get()
+            .addOnSuccessListener { result ->
+                for (chatDoc in result) {
+
+                    val chat = mapToObject(chatDoc.data, ChatFirebase::class)
+
+                    if (chat.id == chatUid) {
+                        selectedChat = chat
+                        chatNotFound = "false"
+                    }
                 }
-                else -> {}
+
+                if (chatNotFound == "true") {
+                    val generatedChatId = getRandomString(20)
+                    selectedChat = ChatFirebase(
+                        id = generatedChatId,
+                        image = "",
+                        isGroup = false,
+                        isLastMessageImage = false,
+                        lastMessageUserId = currentUserId,
+                        lastMessageValue = "",
+                        title = "",
+                        users = listOf(currentUserId, personIdWeCameFrom)
+                    )
+
+                    Log.d("ChatUid1", generatedChatId)
+                    chatUid = generatedChatId
+
+                    privateMessagesToShow = mutableListOf<PrivateChatMessageItem>()
+
+                    runOnMainThread {
+                        viewState.showChat(privateMessagesToShow, page)
+                    }
+                } else {
+
+                    db.collection("users")
+                        .get()
+                        .addOnSuccessListener { userDocuments ->
+                            for (userDocument in userDocuments) {
+                                val user =
+                                    mapToObject(userDocument.data, UserFirebase::class)
+
+                                if (selectedChat.users.contains(user.id)) {
+                                    chatUsers.add(user)
+                                }
+                            }
+
+                            db.collection("messages")
+                                .get()
+                                .addOnSuccessListener { messageDocs ->
+                                    for (messageDoc in messageDocs) {
+                                        val message =
+                                            mapToObject(messageDoc.data, MessageFirebase::class)
+
+                                        if (message.chatId == selectedChat.id) {
+                                            chatMessages.add(message)
+                                        }
+                                    }
+
+                                    chatMessages.sortBy { it.messageDate.toDate() }
+
+                                    if (selectedChat.isGroup) {
+
+                                        groupMessagesToShow = chatMessages.toGroupChatMessageItems()
+
+                                        runOnMainThread {
+                                            viewState.showChat(groupMessagesToShow, page)
+                                        }
+                                    } else {
+
+                                        privateMessagesToShow =
+                                            chatMessages.toPrivateChatMessageItems()
+
+                                        runOnMainThread {
+                                            viewState.showChat(privateMessagesToShow, page)
+                                        }
+                                    }
+
+                                    runOnMainThread {
+
+
+                                        ChatsPresenter.allChats.firstOrNull() { it.uid == selectedChat.id }
+                                            ?.apply {
+                                                unreadMessagesCount = 0
+                                            }
+                                    }
+
+                                }
+                        }
+                }
             }
-        }
     }
 
     private suspend fun syncMessages() {
         try {
+            Log.d("ChatUid2", chatSettings.chatUid)
             val chatUid = chatSettings.chatUid
             val chatLastMessage = chatSettings.lastMessageUid
             if (chatUid != null) {
@@ -671,4 +440,97 @@ constructor(
             _lastMessageUid = messageResponse.messageUid
         }
     }
+
+    private fun MutableList<MessageFirebase>.toPrivateChatMessageItems(): MutableList<PrivateChatMessageItem> {
+
+        return map {
+            PrivateChatMessageItem(
+                uid = it.id,
+                text = it.message,
+                date = it.messageDate.toDate().formatToUTC(DATE_FORMAT_TIME_ZONE),
+                images = if (it.isAnyAttachments) it.images else listOf<String>(),
+                type = if (currentUserId == it.senderId) ChatMessageItem.Type.OUTGOING else ChatMessageItem.Type.INCOMING,
+                status = ChatMessageItem.Status.SYNCED
+            )
+        }.toMutableList()
+
+    }
+
+    private fun MutableList<MessageFirebase>.toGroupChatMessageItems(): MutableList<GroupChatMessageItem> {
+
+        return map { message ->
+
+            lateinit var sender: UserFirebase
+
+            for (user in chatUsers) {
+                if (user.id == message.senderId) {
+                    sender = user
+                }
+            }
+
+            GroupChatMessageItem(
+                uid = message.id,
+                text = message.message,
+                date = message.messageDate.toDate().formatToUTC(DATE_FORMAT_TIME_ZONE),
+                images = if (message.isAnyAttachments) message.images else listOf<String>(),
+                type = if (currentUserId == message.senderId) ChatMessageItem.Type.OUTGOING else ChatMessageItem.Type.INCOMING,
+                status = ChatMessageItem.Status.SYNCED,
+                personName = sender.login,
+                personPhoto = sender.icon,
+                personUid = sender.id
+            )
+        }.toMutableList()
+
+    }
+
+    private fun MessageFirebase.toGroupChatMessage(): GroupChatMessageItem {
+
+        lateinit var sender: UserFirebase
+
+        for (user in chatUsers) {
+            if (user.id == this.senderId) {
+                sender = user
+            }
+        }
+
+        return GroupChatMessageItem(
+            uid = this.id,
+            text = this.message,
+            date = this.messageDate.toDate().formatToUTC(DATE_FORMAT_TIME_ZONE),
+            images = if (this.isAnyAttachments) this.images else listOf<String>(),
+            type = if (currentUserId == this.senderId) ChatMessageItem.Type.OUTGOING else ChatMessageItem.Type.INCOMING,
+            status = ChatMessageItem.Status.SYNCED,
+            personName = sender.login,
+            personPhoto = sender.icon,
+            personUid = sender.id
+        )
+    }
+
+    private fun MessageFirebase.toPrivateChatMessage(): PrivateChatMessageItem {
+
+        lateinit var sender: UserFirebase
+
+        for (user in chatUsers) {
+            if (user.id == this.senderId) {
+                sender = user
+            }
+        }
+
+        return PrivateChatMessageItem(
+            uid = this.id,
+            text = this.message,
+            date = this.messageDate.toDate().formatToUTC(DATE_FORMAT_TIME_ZONE),
+            images = if (this.isAnyAttachments) this.images else listOf<String>(),
+            type = if (currentUserId == this.senderId) ChatMessageItem.Type.OUTGOING else ChatMessageItem.Type.INCOMING,
+            status = ChatMessageItem.Status.SYNCED
+        )
+    }
+
+    fun getRandomString(length: Int = 20): String {
+        val allowedChars = ('A'..'Z') + ('a'..'z') + ('0'..'9')
+        return (1..length)
+            .map { allowedChars.random() }
+            .joinToString("")
+    }
+
 }

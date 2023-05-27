@@ -1,8 +1,15 @@
 package com.singlelab.gpf.ui.chats
 
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.QuerySnapshot
 import com.singlelab.gpf.base.BaseInteractor
 import com.singlelab.gpf.base.BasePresenter
 import com.singlelab.gpf.model.Const
+import com.singlelab.gpf.new_features.firebase.ChatFirebase
+import com.singlelab.gpf.new_features.firebase.UserFirebase
+import com.singlelab.gpf.new_features.firebase.mapToObject
 import com.singlelab.gpf.pref.Preferences
 import com.singlelab.gpf.ui.chats.common.ChatItem
 import com.singlelab.gpf.ui.chats.common.toUiEntities
@@ -24,42 +31,7 @@ constructor(
 
     companion object {
 
-        var allChats = mutableListOf<ChatItem>(
-            ChatItem(
-                uid = "1",
-                title = "Вячеслав",
-                image = "https://avatars.akamai.steamstatic.com/815bbc83c18710991afed30a18daa3314322f8d0_full.jpg",
-                isGroup = false,
-                lastMessage = "Проиграли...",
-                lastMessagePersonUid = "1",
-                lastMessagePersonName = "Вячеслав",
-                isLastMessageImage = false,
-                unreadMessagesCount = 1
-            ),
-            ChatItem(
-                uid = "2",
-                title = "Александр",
-                image = "https://forum.truckersmp.com/uploads/monthly_2019_06/imported-photo-186659.thumb.jpeg.7ca80c40fa6e972e04cc2f14f5114d80.jpeg",
-                isGroup = false,
-                lastMessage = "Я на подобных картах только сливаю ело...",
-                lastMessagePersonUid = "2",
-                lastMessagePersonName = "Александр",
-                isLastMessageImage = false,
-                unreadMessagesCount = 3
-            ),
-            ChatItem(
-                uid = "3",
-                title = "Чатик 5% винрейт",
-                image = "https://i.ytimg.com/vi/kGTfwM5wPSU/maxresdefault.jpg",
-                isGroup = true,
-                lastMessage = "парни, всем привет. " +
-                        "посмотрел про совместимость трекера с гит платформами. Ситуация такая: он поддерживает гитхаб, гитлаб и бакет. С последним нужно проводить определенные махинации, а с остальными должно быть все ок.",
-                lastMessagePersonUid = "1",
-                lastMessagePersonName = "Вячеслав",
-                isLastMessageImage = false,
-                unreadMessagesCount = 1
-            )
-        )
+        var allChats = mutableListOf<ChatItem>()
     }
 
     override fun attachView(view: ChatsView?) {
@@ -81,7 +53,100 @@ constructor(
 //                showLocalChats()
 //            }
 //        }
-        viewState.showChats(allChats)
+
+        val db = FirebaseFirestore.getInstance()
+        val auth = FirebaseAuth.getInstance()
+
+        lateinit var userDocuments: QuerySnapshot
+        lateinit var lastMessageUser: UserFirebase
+        lateinit var secondChatUser: UserFirebase
+        val currentUserId = auth.currentUser!!.uid
+
+        db.collection("users")
+            .get()
+            .addOnSuccessListener { result ->
+                userDocuments = result
+
+                db.collection("chats")
+                    .get()
+                    .addOnSuccessListener { result ->
+
+                        for (chatDocument in result) {
+
+                            val chat = mapToObject(chatDocument.data, ChatFirebase::class)
+                            var needToAdd = true
+
+                            for (localChat in allChats) {
+                                if (localChat.uid == chat.id) {
+                                    needToAdd = false
+                                }
+                            }
+
+                            if (needToAdd) {
+
+                                if (chat.users.contains(currentUserId)) {
+
+                                    if (chat.isGroup) {
+
+                                        for (userDocument in userDocuments) {
+                                            val user =
+                                                mapToObject(userDocument.data, UserFirebase::class)
+
+                                            if (user.id == chat.lastMessageUserId) {
+                                                lastMessageUser = user
+                                            }
+                                        }
+
+                                        allChats.add(
+                                            ChatItem(
+                                                uid = chat.id,
+                                                image = chat.image,
+                                                title = chat.title,
+                                                isGroup = true,
+                                                lastMessage = chat.lastMessageValue,
+                                                lastMessagePersonUid = lastMessageUser.id,
+                                                lastMessagePersonName = if (lastMessageUser.id == currentUserId) "Я" else lastMessageUser.login,
+                                                isLastMessageImage = chat.isLastMessageImage,
+                                                unreadMessagesCount = 0
+                                            )
+                                        )
+
+                                    } else {
+
+                                        for (userDocument in userDocuments) {
+                                            val user =
+                                                mapToObject(userDocument.data, UserFirebase::class)
+
+                                            if (user.id == chat.lastMessageUserId) {
+                                                lastMessageUser = user
+                                            }
+
+                                            if (chat.users.contains(user.id) && user.id != currentUserId) {
+                                                secondChatUser = user
+                                            }
+                                        }
+
+                                        allChats.add(
+                                            ChatItem(
+                                                uid = chat.id,
+                                                image = secondChatUser.icon,
+                                                title = secondChatUser.login,
+                                                isGroup = false,
+                                                lastMessage = chat.lastMessageValue,
+                                                lastMessagePersonUid = lastMessageUser.id,
+                                                lastMessagePersonName = if (lastMessageUser.id == currentUserId) "Я" else lastMessageUser.login,
+                                                isLastMessageImage = chat.isLastMessageImage,
+                                                unreadMessagesCount = 0
+                                            )
+                                        )
+                                    }
+                                }
+                            }
+                        }
+
+                        viewState.showChats(allChats)
+                    }
+            }
 
     }
 

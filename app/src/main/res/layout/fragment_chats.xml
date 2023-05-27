@@ -21,6 +21,18 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:text="@string/chats_title" />
 
+    <ImageView
+        android:id="@+id/addGroupChatButton"
+        android:layout_width="@dimen/size_image_add_to_friends"
+        android:layout_height="@dimen/size_image_add_to_friends"
+        android:src="@drawable/ic_add"
+        android:tint="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="30dp"
+        android:layout_marginRight="20dp"
+        />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/chatsView"
         android:layout_width="match_parent"

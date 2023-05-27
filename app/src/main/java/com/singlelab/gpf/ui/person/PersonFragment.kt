@@ -2,16 +2,21 @@ package com.singlelab.gpf.ui.person
 
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.singlelab.gpf.R
 import com.singlelab.gpf.base.BaseFragment
 import com.singlelab.gpf.model.profile.Profile
 import com.singlelab.gpf.model.view.ToastType
+import com.singlelab.gpf.new_features.firebase.ChatFirebase
+import com.singlelab.gpf.new_features.firebase.mapToObject
 import com.singlelab.gpf.ui.chat.ChatPresenter
 import com.singlelab.gpf.ui.chat.common.ChatOpeningInvocationType
 import com.singlelab.gpf.util.PluralsUtil
@@ -82,7 +87,6 @@ class PersonFragment : BaseFragment(), PersonView {
             }
         }
         button_chat.setOnClickListener {
-            ChatPresenter.chatUid = profile.personUid
             toChat(profile.name, profile.personUid)
         }
         button_back.setOnClickListener {
@@ -108,6 +112,9 @@ class PersonFragment : BaseFragment(), PersonView {
     }
 
     private fun toChat(title: String, personUid: String) {
+
+        ChatPresenter.personIdWeCameFrom = personUid
+
         findNavController().navigate(
             PersonFragmentDirections.actionPersonToChat(
                 null,
