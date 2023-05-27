@@ -506,7 +506,6 @@ class SwiperEventPresenter @Inject constructor(
     private fun launchProfile2(user: UserFirebase) {
 
         val db = FirebaseFirestore.getInstance()
-
         if (user.likeTo.contains(MyProfilePresenter.profile!!.personUid)) {
 
             MyProfilePresenter.profile!!.friends.add(user.id)

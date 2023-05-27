@@ -208,7 +208,7 @@ class AuthFragment : BaseFragment(), AuthView, OnBackPressListener {
             personUid = user.id
             friends = user.friends as MutableList<String>
             likeTo = user.likeTo as MutableList<String>
-            newFriends=user.newFriends
+            newFriends = user.newFriends
             age = user.age.toInt()
             imageContentUid = user.icon
             personRecord2048 = user.recordMathCubes.toInt()
