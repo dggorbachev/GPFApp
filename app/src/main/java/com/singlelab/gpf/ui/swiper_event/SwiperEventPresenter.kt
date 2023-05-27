@@ -176,11 +176,10 @@ class SwiperEventPresenter @Inject constructor(
                     } else {
                         null
                     }
-                    Log.d("asdxzca", qwe.toString())
                     if (qwe != null) {
-                        Log.d("asdxzca", iterEvent.toString())
 
-                        while (gameChosen.size != 0 && !gameChosen.contains(qwe)) {
+                        while ((gameChosen.size != 0 && !gameChosen.contains(qwe)) || events[iterEvent].tempId == MyProfilePresenter.profile!!.personUid) {
+
                             iterEvent++
                             if (iterEvent == events.size)
                                 iterEvent = 0
@@ -201,6 +200,8 @@ class SwiperEventPresenter @Inject constructor(
                             } else {
                                 null
                             }
+
+                            Log.d("asdxzca3", qwe.toString())
                         }
                     }
                 }
