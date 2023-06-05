@@ -106,7 +106,7 @@ constructor(
                                                 lastMessage = chat.lastMessageValue,
                                                 lastMessagePersonUid = lastMessageUser.id,
                                                 lastMessagePersonName = if (lastMessageUser.id == currentUserId) "Я" else lastMessageUser.login,
-                                                isLastMessageImage = chat.isLastMessageImage,
+                                                isLastMessageImage = false,
                                                 unreadMessagesCount = 0
                                             )
                                         )
@@ -135,7 +135,7 @@ constructor(
                                                 lastMessage = chat.lastMessageValue,
                                                 lastMessagePersonUid = lastMessageUser.id,
                                                 lastMessagePersonName = if (lastMessageUser.id == currentUserId) "Я" else lastMessageUser.login,
-                                                isLastMessageImage = chat.isLastMessageImage,
+                                                isLastMessageImage = false,
                                                 unreadMessagesCount = 0
                                             )
                                         )

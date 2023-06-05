@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.android.volley.Request
 import com.nguyenhoanglam.imagepicker.ui.imagepicker.ImagePicker
 import com.singlelab.gpf.R
 import com.singlelab.gpf.base.BaseFragment
@@ -19,6 +20,7 @@ import com.singlelab.gpf.base.listeners.OnActivityResultListener
 import com.singlelab.gpf.model.Const
 import com.singlelab.gpf.model.Const.SELECT_IMAGE_REQUEST_CODE
 import com.singlelab.gpf.model.view.ToastType
+import com.singlelab.gpf.new_features.imgur.Upload
 import com.singlelab.gpf.ui.chat.common.*
 import com.singlelab.gpf.ui.chat.common.ChatMessageItem.Companion.PENDING_MESSAGE_UID
 import com.singlelab.gpf.ui.chat.common.ChatMessageItem.Status
@@ -26,10 +28,15 @@ import com.singlelab.gpf.ui.chat.common.ChatMessageItem.Type
 import com.singlelab.gpf.ui.chat.common.view.OnClickImageListener
 import com.singlelab.gpf.ui.chat.common.view.OnClickMessageListener
 import com.singlelab.gpf.util.getBitmap
+import com.singlelab.gpf.util.resize
+import com.singlelab.gpf.util.toBase64
+import com.singlelab.net.exceptions.ApiException
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_chat.*
+import kotlinx.android.synthetic.main.item_badge.image
 import moxy.presenter.InjectPresenter
 import moxy.presenter.ProvidePresenter
+import org.json.JSONObject
 import javax.inject.Inject
 
 
@@ -140,6 +147,7 @@ class ChatFragment : BaseFragment(), ChatView, OnlyForAuthFragments, OnActivityR
                     DialogInterface.BUTTON_POSITIVE -> {
                         presenter.muteChat()
                     }
+
                     DialogInterface.BUTTON_NEGATIVE -> {
                     }
                 }
@@ -212,10 +220,12 @@ class ChatFragment : BaseFragment(), ChatView, OnlyForAuthFragments, OnActivityR
         chatView.addItemDecoration(SpaceDivider(16))
         chatBackView.setOnClickListener { findNavController().popBackStack() }
         sendMessageView.setOnClickListener { sendMessage() }
+
         attachmentMessageView.setOnClickListener {
             addAttachment()
             attachmentMessageView.isEnabled = false
         }
+
         addUserToGroupChatView.setOnClickListener {
             presenter.onChatMuteClick()
         }
@@ -248,12 +258,65 @@ class ChatFragment : BaseFragment(), ChatView, OnlyForAuthFragments, OnActivityR
     }
 
     private fun sendMessage(images: List<Bitmap> = emptyList()) {
-        val currentText = messageInputView.text.toString().trim()
-        if (currentText.isNotEmpty() || images.isNotEmpty()) {
+        var currentText = messageInputView.text.toString().trim()
+
+        if (images.isNotEmpty()) {
+
+            images.forEach { image ->
+
+                val imageStr = image.resize().toBase64()
+
+                loadImageToImgur(requireContext(), imageStr, "usvatriun") { link ->
+
+                    try {
+
+                        if (link == null) throw ApiException("Image not Uploaded. Check Internet Connection or try again later")
+                        else {
+                            ChatPresenter.linksToImages.add(link)
+                            showPendingMessage(currentText, images)
+                            presenter.sendMessage("Вложение", ChatPresenter.linksToImages)
+                        }
+                    } catch (e: ApiException) {
+                        runOnMainThread {
+                            showError(e.message)
+                        }
+                    }
+                }
+            }
+
+
+        }
+        else if (currentText.isNotEmpty()){
             showPendingMessage(currentText, images)
-            presenter.sendMessage(currentText, images)
+            presenter.sendMessage(currentText, ChatPresenter.linksToImages)
             messageInputView.setText("")
         }
+    }
+
+    fun loadImageToImgur(
+        context: Context,
+        imageData: String,
+        login: String,
+        callback: (link: String?) -> Unit
+    ) {
+        val body = JSONObject()
+        body.put("image", imageData)
+        body.put("title", login + "_title")
+        body.put("description", login + "_description")
+        body.put("type", "base64")
+        val paramsPictures = HashMap<String, String>()
+        paramsPictures["Authorization"] = "Client-ID e10417823faf68d"
+        paramsPictures["content-type"] = "application/json"
+        Upload.getRequest(
+            context,
+            paramsPictures,
+            "https://api.imgur.com/3/upload",
+            { callback(it) },
+            Request.Method.POST,
+            body.toString(),
+            "Image Uploaded!",
+            "Image not Uploaded. Check Internet Connection or try again later!"
+        )
     }
 
     private fun addAttachment() {

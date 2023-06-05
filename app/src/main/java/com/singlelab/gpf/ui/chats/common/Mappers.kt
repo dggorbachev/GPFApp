@@ -15,7 +15,7 @@ fun ChatResponse.toDbEntity(): Chat? {
         lastMessage = lastMessage?.messageContent ?: "",
         lastMessagePersonUid = lastMessage?.personUid ?: "",
         lastMessagePersonName = lastMessage?.personName ?: "",
-        isLastMessageImage = !lastMessage?.images.isNullOrEmpty() && lastMessage?.messageContent.isNullOrEmpty(),
+        isLastMessageImage = false,
         unreadMessagesCount = unreadMessagesCount
     )
 }

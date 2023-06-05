@@ -36,6 +36,8 @@ constructor(
 
     companion object {
 
+        var linksToImages: MutableList<String> = mutableListOf()
+
         lateinit var currentUserId: String
 
         lateinit var selectedChat: ChatFirebase
@@ -131,7 +133,7 @@ constructor(
         }
     }
 
-    fun sendMessage(messageText: String, images: List<Bitmap>) {
+    fun sendMessage(messageText: String, images: List<String>) {
 //        invokeSuspend {
 //            try {
 //                runOnMainThread { viewState.enableMessageSending(false) }
@@ -175,11 +177,11 @@ constructor(
         val outgoingMessage = MessageFirebase(
             chatId = chatUid!!,
             id = getRandomString(),
-            images = listOf(""),
-            message = messageText,
+            images = linksToImages,
+            message = if (linksToImages.isEmpty()) messageText else "",
             senderId = currentUserId,
             messageDate = Timestamp.now(),
-            isAnyAttachments = false
+            isAnyAttachments = linksToImages.isNotEmpty()
         )
 
         val messageDocData = hashMapOf(
@@ -198,7 +200,7 @@ constructor(
             "isGroup" to selectedChat.isGroup,
             "isLastMessageImage" to false,
             "lastMessageUserId" to currentUserId,
-            "lastMessageValue" to messageText,
+            "lastMessageValue" to if (linksToImages.isEmpty()) messageText else "Вложение",
             "title" to selectedChat.title,
             "users" to selectedChat.users
         )
@@ -209,8 +211,8 @@ constructor(
                 db.collection("chats").document(selectedChat.id)
                     .set(chatDocData)
             }
-
-
+        Log.d("LINKSLINKSLINKS", linksToImages.toString())
+        linksToImages = mutableListOf()
 
         if (selectedChat.isGroup) {
             groupMessagesToShow.add(outgoingMessage.toGroupChatMessage())
