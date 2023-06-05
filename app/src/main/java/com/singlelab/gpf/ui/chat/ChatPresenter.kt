@@ -307,7 +307,7 @@ constructor(
                         selectedChat = chat
                         chatNotFound = "false"
 
-                        viewState.showMute(selectedChat.isGroup)
+                        viewState.showAddMember(selectedChat.isGroup)
 
                     }
                 }
@@ -325,7 +325,7 @@ constructor(
                         users = listOf(currentUserId, personIdWeCameFrom)
                     )
 
-                    viewState.showMute(selectedChat.isGroup)
+                    viewState.showAddMember(selectedChat.isGroup)
 
 
                     Log.d("ChatUid1", generatedChatId)
