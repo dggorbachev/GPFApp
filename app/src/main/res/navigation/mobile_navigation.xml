@@ -108,6 +108,10 @@
             app:nullable="true" />
 
         <action
+            android:id="@+id/action_from_chat_to_friends"
+            app:destination="@id/friends" />
+
+        <action
             android:id="@+id/action_chat_to_person"
             app:destination="@id/person" />
 

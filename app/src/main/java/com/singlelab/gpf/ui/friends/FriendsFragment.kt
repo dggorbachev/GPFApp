@@ -8,10 +8,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import androidx.core.content.ContextCompat
+import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
 import com.singlelab.gpf.MainActivity
 import com.singlelab.gpf.R
@@ -20,10 +23,17 @@ import com.singlelab.gpf.base.OnlyForAuthFragments
 import com.singlelab.gpf.base.listeners.OnPermissionListener
 import com.singlelab.gpf.model.Const
 import com.singlelab.gpf.model.profile.Person
+import com.singlelab.gpf.model.view.ToastType
 import com.singlelab.gpf.new_features.firebase.ChatFirebase
+import com.singlelab.gpf.new_features.firebase.MessageFirebase
+import com.singlelab.gpf.new_features.firebase.UserFirebase
 import com.singlelab.gpf.new_features.firebase.mapToObject
 import com.singlelab.gpf.ui.chat.ChatPresenter
+import com.singlelab.gpf.ui.chat.ChatPresenter.Companion.linksToImages
+import com.singlelab.gpf.ui.chat.ChatPresenter.Companion.selectedChat
 import com.singlelab.gpf.ui.chat.common.ChatOpeningInvocationType
+import com.singlelab.gpf.ui.chats.ChatsFragment
+import com.singlelab.gpf.ui.chats.ChatsPresenter
 import com.singlelab.gpf.ui.view.person.OnPersonItemClickListener
 import com.singlelab.gpf.ui.view.person.PersonAdapter
 import com.singlelab.gpf.util.ContactsUtil
@@ -67,6 +77,7 @@ class FriendsFragment : BaseFragment(), FriendsView, OnlyForAuthFragments,
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         arguments?.let {
             val isSearch = FriendsFragmentArgs.fromBundle(it).isSearch
             if (isSearch) {
@@ -104,6 +115,11 @@ class FriendsFragment : BaseFragment(), FriendsView, OnlyForAuthFragments,
         title_invite_friends.setOnClickListener {
             shareText(Const.STORE_URL)
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        FriendsPresenter.addToChat = false
     }
 
     override fun showFriends(friends: MutableList<Person>?) {
@@ -236,11 +252,82 @@ class FriendsFragment : BaseFragment(), FriendsView, OnlyForAuthFragments,
 
     override fun onAddToFriends(personUid: String) {
 
-        showChangeLangDialog(personUid)
+
+        if (!FriendsPresenter.addToChat) {
+            showChangeLangDialog(personUid)
+        } else {
+
+            val auth = FirebaseAuth.getInstance()
+            val db = FirebaseFirestore.getInstance()
+            val currentChat = FriendsPresenter.currentChat
+
+            val users = currentChat.users.toMutableList()
+            users.add(personUid)
+
+            lateinit var userFound: UserFirebase
+
+            db.collection("users")
+                .get()
+                .addOnSuccessListener { userDocuments ->
+                    for (userDocument in userDocuments) {
+                        val user =
+                            mapToObject(userDocument.data, UserFirebase::class)
+
+                        if (user.id == personUid) {
+                            userFound = user
+                        }
+                    }
+                    val chatDocData = hashMapOf(
+                        "id" to currentChat.id,
+                        "image" to currentChat.image,
+                        "isGroup" to currentChat.isGroup,
+                        "isLastMessageImage" to false,
+                        "lastMessageUserId" to auth.currentUser!!.uid,
+                        "lastMessageValue" to "Добавил пользователя ${userFound.name}",
+                        "title" to currentChat.title,
+                        "users" to users
+                    )
+
+                    val outgoingMessage = MessageFirebase(
+                        chatId = currentChat.id,
+                        id = getRandomString(),
+                        images = listOf<String>(),
+                        message = "Добавил пользователя ${userFound.name}",
+                        senderId = auth.currentUser!!.uid,
+                        messageDate = Timestamp.now(),
+                        isAnyAttachments = linksToImages.isNotEmpty()
+                    )
+
+                    val messageDocData = hashMapOf(
+                        "chatId" to outgoingMessage.chatId,
+                        "id" to outgoingMessage.id,
+                        "images" to outgoingMessage.images,
+                        "message" to outgoingMessage.message,
+                        "senderId" to outgoingMessage.senderId,
+                        "messageDate" to outgoingMessage.messageDate,
+                        "isAnyAttachments" to outgoingMessage.isAnyAttachments
+                    )
+
+                    db.collection("messages").document(outgoingMessage.id)
+                        .set(messageDocData).addOnSuccessListener {
+                            db.collection("chats").document(ChatPresenter.selectedChat.id)
+                                .set(chatDocData).addOnSuccessListener {
+                                    ChatsPresenter.allChats.first { currentChat.id == it.uid }
+                                        .apply {
+                                            this.lastMessagePersonUid = auth.currentUser!!.uid
+                                            this.lastMessage =
+                                                "Добавил пользователя ${userFound.name}"
+                                            findNavController().popBackStack()
+                                        }
+                                }
+                        }
+                }
+        }
+
     }
 
     fun showChangeLangDialog(personUid: String) {
-        val dialogBuilder = AlertDialog.Builder(context)
+        val dialogBuilder = AlertDialog.Builder(context, R.style.CustomAlertDialog)
         val inflater = this.layoutInflater
         val dialogView = inflater.inflate(R.layout.alert_group_chat_name, null)
         dialogBuilder.setView(dialogView)
@@ -263,9 +350,15 @@ class FriendsFragment : BaseFragment(), FriendsView, OnlyForAuthFragments,
                 "users" to listOf<String>(personUid, auth.currentUser!!.uid)
             )
 
-            db.collection("chats").document(chatId)
-                .set(chatDocData)
-
+            if (edt.text.toString().isEmpty()) {
+                showSnackbar(
+                    "Название чата не должно быть пустым",
+                    ToastType.ERROR
+                ) { }
+            } else {
+                db.collection("chats").document(chatId)
+                    .set(chatDocData)
+            }
         }
         dialogBuilder.setNegativeButton(
             "Отмена"

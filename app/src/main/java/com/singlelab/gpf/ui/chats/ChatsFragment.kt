@@ -81,4 +81,11 @@ class ChatsFragment : BaseFragment(), ChatsView, OnlyForAuthFragments {
         ContextCompat.getDrawable(requireContext(), R.drawable.chats_item_divider)
             ?.let { chatsView.addItemDecoration(ChatsItemDecorator(it)) }
     }
+
+    override fun onResume() {
+        super.onResume()
+
+        if (chatsView.adapter != null)
+            chatsView.adapter!!.notifyDataSetChanged()
+    }
 }

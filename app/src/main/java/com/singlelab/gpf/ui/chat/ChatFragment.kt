@@ -21,18 +21,21 @@ import com.singlelab.gpf.model.Const
 import com.singlelab.gpf.model.Const.SELECT_IMAGE_REQUEST_CODE
 import com.singlelab.gpf.model.view.ToastType
 import com.singlelab.gpf.new_features.imgur.Upload
+import com.singlelab.gpf.ui.chat.ChatPresenter.Companion.selectedChat
 import com.singlelab.gpf.ui.chat.common.*
 import com.singlelab.gpf.ui.chat.common.ChatMessageItem.Companion.PENDING_MESSAGE_UID
 import com.singlelab.gpf.ui.chat.common.ChatMessageItem.Status
 import com.singlelab.gpf.ui.chat.common.ChatMessageItem.Type
 import com.singlelab.gpf.ui.chat.common.view.OnClickImageListener
 import com.singlelab.gpf.ui.chat.common.view.OnClickMessageListener
+import com.singlelab.gpf.ui.friends.FriendsPresenter
 import com.singlelab.gpf.util.getBitmap
 import com.singlelab.gpf.util.resize
 import com.singlelab.gpf.util.toBase64
 import com.singlelab.net.exceptions.ApiException
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_chat.*
+import kotlinx.android.synthetic.main.fragment_chats.addGroupChatButton
 import kotlinx.android.synthetic.main.item_badge.image
 import moxy.presenter.InjectPresenter
 import moxy.presenter.ProvidePresenter
@@ -227,7 +230,9 @@ class ChatFragment : BaseFragment(), ChatView, OnlyForAuthFragments, OnActivityR
         }
 
         addUserToGroupChatView.setOnClickListener {
-            presenter.onChatMuteClick()
+            FriendsPresenter.addToChat = true
+            FriendsPresenter.currentChat = selectedChat
+            findNavController().navigate(ChatFragmentDirections.actionFromChatToFriends())
         }
     }
 
@@ -285,8 +290,7 @@ class ChatFragment : BaseFragment(), ChatView, OnlyForAuthFragments, OnActivityR
             }
 
 
-        }
-        else if (currentText.isNotEmpty()){
+        } else if (currentText.isNotEmpty()) {
             showPendingMessage(currentText, images)
             presenter.sendMessage(currentText, ChatPresenter.linksToImages)
             messageInputView.setText("")

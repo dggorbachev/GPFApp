@@ -7,6 +7,7 @@ import com.singlelab.gpf.base.BaseInteractor
 import com.singlelab.gpf.base.BasePresenter
 import com.singlelab.gpf.model.Const
 import com.singlelab.gpf.model.profile.Person
+import com.singlelab.gpf.new_features.firebase.ChatFirebase
 import com.singlelab.gpf.new_features.firebase.UserFirebase
 import com.singlelab.gpf.new_features.firebase.mapToObject
 import com.singlelab.gpf.pref.Preferences
@@ -22,6 +23,11 @@ class FriendsPresenter @Inject constructor(
     private var interactor: FriendsInteractor,
     preferences: Preferences?
 ) : BasePresenter<FriendsView>(preferences, interactor as BaseInteractor) {
+
+    companion object{
+        var addToChat = false
+        lateinit var currentChat: ChatFirebase
+    }
 
     var pageNumber = 1
 

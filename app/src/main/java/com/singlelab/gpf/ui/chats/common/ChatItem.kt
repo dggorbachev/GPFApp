@@ -6,7 +6,7 @@ data class ChatItem(
     val title: String,
     val isGroup: Boolean,
     var lastMessage: String,
-    val lastMessagePersonUid: String,
+    var lastMessagePersonUid: String,
     var lastMessagePersonName: String,
     val isLastMessageImage: Boolean,
     var unreadMessagesCount: Int = 0
