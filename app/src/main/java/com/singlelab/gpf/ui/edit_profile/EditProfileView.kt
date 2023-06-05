@@ -1,5 +1,6 @@
 package com.singlelab.gpf.ui.edit_profile
 
+import android.graphics.Bitmap
 import com.singlelab.gpf.base.view.ErrorView
 import com.singlelab.gpf.base.view.LoadingView
 import com.singlelab.gpf.model.profile.NewProfile
@@ -26,4 +27,7 @@ interface EditProfileView : LoadingView, ErrorView {
 
     @StateStrategyType(AddToEndSingleStrategy::class)
     fun showDescription(description: String?)
+
+    @StateStrategyType(AddToEndSingleStrategy::class)
+    fun showImage(bitmap: Bitmap?)
 }

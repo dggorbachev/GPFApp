@@ -209,7 +209,7 @@ open class BaseFragment : MvpAppCompatFragment(), ErrorView, LoadingView {
         activity?.let { activity ->
             CropImage.activity()
                 .setFixAspectRatio(true)
-//                .setCropShape(CropImageView.CropShape.RECTANGLE)
+                .setCropShape(CropImageView.CropShape.RECTANGLE)
                 .start(activity)
         }
     }

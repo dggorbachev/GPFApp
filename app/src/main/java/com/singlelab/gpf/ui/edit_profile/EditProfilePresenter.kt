@@ -1,6 +1,7 @@
 package com.singlelab.gpf.ui.edit_profile
 
 
+import android.graphics.Bitmap
 import com.singlelab.gpf.base.BaseInteractor
 import com.singlelab.gpf.base.BasePresenter
 import com.singlelab.gpf.model.Const
@@ -19,6 +20,9 @@ class EditProfilePresenter @Inject constructor(
     preferences: Preferences?
 ) : BasePresenter<EditProfileView>(preferences, interactor as BaseInteractor) {
 
+    companion object{
+        var image: Bitmap? = null
+    }
     private var newProfile = NewProfile()
 
     fun setProfile(profile: Profile) {
@@ -31,6 +35,11 @@ class EditProfilePresenter @Inject constructor(
             newProfile.city = city
             viewState.showProfile(newProfile)
         }
+    }
+
+    fun addImage(bitmap: Bitmap?) {
+        image = bitmap
+        viewState.showImage(bitmap)
     }
 
     fun setLogin(login: String) {
