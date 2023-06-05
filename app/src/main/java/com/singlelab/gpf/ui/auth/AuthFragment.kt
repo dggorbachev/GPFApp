@@ -149,7 +149,9 @@ class AuthFragment : BaseFragment(), AuthView, OnBackPressListener {
         }
 
         button_send_code.setOnClickListener {
-            auth.signInWithEmailAndPassword(layout_mail.getText(), layout_password.getText())
+            auth.signInWithEmailAndPassword(layout_mail.getText(),
+                layout_password.getText().toString()
+            )
                 .addOnCompleteListener(requireActivity()) { task ->
                     if (task.isSuccessful) {
                         // Sign in success, update UI with the signed-in user's information
@@ -188,7 +190,7 @@ class AuthFragment : BaseFragment(), AuthView, OnBackPressListener {
                         showError("Authentication failed. Check fields!")
                     }
                 }
-            MyProfilePresenter.profile!!.password = layout_password.getText()
+            MyProfilePresenter.profile!!.password = layout_password.getText().toString()
         }
         text_agreement.setOnClickListener {
             openBrowser(getString(R.string.url_agreement))

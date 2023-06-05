@@ -61,13 +61,39 @@
                 android:layout_marginHorizontal="@dimen/margin_medium"
                 android:visibility="visible" />
 
-            <com.singlelab.gpf.ui.view.input.PasswordInputView
-                android:id="@+id/layout_password"
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/layout_password_box"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
-                android:layout_marginTop="20dp"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/margin_medium"
-                android:visibility="visible" />
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:hint="Пароль"
+                app:endIconMode="password_toggle"
+                android:paddingHorizontal="10dp"
+                app:boxBackgroundColor="@color/colorTransparent"
+                app:boxBackgroundMode="outline"
+                android:inputType="text"
+                app:boxStrokeColor="@color/colorTransparent"
+                app:boxStrokeErrorColor="@color/colorTransparent"
+                app:boxStrokeWidth="0dp"
+                app:hintAnimationEnabled="false"
+                app:hintEnabled="true"
+                android:layout_marginTop="20dp"
+                android:layout_marginHorizontal="16dp"
+                app:hintTextColor="@color/colorPrimaryAccent"
+                app:layout_constraintTop_toBottomOf="@id/layout_login1"
+                android:background="@drawable/shape_input"
+                app:startIconTint="@color/colorGray">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/layout_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPassword"
+                    android:gravity="center_vertical" />
+            </com.google.android.material.textfield.TextInputLayout>
 
             <Button
                 android:id="@+id/button_send_code"
