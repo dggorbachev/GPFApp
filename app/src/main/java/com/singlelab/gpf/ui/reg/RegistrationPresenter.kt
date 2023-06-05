@@ -61,19 +61,26 @@ class RegistrationPresenter @Inject constructor(
 
                 loadImageToImgur(context, imageStr, login) { link ->
 
-                    if (link == null) throw ApiException("Image not Uploaded. Check Internet Connection or try again later") else {
-                        register(
-                            activity,
-                            mail,
-                            password,
-                            login,
-                            city,
-                            name,
-                            age,
-                            description,
-                            link
-                        )
+                    try {
 
+                        if (link == null) throw ApiException("Image not Uploaded. Check Internet Connection or try again later") else {
+                            register(
+                                activity,
+                                mail,
+                                password,
+                                login,
+                                city,
+                                name,
+                                age,
+                                description,
+                                link
+                            )
+                        }
+                    } catch (e: ApiException) {
+                        runOnMainThread {
+                            viewState.showLoading(false)
+                            viewState.showError(e.message)
+                        }
                     }
                 }
 
@@ -122,7 +129,12 @@ class RegistrationPresenter @Inject constructor(
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.d("MyAPPLog", "createUserWithEmail:failure", task.exception)
-                            throw ApiException("Failed to create account. Try again later!")
+
+                            runOnMainThread {
+                                viewState.showLoading(false)
+                                viewState.showError(task.exception!!.message ?: "Failed to create account.")
+                            }
+//                            throw ApiException("Failed to create account. Try again later!")
                         }
                     }
 

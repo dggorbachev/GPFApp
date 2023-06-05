@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.InputType
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -38,7 +39,6 @@ import kotlinx.android.synthetic.main.fragment_registration.layout_password
 import kotlinx.android.synthetic.main.fragment_registration.layout_password_box
 import kotlinx.android.synthetic.main.fragment_registration.text_city
 import kotlinx.android.synthetic.main.fragment_registration.text_login
-import kotlinx.android.synthetic.main.view_input.view.text_input_edit_text
 import moxy.presenter.InjectPresenter
 import moxy.presenter.ProvidePresenter
 import javax.inject.Inject
@@ -342,17 +342,21 @@ class RegistrationFragment : BaseFragment(), RegistrationView, OnActivityResultL
         button_registration.setOnClickListener {
             val validationError = validation()
             if (validationError == null) {
-                presenter.registration(
-                    requireContext(),
-                    requireActivity(),
-                    layout_mail.getText(),
-                    layout_password.text.toString(),
-                    layout_login1.getText(),
-                    text_city.getText(),
-                    layout_name.getText(),
-                    layout_age.getText().toInt(),
-                    layout_description.getText()
-                )
+                try {
+                    presenter.registration(
+                        requireContext(),
+                        requireActivity(),
+                        layout_mail.getText(),
+                        layout_password.text.toString(),
+                        layout_login1.getText(),
+                        text_city.getText(),
+                        layout_name.getText(),
+                        layout_age.getText().toInt(),
+                        layout_description.getText()
+                    )
+                } catch (e: java.lang.Exception) {
+                    showError(e.message ?: "")
+                }
             } else {
                 showError(getString(validationError.titleResId))
             }
@@ -366,10 +370,13 @@ class RegistrationFragment : BaseFragment(), RegistrationView, OnActivityResultL
     }
 
     private fun showError(str: String) {
-        showSnackbar(
-            str,
-            ToastType.ERROR
-        ) { }
+        runOnMainThread {
+            showSnackbar(
+                str,
+                ToastType.ERROR
+            ) { }
+        }
+
     }
 
     private fun validation(): ValidationError? {

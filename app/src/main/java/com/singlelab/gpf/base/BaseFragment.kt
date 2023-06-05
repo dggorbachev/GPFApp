@@ -87,11 +87,11 @@ open class BaseFragment : MvpAppCompatFragment(), ErrorView, LoadingView {
         withRetry: Boolean,
         callRetry: () -> Unit
     ) {
-//        showSnackbar(
-//            message,
-//            if (withRetry) ToastType.ERROR_RETRY else ToastType.ERROR,
-//            callRetry
-//        )
+        showSnackbar(
+            message,
+            if (withRetry) ToastType.ERROR_RETRY else ToastType.ERROR,
+            callRetry
+        )
     }
 
     override fun showError(messageId: Int, withRetry: Boolean, callRetry: () -> Unit) {
