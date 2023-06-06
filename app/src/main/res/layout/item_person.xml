@@ -118,7 +118,7 @@
         android:id="@+id/button_chat"
         android:layout_width="26dp"
         android:layout_height="22dp"
-        android:layout_marginEnd="@dimen/margin_small"
+        android:layout_marginEnd="16dp"
         android:src="@drawable/ic_chat_small"
         app:layout_constraintBottom_toBottomOf="@id/card_image"
         app:layout_constraintEnd_toEndOf="parent"

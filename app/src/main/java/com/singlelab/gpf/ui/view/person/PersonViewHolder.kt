@@ -1,5 +1,6 @@
 package com.singlelab.gpf.ui.view.person
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,7 +22,9 @@ class PersonViewHolder(inflater: LayoutInflater, parent: ViewGroup) :
         participantIds: Array<String>? = null,
         isInviting: Boolean = false,
         isAdministrator: Boolean = false,
-        listener: OnPersonItemClickListener
+        listener: OnPersonItemClickListener,
+        removeFromChat: Boolean = false,
+        currentUserSet: Boolean = false
     ) {
         itemView.name.text = person.name
 
@@ -50,6 +53,12 @@ class PersonViewHolder(inflater: LayoutInflater, parent: ViewGroup) :
             itemView.button_add_to_friends.visibility = View.GONE
         } else {
             itemView.button_add_to_friends.visibility = View.VISIBLE
+
+            if (removeFromChat){
+                itemView.button_add_to_friends.setImageResource(R.drawable.ic_reject)
+                itemView.button_add_to_friends.setColorFilter(Color.argb(255,255, 0,0))
+            }
+
             itemView.button_add_to_friends.setOnClickListener {
                 listener.onAddToFriends(person.personUid)
             }
@@ -104,7 +113,15 @@ class PersonViewHolder(inflater: LayoutInflater, parent: ViewGroup) :
             } else {
                 itemView.button_accept.visibility = View.GONE
                 itemView.button_reject.visibility = View.GONE
-                itemView.button_chat.visibility = View.VISIBLE
+                if (currentUserSet){
+                    itemView.button_chat.visibility = View.GONE
+
+                }
+                else{
+                    itemView.button_chat.visibility = View.VISIBLE
+
+                }
+
             }
         }
     }

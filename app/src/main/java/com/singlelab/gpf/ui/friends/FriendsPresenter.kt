@@ -1,5 +1,6 @@
 package com.singlelab.gpf.ui.friends
 
+import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
@@ -24,7 +25,7 @@ class FriendsPresenter @Inject constructor(
     preferences: Preferences?
 ) : BasePresenter<FriendsView>(preferences, interactor as BaseInteractor) {
 
-    companion object{
+    companion object {
         var addToChat = false
         lateinit var currentChat: ChatFirebase
     }
@@ -197,39 +198,68 @@ class FriendsPresenter @Inject constructor(
         val auth = FirebaseAuth.getInstance()
         lateinit var currentUser: UserFirebase
         val friends = mutableListOf<UserFirebase>()
+        val allUsers = mutableListOf<UserFirebase>()
 
-        db.collection("users")
-            .get().addOnSuccessListener { result ->
+        if (addToChat) {
 
-                for (userDoc in result) {
-                    val user = mapToObject(userDoc.data, UserFirebase::class)
+            db.collection("users")
+                .get().addOnSuccessListener { result ->
 
-                    if (auth.currentUser!!.uid == user.id) {
-                        currentUser = user
+                    for (userDoc in result) {
+                        val user = mapToObject(userDoc.data, UserFirebase::class)
+
+                        allUsers.add(user)
+
+                        if (auth.currentUser!!.uid == user.id) {
+                            currentUser = user
+                        }
+                    }
+
+                    for (userDoc in result) {
+                        val user = mapToObject(userDoc.data, UserFirebase::class)
+
+                        if (currentUser.friends.contains(user.id)) {
+                            friends.add(user)
+                        }
+                    }
+
+                    currentChat.users.forEach { userId ->
+                        if (!(friends.any { it.id == userId}))
+                            friends.add(allUsers.first { it.id == userId })
+                    }
+
+                    runOnMainThread {
+                        viewState.showLoading(isShow = false, withoutBackground = true)
+                        viewState.showFriends(friends.toPersonMutableList())
                     }
                 }
+        } else {
 
-                for (userDoc in result) {
-                    val user = mapToObject(userDoc.data, UserFirebase::class)
+            db.collection("users")
+                .get().addOnSuccessListener { result ->
 
-                    if (currentUser.friends.contains(user.id)) {
-                        friends.add(user)
+                    for (userDoc in result) {
+                        val user = mapToObject(userDoc.data, UserFirebase::class)
+
+                        if (auth.currentUser!!.uid == user.id) {
+                            currentUser = user
+                        }
+                    }
+
+                    for (userDoc in result) {
+                        val user = mapToObject(userDoc.data, UserFirebase::class)
+
+                        if (currentUser.friends.contains(user.id)) {
+                            friends.add(user)
+                        }
+                    }
+                    runOnMainThread {
+                        viewState.showLoading(isShow = false, withoutBackground = true)
+                        viewState.showFriends(friends.toPersonMutableList())
                     }
                 }
-                runOnMainThread {
-                    viewState.showLoading(isShow = false, withoutBackground = true)
-                    viewState.showFriends(friends.toPersonMutableList())
-                }
+        }
 
-//                friends = interactor.getFriends(uid)?.toMutableList()
-//                if (eventUid != null) {
-//                    friends?.removeAll { it.friendshipApprovalRequired }
-//                }
-//                runOnMainThread {
-//                    viewState.showLoading(isShow = false, withoutBackground = true)
-//                    viewState.showFriends(friends)
-//                }
-            }
     }
 
     private fun UserFirebase.toPerson(): Person =
@@ -246,7 +276,7 @@ class FriendsPresenter @Inject constructor(
             friendshipApprovalRequired = false
         )
 
-    private fun  MutableList<UserFirebase>.toPersonMutableList(): MutableList<Person> = map{
+    private fun MutableList<UserFirebase>.toPersonMutableList(): MutableList<Person> = map {
         it.toPerson()
     }.toMutableList()
 }

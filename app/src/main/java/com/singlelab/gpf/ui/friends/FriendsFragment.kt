@@ -261,67 +261,136 @@ class FriendsFragment : BaseFragment(), FriendsView, OnlyForAuthFragments,
             val db = FirebaseFirestore.getInstance()
             val currentChat = FriendsPresenter.currentChat
 
-            val users = currentChat.users.toMutableList()
-            users.add(personUid)
+            if (currentChat.users.contains(personUid)) {
 
-            lateinit var userFound: UserFirebase
+                val users = currentChat.users.toMutableList()
+                lateinit var userFound: UserFirebase
 
-            db.collection("users")
-                .get()
-                .addOnSuccessListener { userDocuments ->
-                    for (userDocument in userDocuments) {
-                        val user =
-                            mapToObject(userDocument.data, UserFirebase::class)
+                db.collection("users")
+                    .get()
+                    .addOnSuccessListener { userDocuments ->
+                        for (userDocument in userDocuments) {
+                            val user =
+                                mapToObject(userDocument.data, UserFirebase::class)
 
-                        if (user.id == personUid) {
-                            userFound = user
+                            if (user.id == personUid) {
+                                userFound = user
+                                users.remove(userFound.id)
+                            }
                         }
+
+                        val chatDocData = hashMapOf(
+                            "id" to currentChat.id,
+                            "image" to currentChat.image,
+                            "isGroup" to currentChat.isGroup,
+                            "isLastMessageImage" to false,
+                            "lastMessageUserId" to auth.currentUser!!.uid,
+                            "lastMessageValue" to "Удалил пользователя ${userFound.name}",
+                            "title" to currentChat.title,
+                            "users" to users
+                        )
+
+                        val outgoingMessage = MessageFirebase(
+                            chatId = currentChat.id,
+                            id = getRandomString(),
+                            images = listOf<String>(),
+                            message = "Удалил пользователя ${userFound.name}",
+                            senderId = auth.currentUser!!.uid,
+                            messageDate = Timestamp.now(),
+                            isAnyAttachments = linksToImages.isNotEmpty()
+                        )
+
+                        val messageDocData = hashMapOf(
+                            "chatId" to outgoingMessage.chatId,
+                            "id" to outgoingMessage.id,
+                            "images" to outgoingMessage.images,
+                            "message" to outgoingMessage.message,
+                            "senderId" to outgoingMessage.senderId,
+                            "messageDate" to outgoingMessage.messageDate,
+                            "isAnyAttachments" to outgoingMessage.isAnyAttachments
+                        )
+
+                        db.collection("messages").document(outgoingMessage.id)
+                            .set(messageDocData).addOnSuccessListener {
+                                db.collection("chats").document(ChatPresenter.selectedChat.id)
+                                    .set(chatDocData).addOnSuccessListener {
+                                        ChatsPresenter.allChats.first { currentChat.id == it.uid }
+                                            .apply {
+                                                this.lastMessagePersonUid = auth.currentUser!!.uid
+                                                this.lastMessage =
+                                                    "Удалил пользователя ${userFound.name}"
+                                                findNavController().popBackStack()
+                                            }
+                                    }
+                            }
                     }
-                    val chatDocData = hashMapOf(
-                        "id" to currentChat.id,
-                        "image" to currentChat.image,
-                        "isGroup" to currentChat.isGroup,
-                        "isLastMessageImage" to false,
-                        "lastMessageUserId" to auth.currentUser!!.uid,
-                        "lastMessageValue" to "Добавил пользователя ${userFound.name}",
-                        "title" to currentChat.title,
-                        "users" to users
-                    )
 
-                    val outgoingMessage = MessageFirebase(
-                        chatId = currentChat.id,
-                        id = getRandomString(),
-                        images = listOf<String>(),
-                        message = "Добавил пользователя ${userFound.name}",
-                        senderId = auth.currentUser!!.uid,
-                        messageDate = Timestamp.now(),
-                        isAnyAttachments = linksToImages.isNotEmpty()
-                    )
 
-                    val messageDocData = hashMapOf(
-                        "chatId" to outgoingMessage.chatId,
-                        "id" to outgoingMessage.id,
-                        "images" to outgoingMessage.images,
-                        "message" to outgoingMessage.message,
-                        "senderId" to outgoingMessage.senderId,
-                        "messageDate" to outgoingMessage.messageDate,
-                        "isAnyAttachments" to outgoingMessage.isAnyAttachments
-                    )
 
-                    db.collection("messages").document(outgoingMessage.id)
-                        .set(messageDocData).addOnSuccessListener {
-                            db.collection("chats").document(ChatPresenter.selectedChat.id)
-                                .set(chatDocData).addOnSuccessListener {
-                                    ChatsPresenter.allChats.first { currentChat.id == it.uid }
-                                        .apply {
-                                            this.lastMessagePersonUid = auth.currentUser!!.uid
-                                            this.lastMessage =
-                                                "Добавил пользователя ${userFound.name}"
-                                            findNavController().popBackStack()
-                                        }
-                                }
+            } else {
+
+                val users = currentChat.users.toMutableList()
+                users.add(personUid)
+
+                lateinit var userFound: UserFirebase
+
+                db.collection("users")
+                    .get()
+                    .addOnSuccessListener { userDocuments ->
+                        for (userDocument in userDocuments) {
+                            val user =
+                                mapToObject(userDocument.data, UserFirebase::class)
+
+                            if (user.id == personUid) {
+                                userFound = user
+                            }
                         }
-                }
+                        val chatDocData = hashMapOf(
+                            "id" to currentChat.id,
+                            "image" to currentChat.image,
+                            "isGroup" to currentChat.isGroup,
+                            "isLastMessageImage" to false,
+                            "lastMessageUserId" to auth.currentUser!!.uid,
+                            "lastMessageValue" to "Добавил пользователя ${userFound.name}",
+                            "title" to currentChat.title,
+                            "users" to users
+                        )
+
+                        val outgoingMessage = MessageFirebase(
+                            chatId = currentChat.id,
+                            id = getRandomString(),
+                            images = listOf<String>(),
+                            message = "Добавил пользователя ${userFound.name}",
+                            senderId = auth.currentUser!!.uid,
+                            messageDate = Timestamp.now(),
+                            isAnyAttachments = linksToImages.isNotEmpty()
+                        )
+
+                        val messageDocData = hashMapOf(
+                            "chatId" to outgoingMessage.chatId,
+                            "id" to outgoingMessage.id,
+                            "images" to outgoingMessage.images,
+                            "message" to outgoingMessage.message,
+                            "senderId" to outgoingMessage.senderId,
+                            "messageDate" to outgoingMessage.messageDate,
+                            "isAnyAttachments" to outgoingMessage.isAnyAttachments
+                        )
+
+                        db.collection("messages").document(outgoingMessage.id)
+                            .set(messageDocData).addOnSuccessListener {
+                                db.collection("chats").document(ChatPresenter.selectedChat.id)
+                                    .set(chatDocData).addOnSuccessListener {
+                                        ChatsPresenter.allChats.first { currentChat.id == it.uid }
+                                            .apply {
+                                                this.lastMessagePersonUid = auth.currentUser!!.uid
+                                                this.lastMessage =
+                                                    "Добавил пользователя ${userFound.name}"
+                                                findNavController().popBackStack()
+                                            }
+                                    }
+                            }
+                    }
+            }
         }
 
     }
