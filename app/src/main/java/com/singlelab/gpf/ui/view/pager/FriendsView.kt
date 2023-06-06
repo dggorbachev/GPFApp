@@ -62,7 +62,7 @@ class FriendsView @JvmOverloads constructor(
             if (it.friendshipApprovalRequired) {
                 this.newFriends.add(it)
             } else {
-                if (this.friends.size < 4) {
+                if (this.friends.size < 40) {
                     this.friends.add(it)
                 }
             }
