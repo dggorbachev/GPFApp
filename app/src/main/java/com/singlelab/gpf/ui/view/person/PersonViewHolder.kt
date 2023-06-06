@@ -44,7 +44,11 @@ class PersonViewHolder(inflater: LayoutInflater, parent: ViewGroup) :
                 .into(itemView.image_person)
         }
         itemView.setOnClickListener {
-            listener.onPersonClick(person.personUid)
+            if (currentUserSet) {
+
+            } else {
+                listener.onPersonClick(person.personUid)
+            }
         }
         itemView.button_chat.setOnClickListener {
             listener.onChatClick(person.name, person.personUid)
@@ -54,9 +58,9 @@ class PersonViewHolder(inflater: LayoutInflater, parent: ViewGroup) :
         } else {
             itemView.button_add_to_friends.visibility = View.VISIBLE
 
-            if (removeFromChat){
+            if (removeFromChat) {
                 itemView.button_add_to_friends.setImageResource(R.drawable.ic_reject)
-                itemView.button_add_to_friends.setColorFilter(Color.argb(255,255, 0,0))
+                itemView.button_add_to_friends.setColorFilter(Color.argb(255, 255, 0, 0))
             }
 
             itemView.button_add_to_friends.setOnClickListener {
@@ -113,11 +117,10 @@ class PersonViewHolder(inflater: LayoutInflater, parent: ViewGroup) :
             } else {
                 itemView.button_accept.visibility = View.GONE
                 itemView.button_reject.visibility = View.GONE
-                if (currentUserSet){
+                if (currentUserSet) {
                     itemView.button_chat.visibility = View.GONE
 
-                }
-                else{
+                } else {
                     itemView.button_chat.visibility = View.VISIBLE
 
                 }

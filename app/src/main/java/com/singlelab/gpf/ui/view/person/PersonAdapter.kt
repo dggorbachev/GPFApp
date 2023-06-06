@@ -28,11 +28,24 @@ class PersonAdapter(
 
     override fun onBindViewHolder(holder: PersonViewHolder, position: Int) {
         val person = list[position]
-        val removeFromChat = FriendsPresenter.currentChat.users.any{ it == person.personUid }
+        var removeFromChat = false
+
+        if (FriendsPresenter.addToChat) {
+            removeFromChat = FriendsPresenter.currentChat.users.any { it == person.personUid }
+        }
 
         val currentUserSet = person.personUid == MyProfilePresenter.profile!!.personUid
 
-        holder.bind(person, eventUid, participantIds, isInviting, isAdministrator, listener, removeFromChat, currentUserSet)
+        holder.bind(
+            person,
+            eventUid,
+            participantIds,
+            isInviting,
+            isAdministrator,
+            listener,
+            removeFromChat,
+            currentUserSet
+        )
     }
 
     override fun getItemCount(): Int = list.size
